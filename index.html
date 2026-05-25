@@ -3778,10 +3778,11 @@
       ease: 'power2.out',
       scrollTrigger: {
         trigger: '.explore-grid',
-        start: 'top 82%',
+        start: 'top bottom',
         once: true
       }
     });
+    setTimeout(function(){document.querySelectorAll('.explore-card').forEach(function(el){el.style.opacity='1';el.style.transform='none';});},2500);
 
     // ----- Animation: Cine case image parallax -----
     gsap.utils.toArray('.cine-case-img').forEach(function(img) {
