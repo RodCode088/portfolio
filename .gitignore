@@ -1,0 +1,70 @@
+# ────────────────────────────────────────────────────────────
+# .gitignore — Portfolio Rodolfo Alabarca
+# ────────────────────────────────────────────────────────────
+# Reglas: cada línea es un patrón que Git va a ignorar.
+# # = comentario.  Sin / al inicio = aplica en cualquier nivel.
+# Con / al final = aplica a directorios.
+# ────────────────────────────────────────────────────────────
+
+# ───── Sistemas operativos ─────
+# Archivos basura que Windows/macOS generan al navegar carpetas.
+# Nadie quiere ver esto en un commit.
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ───── Editores e IDEs ─────
+# Configuración personal de tu editor (no debe contaminar el repo).
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# ───── Logs y dependencias ─────
+# Si en el futuro agregamos un build (Vite, npm), esto ya está cubierto.
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# ───── Variables de entorno (CRÍTICO) ─────
+# Cuando manejes claves de API (Anthropic, OpenAI, Netlify Forms, etc.)
+# las pones en .env. NUNCA se sube .env a Git.
+.env
+.env.local
+.env.*.local
+
+# ───── Build / dist ─────
+# Si más adelante agregamos un proceso de build, sus salidas van aquí.
+dist/
+build/
+out/
+.cache/
+.parcel-cache/
+
+# ───── Netlify ─────
+# Caché y artefactos de Netlify CLI local.
+.netlify/
+
+# ───── Backups y temporales ─────
+*.bak
+*.tmp
+*.temp
+*.old
+
+# ───── Específicos de este proyecto ─────
+# La carpeta index_files/ es la auto-generada por Chrome al hacer
+# "Guardar página completa". Si guardas el sitio para revisar offline,
+# evita commitearla por error.
+*_files/
+
+# Capturas y borradores de OG image antes de la versión final.
+og-image-draft*.png
+*-wip.*

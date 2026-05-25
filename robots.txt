@@ -1,0 +1,7 @@
+# robots.txt — Portfolio Rodolfo Alabarca
+# Permite crawl total. Apunta al sitemap.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://rodolfo-alabarca.netlify.app/sitemap.xml

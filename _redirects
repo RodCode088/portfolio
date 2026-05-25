@@ -1,0 +1,19 @@
+# Netlify _redirects — SPA fallback
+# ───────────────────────────────────────────────────────────────
+# Por qué este archivo existe:
+#   Tu portafolio usa hash-routing (#home, #work, #contact, etc.)
+#   sobre un único index.html. Si alguien escribe /work directo
+#   (sin el #), Netlify por defecto devuelve 404 porque no hay
+#   ningún archivo en /work.
+#
+#   Esta regla intercepta CUALQUIER ruta no encontrada y la
+#   responde con el contenido de /index.html con código 200.
+#   El JavaScript del SPA luego lee la URL y muestra la vista.
+#
+# Sintaxis: <from> <to> <status>
+#   /*           → cualquier ruta
+#   /index.html  → servir este archivo
+#   200          → como respuesta exitosa (no 301 redirect)
+# ───────────────────────────────────────────────────────────────
+
+/*  /index.html  200

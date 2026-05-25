@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+  Open Graph image template — 1200×630
+  Cómo usarlo:
+    1. Abrir en Chrome.
+    2. F12 → Toggle device toolbar (Ctrl+Shift+M) → 1200 × 630.
+    3. DevTools menu (3 puntos) → Capture screenshot.
+    4. Renombrar a og-image.png y colocar en root del repo.
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>OG Image — Rodolfo Alabarca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141417;
+    --border: #2a2a30;
+    --text: #f5f5f5;
+    --text-muted: #8a8a93;
+    --accent: #d97706;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1a1a1a;
+    font-family: 'Inter', -apple-system, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px;
+  }
+  .og {
+    width: 1200px;
+    height: 630px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    color: var(--text);
+    padding: 70px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .og::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+    pointer-events: none;
+  }
+  .og::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 100% 0%, rgba(217, 119, 6, 0.18), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 0% 100%, rgba(217, 119, 6, 0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .og > * { position: relative; z-index: 1; }
+  .og-head { display: flex; align-items: center; justify-content: space-between; }
+  .og-logo {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600; font-size: 1.25rem;
+  }
+  .og-logo-dot {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(217, 119, 6, 0.5);
+  }
+  .og-logo-muted { color: var(--text-muted); }
+  .og-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 20px;
+    background: rgba(217, 119, 6, 0.12);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .og-badge-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+  }
+  .og-headline h1 {
+    font-size: 4.5rem;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    font-weight: 600;
+    margin-bottom: 28px;
+    max-width: 1000px;
+  }
+  .og-headline h1 .accent { color: var(--accent); font-style: italic; font-weight: 600; }
+  .og-headline h1 .underline { position: relative; display: inline-block; }
+  .og-headline h1 .underline::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0.55;
+  }
+  .og-headline p {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    max-width: 880px;
+    line-height: 1.45;
+  }
+  .og-foot {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .og-name { display: flex; flex-direction: column; gap: 6px; }
+  .og-name-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .og-name-value {
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .og-stack { display: flex; gap: 12px; }
+  .og-stack-pill {
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="og">
+  <header class="og-head">
+    <div class="og-logo">
+      <span class="og-logo-dot"></span>
+      rodolfo<span class="og-logo-muted">.alabarca</span>
+    </div>
+    <div class="og-badge">
+      <span class="og-badge-dot"></span>
+      Disponible para proyectos
+    </div>
+  </header>
+
+  <section class="og-headline">
+    <h1>
+      Construyo <span class="accent">sistemas de automatización</span><br>
+      y <span class="underline">agentes de IA</span>.
+    </h1>
+    <p>Si tu equipo hace algo a mano cada semana, probablemente lo puedo automatizar. Desde Panamá.</p>
+  </section>
+
+  <footer class="og-foot">
+    <div class="og-name">
+      <span class="og-name-label">Systems Builder · Automation · AI</span>
+      <span class="og-name-value">Rodolfo Alabarca</span>
+    </div>
+    <div class="og-stack">
+      <span class="og-stack-pill">Python</span>
+      <span class="og-stack-pill">Power BI</span>
+      <span class="og-stack-pill">SQL</span>
+      <span class="og-stack-pill">Claude · GPT</span>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

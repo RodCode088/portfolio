@@ -1,0 +1,75 @@
+# ───────────────────────────────────────────────────────────────
+# netlify.toml — Portfolio Rodolfo Alabarca
+# ───────────────────────────────────────────────────────────────
+# Configuración de despliegue. Netlify lee este archivo en cada
+# build y aplica los settings sin tener que tocar la UI.
+#
+# Por qué este archivo (y no la UI de Netlify):
+#   - Versionado: queda en Git, todos los cambios son trazables.
+#   - Reproducible: si migras a otro proyecto/cuenta, basta con
+#     este archivo.
+#   - Práctica de senior: infra-as-code, aunque sea estática.
+# ───────────────────────────────────────────────────────────────
+
+[build]
+  # No hay build step: el repo se sirve tal cual.
+  publish = "."
+
+# ───────────────────────────────────────────────────────────────
+# CACHE HEADERS
+# ───────────────────────────────────────────────────────────────
+# Estrategia:
+#   - HTML: nunca cachear (cada visita ve la última versión).
+#   - Imágenes/fonts/assets: cache largo + immutable (se sirven
+#     desde CDN sin re-revalidación).
+# ───────────────────────────────────────────────────────────────
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    # max-age=0 + must-revalidate: el navegador siempre pregunta a Netlify.
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    # 1 año + immutable: el navegador no vuelve a pedir el archivo.
+    # Si actualizas una imagen, cambia el nombre o agrega versionado.
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ───────────────────────────────────────────────────────────────
+# SECURITY HEADERS
+# ───────────────────────────────────────────────────────────────
+# Headers básicos de seguridad. Son la diferencia entre un site
+# que pasa MozillaObservatory con C vs A.
+# ───────────────────────────────────────────────────────────────
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Evita que tu sitio sea cargado en un <iframe> ajeno (clickjacking).
+    X-Frame-Options = "DENY"
+
+    # No interpretar mime types adivinados (anti-MIME-sniffing).
+    X-Content-Type-Options = "nosniff"
+
+    # Política de referer: pasa origen al hacer navegación entre dominios,
+    # pero no expone rutas internas.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Restringe APIs sensibles del navegador que no usamos.
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=()"
+
+    # HSTS: fuerza HTTPS. Netlify ya redirige HTTP→HTTPS, pero esto
+    # se lo dice también al navegador.
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
