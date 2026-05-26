@@ -3307,8 +3307,10 @@
           <h3><span class="es">Cuéntame tu caso</span><span class="en">Tell me your case</span></h3>
           <span class="contact-form-head-mono"><span class="es">respuesta en 24-48h</span><span class="en">reply within 24-48h</span></span>
         </div>
-        <form class="contact-form" id="contactForm" name="contact" netlify method="POST" novalidate>
-          <input type="hidden" name="form-name" value="contact">
+        <form class="contact-form" id="contactForm" novalidate>
+          <input type="hidden" name="access_key" value="43ae20ca-3253-42f6-b2e9-ca9cc4532e4f">
+          <input type="hidden" name="subject" value="Nuevo mensaje desde rodolfoalabarca.dev">
+          <input type="hidden" name="from_name" value="Portfolio Contact">
           <div class="form-row">
             <div class="form-field">
               <label for="cf-name"><span class="es">Nombre</span><span class="en">Name</span></label>
@@ -3623,10 +3625,10 @@
       fd.forEach(function(v,k){ payload[k]=v; });
       submitBtn.classList.add('loading');
       submitBtn.disabled = true;
-      fetch('/',{
+      fetch('https://api.web3forms.com/submit',{
         method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({'form-name':'contact',name:payload.name||'',email:payload.email||'',company:payload.company||'',message:payload.message||''}).toString()
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({'access_key':'43ae20ca-3253-42f6-b2e9-ca9cc4532e4f',name:payload.name||'',email:payload.email||'',company:payload.company||'',message:payload.message||'',subject:'Nuevo mensaje desde rodolfoalabarca.dev'})
       })
       .then(function(r){
         if(r.ok){
