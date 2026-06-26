@@ -2742,25 +2742,46 @@
 
   :root { --font-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif; }
 
-  /* --- Editorial serif on emphasis words (the reference's signature) --- */
-  .hero h1 .accent,
-  .page-title em,
-  .about-title em,
-  .cine-case-title em,
-  .preview-sommelier-title em,
-  .contact-view h2 em,
+  /* Editorial serif is kept ONLY for the standalone cascade signature and the
+     .serif utility — never to mix typefaces inside a heading (per feedback:
+     a title in two fonts/colours reads as generic/AI). */
   .serif {
     font-family: var(--font-serif);
     font-style: italic;
     font-weight: 400;
     letter-spacing: 0;
   }
-  .hero h1 .accent { color: var(--accent); }
-  /* DM Serif renders heavier; nudge optical size so it sits on the sans baseline */
-  .hero h1 .accent { font-size: 1.04em; }
+  /* Headings stay in one typeface and one colour; any inline emphasis just
+     inherits (no serif swap, no accent colour swap). */
+  .hero h1 .accent,
+  .page-title em,
+  .about-title em,
+  .cine-case-title em,
+  .contact-view h2 em {
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    font-style: inherit;
+  }
 
   /* --- Falling text: letters drop in and settle, once, no layout shift --- */
-  .fall-char { display: inline-block; }
+  .fall-char { display: inline-block; transition: color 0.25s ease; }
+  /* Words stay whole: chars are inline-block, so without this a word could
+     break mid-word. The word wrapper keeps each word together; lines still
+     wrap at spaces. */
+  .fall-word { display: inline-block; white-space: nowrap; }
+  /* Per-letter hover: single colour by default, accent on hover. */
+  @media (hover: hover) and (pointer: fine) {
+    .js-fall .fall-char:hover { color: var(--accent); }
+  }
+  /* Size the hero title so the intended two-line break ("Ingeniería digital
+     para" / "negocios modernos.") fits each line within the text column,
+     instead of overflowing into 4 broken lines. */
+  .hero h1 { font-size: clamp(1.9rem, 3.7vw, 3.05rem); line-height: 1.08; }
+  /* On narrow screens let the hero title wrap naturally instead of forcing
+     the desktop line break. */
+  @media (max-width: 600px) { .hero h1 br { display: none; } }
   .js-fall.fall-init .fall-char {
     opacity: 0;
     transform: translate3d(var(--fx,0), var(--fy,-0.8em), 0) rotate(var(--fr,0deg));
@@ -2823,38 +2844,46 @@
   .hero-video-badge { display: none; }
   .hero-tech-strip { padding-top: 4px; }
 
-  /* --- Cascade text: a single signature lead-in toward the explore links --- */
-  .cascade {
-    margin: 4px 0 26px;
-    line-height: 0.92;
-    user-select: none;
+  /* --- Explore heading: single animated word (same falling effect as titles) --- */
+  .explore-heading {
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 8px 0 0;
+  }
+
+  /* --- Page spine: one neon connector that runs down the whole page and
+     links each view's key points. Drawn/animated from JS (see __spine). Sits
+     behind content, never intercepts clicks. --- */
+  #page-spine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     pointer-events: none;
+    z-index: 0;
+    overflow: visible;
   }
-  .cascade span {
-    display: block;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: clamp(1.9rem, 6vw, 3.4rem);
-    letter-spacing: -0.01em;
-    color: var(--text);
-    transform: translateX(0);
-    opacity: 0;
-    animation: cascadeIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+  #page-spine path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .cascade span:nth-child(1) { color: var(--text-dim);  opacity: 0; --cx: 0px;  animation-delay: 0.00s; }
-  .cascade span:nth-child(2) { color: var(--text-muted);opacity: 0; --cx: 22px; animation-delay: 0.10s; }
-  .cascade span:nth-child(3) { color: var(--accent);    opacity: 0; --cx: 44px; animation-delay: 0.20s; }
-  @keyframes cascadeIn {
-    from { opacity: 0; transform: translateX(calc(var(--cx,0px) - 16px)); }
-    to   { opacity: 1; transform: translateX(var(--cx,0px)); }
+  #page-spine .spine-line {
+    stroke: rgba(217,119,6,0.30);
+    stroke-width: 1.6;
+    filter: drop-shadow(0 0 3px rgba(217,119,6,0.35));
   }
-  .cascade span:nth-child(1) { --op: 0.32; }
-  .cascade span:nth-child(2) { --op: 0.6; }
+  #page-spine .spine-comet {
+    stroke: var(--accent);
+    stroke-width: 2.6;
+    filter:
+      drop-shadow(0 0 4px rgba(217,119,6,0.95))
+      drop-shadow(0 0 10px rgba(217,119,6,0.6));
+  }
   @media (prefers-reduced-motion: reduce) {
-    .cascade span { animation: none; opacity: 1; transform: translateX(var(--cx,0px)); }
-  }
-  @media (max-width: 640px) {
-    .cascade span { --cx: 0 !important; transform: none !important; }
+    #page-spine .spine-comet { display: none; }
   }
 
   /* --- Stack: real monochrome marks per technology --- */
@@ -3135,6 +3164,8 @@
 
 <canvas id="bg-tech" aria-hidden="true"></canvas>
 
+<svg id="page-spine" aria-hidden="true"><path class="spine-line"></path><path class="spine-comet"></path></svg>
+
 <div class="cursor-spotlight" aria-hidden="true"></div>
 
 <nav>
@@ -3176,19 +3207,19 @@
         <div class="hero-text">
           <div class="hero-tag">
             <span class="hero-tag-dot"></span>
-            <span class="mono" style="color: var(--accent);"><span class="es">Systems builder, abierto a construir cosas interesantes.</span><span class="en">Systems builder, open to building interesting things.</span></span>
+            <span class="mono" style="color: var(--accent);"><span class="es">Systems Builder · Disponible para nuevos proyectos</span><span class="en">Systems Builder · Available for new projects</span></span>
           </div>
           <h1 class="js-fall">
-            <span class="es">Ingeniería de <span class="accent">sistemas inteligentes.</span></span>
-            <span class="en">Intelligent <span class="accent">systems engineering.</span></span>
+            <span class="es">Ingeniería digital para <br>negocios modernos.</span>
+            <span class="en">Digital engineering for <br>modern businesses.</span>
           </h1>
           <p class="hero-sub">
-            <span class="es">IA, automatización y software diseñados para construir operaciones más eficientes, escalables y modernas.</span>
-            <span class="en">AI, automation and software designed to build more efficient, scalable and modern operations.</span>
+            <span class="es">Diseño webs, plataformas y automatizaciones que simplifican procesos y convierten ideas en herramientas reales.</span>
+            <span class="en">I design websites, platforms and automations that simplify processes and turn ideas into real tools.</span>
           </p>
           <div class="hero-ctas">
             <a data-view="work" class="btn btn-primary">
-              <span class="es">Ver work</span><span class="en">View work</span>
+              <span class="es">Ver proyectos</span><span class="en">View projects</span>
               <span>→</span>
             </a>
             <a data-view="services" class="btn btn-secondary">
@@ -3331,14 +3362,10 @@
     </div>
 
     <div class="home-explore">
-      <div class="cascade" aria-hidden="true">
-        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
-        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
-        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
-      </div>
       <div class="explore-head">
         <span class="mono">// <span class="es">Explora</span><span class="en">Explore</span></span>
       </div>
+      <h2 class="explore-heading js-fall"><span class="es">Explorar</span><span class="en">Explore</span></h2>
       <div class="explore-grid">
         <a data-view="work" class="explore-card">
           <span class="explore-label">→ Work</span>
@@ -3350,7 +3377,7 @@
             <span class="en">Projects in production and in development. How I tackle each problem, the stack I use, the results I aim for.</span>
           </p>
           <span class="explore-arrow">
-            <span class="es">Ver work</span><span class="en">See work</span> →
+            <span class="es">Ver proyectos</span><span class="en">See projects</span> →
           </span>
         </a>
         <a data-view="services" class="explore-card">
@@ -3967,6 +3994,8 @@
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
     }
+    // Page height changed → redraw the connector once the expand settles.
+    if (window.__spine) setTimeout(window.__spine, 640);
   }
   window.toggleCase = toggleCase;
 
@@ -4034,6 +4063,7 @@
         if (target) target.classList.add('active');
         if (window.__fallNow && target) window.__fallNow(target);
         window.scrollTo(0, 0);
+        if (window.__spine) setTimeout(window.__spine, 90);
         if (window.ScrollTrigger) { setTimeout(function(){ window.ScrollTrigger.refresh(); }, 80); }
         return;
       }
@@ -4048,6 +4078,7 @@
         window.scrollTo(0, 0);
         if (target) target.classList.add('active');
         if (window.__fallNow && target) window.__fallNow(target);
+        if (window.__spine) setTimeout(window.__spine, 90);
         if (window.ScrollTrigger) {
           requestAnimationFrame(function(){ window.ScrollTrigger.refresh(); });
         }
@@ -4670,11 +4701,18 @@
         textNodes.forEach(function(tn) {
           var txt = tn.nodeValue;
           var frag = document.createDocumentFragment();
+          var word = null;   // current non-breaking word wrapper
           for (var k = 0; k < txt.length; k++) {
             var ch = txt[k];
             if (ch === ' ' || ch === '\n' || ch === '\t') {
+              word = null;                          // close the word; allow wrap here
               frag.appendChild(document.createTextNode(ch));
               continue;
+            }
+            if (!word) {                            // start a new word wrapper
+              word = document.createElement('span');
+              word.className = 'fall-word';
+              frag.appendChild(word);
             }
             var s = document.createElement('span');
             s.className = 'fall-char';
@@ -4687,7 +4725,7 @@
             s.style.cssText = '--fy:' + fy.toFixed(2) + 'em;--fx:' + fx.toFixed(2) +
                               'em;--fr:' + fr.toFixed(1) + 'deg;--fd:' + fd.toFixed(3) + 's';
             i++;
-            frag.appendChild(s);
+            word.appendChild(s);
           }
           tn.parentNode.replaceChild(frag, tn);
         });
@@ -4740,6 +4778,90 @@
       });
       checkFall();
     };
+  })();
+
+  // ----- Page spine: one neon connector that runs down the whole page,
+  // linking each view's key anchors (title -> CTA -> sections). Draws in on
+  // load/navigation; a comet keeps travelling. Rebuilds on resize, view change
+  // and case expand. Behind content, no pointer events. -----
+  (function() {
+    var svg = document.getElementById('page-spine');
+    if (!svg) return;
+    var line = svg.querySelector('.spine-line');
+    var comet = svg.querySelector('.spine-comet');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Anchor points per view, top to bottom — the "things" the line connects.
+    var ANCHORS = {
+      home: ['.hero h1', '.hero-ctas', '.about-title', '.stack-strip-head', '.explore-heading', '.explore-grid'],
+      work: ['.page-title', '#case-gallo .cine-cover-info', '#case-autopro .cine-cover-info', '#case-sales .cine-cover-info', '#case-sommelier .cine-cover-info'],
+      services: ['.page-title', '.services-grid', '.process-timeline-head'],
+      contact: ['.contact-form-head', '.contact-contexts', '.contact-links']
+    };
+
+    function cancel(el) {
+      if (el.getAnimations) el.getAnimations().forEach(function(a) { a.cancel(); });
+    }
+
+    function build() {
+      var view = document.querySelector('main .view.active');
+      if (!view) return;
+      var sels = ANCHORS[view.getAttribute('data-view')] || ['h1'];
+
+      svg.style.height = '0px';                         // avoid self-feedback on scrollHeight
+      var W = document.documentElement.clientWidth;
+      var H = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      svg.style.height = H + 'px';
+
+      var sx = window.scrollX || 0, sy = window.scrollY || 0;
+      var pts = [];
+      sels.forEach(function(s) {
+        var el = document.querySelector(s);
+        if (!el || el.offsetParent === null) return;
+        var r = el.getBoundingClientRect();
+        if (!r.width && !r.height) return;
+        var x = Math.max(20, Math.min(r.left + sx + 12, W * 0.6));
+        pts.push([x, r.top + sy + r.height / 2]);
+      });
+      if (pts.length < 2) { line.removeAttribute('d'); comet.removeAttribute('d'); return; }
+      pts.sort(function(a, b) { return a[1] - b[1]; });
+
+      var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
+      for (var i = 1; i < pts.length; i++) {
+        var a = pts[i - 1], b = pts[i], my = ((a[1] + b[1]) / 2).toFixed(1);
+        d += ' C ' + a[0].toFixed(1) + ' ' + my + ', ' + b[0].toFixed(1) + ' ' + my +
+             ', ' + b[0].toFixed(1) + ' ' + b[1].toFixed(1);
+      }
+      line.setAttribute('d', d);
+      comet.setAttribute('d', d);
+
+      var len = line.getTotalLength ? line.getTotalLength() : 1000;
+      cancel(line); cancel(comet);
+      if (reduce) {
+        line.style.strokeDasharray = 'none';
+        line.style.strokeDashoffset = '0';
+        comet.style.display = 'none';
+        return;
+      }
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      line.animate(
+        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+        { duration: 2200, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' }
+      );
+      comet.style.strokeDasharray = '24 ' + len;
+      comet.animate(
+        [{ strokeDashoffset: len + 24 }, { strokeDashoffset: 0 }],
+        { duration: Math.max(2800, len * 1.05), iterations: Infinity, easing: 'linear' }
+      );
+    }
+
+    window.__spine = build;
+    build();
+    window.addEventListener('load', function() { setTimeout(build, 120); });
+    var rt;
+    window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(build, 160); }, { passive: true });
   })();
 
   // ----- Stack technologies: coherent monochrome marks + accessible labels -----
