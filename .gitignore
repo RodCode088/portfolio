@@ -68,3 +68,6 @@ out/
 # Capturas y borradores de OG image antes de la versión final.
 og-image-draft*.png
 *-wip.*
+
+# Local preview tooling
+.claude/

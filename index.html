@@ -32,7 +32,7 @@
 <title>Rodolfo Alabarca — Systems Builder · Automation · AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -2733,9 +2733,405 @@
   .process-tl-step:nth-child(2) .process-tl-dot{--ptd:.55s}
   .process-tl-step:nth-child(3) .process-tl-dot{--ptd:1.1s}
   .process-tl-step:nth-child(4) .process-tl-dot{--ptd:1.65s}
+
+  /* ============================================================
+     REDESIGN LAYER — editorial accent, falling text, organic hero
+     video, cascade signature, stack icons, dock, page transition.
+     Appended last so it overrides earlier base rules by source order.
+     ============================================================ */
+
+  :root { --font-serif: 'DM Serif Display', Georgia, 'Times New Roman', serif; }
+
+  /* --- Editorial serif on emphasis words (the reference's signature) --- */
+  .hero h1 .accent,
+  .page-title em,
+  .about-title em,
+  .cine-case-title em,
+  .preview-sommelier-title em,
+  .contact-view h2 em,
+  .serif {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  /* DM Serif renders heavier; nudge optical size so it sits on the sans baseline */
+  .hero h1 .accent { font-size: 1.04em; }
+
+  /* --- Falling text: letters drop in and settle, once, no layout shift --- */
+  .fall-char { display: inline-block; }
+  .js-fall.fall-init .fall-char {
+    opacity: 0;
+    transform: translate3d(var(--fx,0), var(--fy,-0.8em), 0) rotate(var(--fr,0deg));
+  }
+  .js-fall.fall-go .fall-char {
+    opacity: 1;
+    transform: none;
+    will-change: transform, opacity;
+    transition:
+      opacity 0.45s ease,
+      transform 0.8s cubic-bezier(0.22, 1.18, 0.36, 1);
+    transition-delay: var(--fd, 0s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js-fall .fall-char { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
+  /* --- Hero video: dissolve the box, blend into the composition --- */
+  .hero-video-aside { gap: 22px; }
+  .hero-video-card {
+    max-width: 360px;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    position: relative;
+  }
+  .hero-video-card::before {
+    content: '';
+    position: absolute;
+    inset: -14% -10% -20% -12%;
+    background:
+      radial-gradient(60% 55% at 62% 38%, rgba(217,119,6,0.20), transparent 70%),
+      radial-gradient(70% 60% at 40% 70%, rgba(217,119,6,0.08), transparent 75%);
+    filter: blur(6px);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .hero-video-wrap {
+    aspect-ratio: 4 / 5;
+    background: transparent;
+    overflow: visible;
+    -webkit-mask-image:
+      radial-gradient(125% 115% at 60% 42%, #000 52%, transparent 90%),
+      linear-gradient(180deg, transparent 0%, #000 12% 70%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(125% 115% at 60% 42%, #000 52%, transparent 90%),
+      linear-gradient(180deg, transparent 0%, #000 12% 70%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .hero-video {
+    filter: brightness(0.92) saturate(1.06) contrast(1.02);
+  }
+  /* Strip the conventional player chrome: framed overlay + badge chip */
+  .hero-video-overlay {
+    background:
+      radial-gradient(120% 120% at 60% 40%, transparent 55%, rgba(10,10,10,0.5) 100%),
+      linear-gradient(180deg, transparent 60%, rgba(10,10,10,0.55) 100%);
+  }
+  .hero-video-badge { display: none; }
+  .hero-tech-strip { padding-top: 4px; }
+
+  /* --- Cascade text: a single signature lead-in toward the explore links --- */
+  .cascade {
+    margin: 4px 0 26px;
+    line-height: 0.92;
+    user-select: none;
+    pointer-events: none;
+  }
+  .cascade span {
+    display: block;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.9rem, 6vw, 3.4rem);
+    letter-spacing: -0.01em;
+    color: var(--text);
+    transform: translateX(0);
+    opacity: 0;
+    animation: cascadeIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .cascade span:nth-child(1) { color: var(--text-dim);  opacity: 0; --cx: 0px;  animation-delay: 0.00s; }
+  .cascade span:nth-child(2) { color: var(--text-muted);opacity: 0; --cx: 22px; animation-delay: 0.10s; }
+  .cascade span:nth-child(3) { color: var(--accent);    opacity: 0; --cx: 44px; animation-delay: 0.20s; }
+  @keyframes cascadeIn {
+    from { opacity: 0; transform: translateX(calc(var(--cx,0px) - 16px)); }
+    to   { opacity: 1; transform: translateX(var(--cx,0px)); }
+  }
+  .cascade span:nth-child(1) { --op: 0.32; }
+  .cascade span:nth-child(2) { --op: 0.6; }
+  @media (prefers-reduced-motion: reduce) {
+    .cascade span { animation: none; opacity: 1; transform: translateX(var(--cx,0px)); }
+  }
+  @media (max-width: 640px) {
+    .cascade span { --cx: 0 !important; transform: none !important; }
+  }
+
+  /* --- Stack: real monochrome marks per technology --- */
+  .stack-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding-left: 9px;
+  }
+  .stack-ico {
+    display: inline-flex;
+    color: var(--accent);
+    opacity: 0.82;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .stack-ico svg { width: 14px; height: 14px; display: block; }
+  .stack-pill:hover .stack-ico { opacity: 1; transform: translateY(-1px); }
+
+  /* --- Process: larger editorial step numbers --- */
+  .process-tl-num {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0.9;
+  }
+
+  /* --- Projects framed as device/browser windows (real screenshots) --- */
+  .cine-chrome {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 16px;
+    background: linear-gradient(180deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.32) 65%, transparent 100%);
+    pointer-events: none;
+  }
+  .cine-chrome-dots { display: flex; gap: 6px; flex-shrink: 0; }
+  .cine-chrome-dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.16); }
+  .cine-chrome-dots i:first-child { background: rgba(217,119,6,0.6); }
+  .cine-chrome-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+    color: rgba(245,245,245,0.62);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 3px 10px;
+    max-width: 56%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cine-chrome-url svg { width: 10px; height: 10px; flex-shrink: 0; opacity: 0.7; }
+  .cine-chrome-idx {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    color: rgba(245,245,245,0.4);
+    padding-right: 40px;
+  }
+  @media (max-width: 768px) {
+    .cine-chrome { padding: 9px 12px; gap: 9px; }
+    .cine-chrome-url { max-width: 64%; font-size: 0.56rem; }
+    .cine-chrome-idx { display: none; }
+  }
+
+  /* --- Project showcase: real media inside CSS device frames --- */
+  .cine-case-list { gap: 0; }
+  .cine-case {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-top: 1px solid var(--border);
+    overflow: visible;
+  }
+  .cine-case:first-child { border-top: 0; }
+  .cine-case:hover { border-color: var(--border); box-shadow: none; }
+  .cine-cover {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 54px;
+    align-items: center;
+    padding: 52px 36px 56px;
+  }
+  .cine-case:nth-child(even) .cine-cover-info { order: 2; }
+  .cine-case:nth-child(even) .cine-cover-device { order: 1; }
+  .cine-cover-info { display: flex; flex-direction: column; align-items: flex-start; }
+  .cine-idx {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .cine-cover-info .cine-case-cover-meta { position: static; margin-bottom: 16px; padding: 0; }
+  .cine-cover-info .cine-case-title {
+    position: static;
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    text-shadow: none;
+    margin-bottom: 12px;
+  }
+  .cine-cover-info .cine-case-teaser {
+    position: static;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 420px;
+  }
+  .cine-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .cine-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .cine-toggle .cine-expand-icon {
+    font-size: 1.05rem; line-height: 1; font-weight: 300;
+    transition: transform 0.3s ease;
+  }
+  .cine-case.is-open .cine-toggle .cine-expand-icon { transform: rotate(45deg); }
+
+  /* Device frames (clean CSS, no heavy mockup images) */
+  .device { width: 100%; position: relative; }
+  .device-screen {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: #000;
+    overflow: hidden;
+  }
+  .cine-device-media {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  }
+  .cine-case:hover .cine-device-media { transform: scale(1.04); }
+  .device-screen .cine-chrome {
+    background: linear-gradient(180deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.35) 70%, transparent 100%);
+  }
+  /* Monitor */
+  .device-monitor .device-screen {
+    border-radius: 10px;
+    box-shadow:
+      0 0 0 9px #131316,
+      0 0 0 10px rgba(255,255,255,0.05),
+      0 34px 70px rgba(0,0,0,0.55),
+      0 0 50px rgba(217,119,6,0.05);
+  }
+  .device-monitor .device-stand { display: flex; flex-direction: column; align-items: center; margin-top: 19px; }
+  .device-monitor .device-neck { width: 70px; height: 22px; background: linear-gradient(180deg, #1c1c22, #131316); }
+  .device-monitor .device-foot { width: 32%; height: 9px; border-radius: 5px; background: #1a1a1f; box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+  /* Laptop */
+  .device-laptop .device-screen {
+    border: 9px solid #131316;
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  .device-laptop .device-base {
+    position: relative;
+    height: 15px;
+    margin: 0 -8%;
+    background: linear-gradient(180deg, #1f1f26, #131316);
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 20px 34px rgba(0,0,0,0.5);
+  }
+  .device-laptop .device-base::after {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 13%; height: 5px;
+    background: #0a0a0a; border-radius: 0 0 6px 6px;
+  }
+  @media (max-width: 860px) {
+    .cine-cover { grid-template-columns: 1fr; gap: 30px; padding: 40px 24px 44px; }
+    .cine-case:nth-child(even) .cine-cover-info { order: 0; }
+    .cine-case:nth-child(even) .cine-cover-device { order: 0; }
+    .cine-cover-info .cine-case-teaser { max-width: none; }
+  }
+  @media (max-width: 480px) {
+    .cine-cover { padding: 32px 18px 36px; }
+    .device-monitor .device-screen { box-shadow: 0 0 0 6px #131316, 0 0 0 7px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.5); }
+    .device-laptop .device-screen { border-width: 6px; }
+  }
+
+  /* --- Floating dock: distinct GitHub / code / mail buttons --- */
+  .float-btn-code {
+    background: rgba(217,119,6,0.10);
+    border-color: rgba(217,119,6,0.3);
+    color: var(--accent);
+    box-shadow: 0 8px 28px rgba(217,119,6,0.12), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .float-btn-code:hover { box-shadow: 0 12px 36px rgba(217,119,6,0.25), 0 0 0 1px rgba(255,255,255,0.05); }
+  .float-btn-glow-code { background: radial-gradient(circle, rgba(217,119,6,0.22), transparent 70%); }
+  .float-btn-mail { background: rgba(245,245,245,0.06); border-color: rgba(255,255,255,0.14); color: var(--text); }
+  .float-btn-mail:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08); }
+  .float-btn-glow-mail { background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%); }
+  @media (max-width: 768px) {
+    .floating-actions { gap: 9px; bottom: 18px; right: 16px; }
+    .float-btn { width: 44px; height: 44px; }
+    .float-btn-mail { display: none; }
+  }
+
+  /* --- Initial page transition (first load only) --- */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: var(--bg);
+    animation: preloaderOut 0.5s ease 1.0s forwards;
+  }
+  #preloader .pl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  #preloader .pl-bar {
+    width: min(220px, 50vw);
+    height: 2px;
+    background: var(--border-strong);
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  #preloader .pl-bar i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: plFill 0.85s cubic-bezier(0.5,0,0.2,1) forwards;
+  }
+  @keyframes plFill { to { transform: scaleX(1); } }
+  @keyframes preloaderOut { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+  #preloader.pl-done { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.4s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    #preloader { display: none; }
+  }
+  @media (max-width: 1000px) {
+    .hero-video-card { max-width: 300px; }
+  }
+  @media (max-width: 480px) {
+    .hero-video-card { max-width: 240px; }
+  }
 </style>
 </head>
 <body>
+
+<div id="preloader" aria-hidden="true">
+  <span class="pl-label"><span class="es">Cargando</span><span class="en">Loading</span></span>
+  <span class="pl-bar"><i></i></span>
+</div>
 
 <canvas id="bg-tech" aria-hidden="true"></canvas>
 
@@ -2782,7 +3178,7 @@
             <span class="hero-tag-dot"></span>
             <span class="mono" style="color: var(--accent);"><span class="es">Systems builder, abierto a construir cosas interesantes.</span><span class="en">Systems builder, open to building interesting things.</span></span>
           </div>
-          <h1>
+          <h1 class="js-fall">
             <span class="es">Ingeniería de <span class="accent">sistemas inteligentes.</span></span>
             <span class="en">Intelligent <span class="accent">systems engineering.</span></span>
           </h1>
@@ -2872,7 +3268,7 @@
         </div>
         <div class="about-text">
           <span class="mono"><span class="es">// sobre mí</span><span class="en">// about me</span></span>
-          <h2 class="about-title"><span class="es">Sobre mí</span><span class="en">About me</span></h2>
+          <h2 class="about-title js-fall"><span class="es">Sobre mí</span><span class="en">About me</span></h2>
           <p class="about-p"><span class="es">Diseño sistemas, automatización y software con enfoque en operaciones, infraestructura y producto.</span><span class="en">I design systems, automation and software focused on operations, infrastructure and product.</span></p>
           <p class="about-p"><span class="es">Construyo herramientas digitales que conectan datos, simplifican procesos y transforman operaciones complejas en sistemas claros, eficientes y escalables.</span><span class="en">I build digital tools that connect data, simplify processes and transform complex operations into clear, efficient and scalable systems.</span></p>
           <p class="about-p"><span class="es">Mi trabajo combina ingeniería, automatización e inteligencia artificial aplicada para desarrollar soluciones modernas con criterio técnico y enfoque funcional.</span><span class="en">My work combines engineering, automation and applied AI to develop modern solutions with technical judgment and functional focus.</span></p>
@@ -2935,6 +3331,11 @@
     </div>
 
     <div class="home-explore">
+      <div class="cascade" aria-hidden="true">
+        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
+        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
+        <span><span class="es">Explorar</span><span class="en">Explore</span></span>
+      </div>
       <div class="explore-head">
         <span class="mono">// <span class="es">Explora</span><span class="en">Explore</span></span>
       </div>
@@ -2973,7 +3374,7 @@
   <div class="container">
     <div class="page-header">
       <span class="mono">01 / Work</span>
-      <h1 class="page-title">
+      <h1 class="page-title js-fall">
         <span class="es">Sistemas diseñados para operaciones modernas.</span>
         <span class="en">Systems designed for modern operations.</span>
       </h1>
@@ -2983,23 +3384,101 @@
       </p>
     </div>
     <div class="cine-case-list">
-      <article class="cine-case" id="case-autopro" style="border-top:2px solid var(--accent)">
-        <div class="cine-case-cover" onclick="toggleCase('case-autopro')">
-          <div class="cine-case-cover-bg">
-            <video src="./assets/images/proyecto_SaaS_autopro.mp4" autoplay loop muted playsinline class="cine-case-img" style="object-fit:cover;width:100%;height:100%;"></video>
+      <article class="cine-case" id="case-gallo" style="border-top:2px solid var(--accent)">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">01</span>
+            <div class="cine-case-cover-meta">
+              <span class="case-cat">Web · Editorial · UI/UX</span>
+              <span class="case-status live">Live</span>
+            </div>
+            <h2 class="cine-case-title">Gallo Creativo</h2>
+            <p class="cine-case-teaser"><span class="es">Sitio web editorial para un estudio-taller panameño de diseño industrial, mobiliario y espacios a medida.</span><span class="en">Editorial website for a Panamanian design-and-fabrication studio: industrial design, furniture and bespoke spaces.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-gallo-detail" onclick="toggleCase('case-gallo')">
+              <span class="es">Ver caso completo</span><span class="en">View full case</span>
+              <span class="cine-expand-icon" aria-hidden="true">+</span>
+            </button>
           </div>
-          <div class="cine-case-cover-overlay"></div>
-          <div class="cine-case-cover-content">
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true">
+                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span>
+                </div>
+                <video src="./assets/images/gallocreativo_web.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Gallo Creativo — sitio web"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-gallo-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc">
+                <span class="es">Diseño y desarrollo de un sitio web editorial para Gallo Creativo, estudio-taller panameño especializado en diseño industrial, fabricación de mobiliario y transformación de espacios a medida. La plataforma presenta su identidad, servicios y proyectos mediante una experiencia visual inmersiva, animaciones, portafolio interactivo y navegación bilingüe. También incorpora formularios de contacto, conexión con WhatsApp y un cotizador guiado para facilitar la captación de nuevos clientes.</span>
+                <span class="en">Design and development of an editorial website for Gallo Creativo, a Panamanian design-and-fabrication studio specialized in industrial design, furniture making and bespoke space transformation. The platform presents its identity, services and projects through an immersive visual experience, animations, an interactive portfolio and bilingual navigation. It also includes contact forms, WhatsApp integration and a guided quote tool to help convert new clients.</span>
+              </p>
+              <ul class="case-bullets">
+                <li><span class="es">Experiencia visual inmersiva y animaciones</span><span class="en">Immersive visual experience and animations</span></li>
+                <li><span class="es">Portafolio interactivo de proyectos</span><span class="en">Interactive project portfolio</span></li>
+                <li><span class="es">Navegación bilingüe (ES / EN)</span><span class="en">Bilingual navigation (ES / EN)</span></li>
+                <li><span class="es">Cotizador guiado + contacto y WhatsApp</span><span class="en">Guided quote tool + contact and WhatsApp</span></li>
+              </ul>
+              <div class="case-tags">
+                <span class="case-tag">UI/UX</span><span class="case-tag">HTML</span><span class="case-tag">CSS</span><span class="case-tag">JavaScript</span><span class="case-tag">Animation</span><span class="case-tag">Responsive</span>
+              </div>
+              <a href="https://www.gallocreativo.com/" target="_blank" rel="noopener noreferrer" class="case-link">
+                <span class="es">Visitar la web</span><span class="en">Visit the site</span>
+                <span>↗</span>
+              </a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail">
+                <span class="case-detail-label">Challenge</span>
+                <span class="case-detail-value"><span class="es">Gallo Creativo necesitaba una presencia web que reflejara la calidad de su diseño y fabricación, mostrara sus proyectos y convirtiera visitantes en clientes.</span><span class="en">Gallo Creativo needed a web presence that reflected the quality of its design and fabrication work, showcased its projects and turned visitors into clients.</span></span>
+              </div>
+              <div class="case-detail">
+                <span class="case-detail-label">Solution</span>
+                <span class="case-detail-value"><span class="es">Sitio editorial a medida con experiencia inmersiva, portafolio interactivo, navegación bilingüe y un cotizador guiado conectado a contacto y WhatsApp.</span><span class="en">Custom editorial site with an immersive experience, interactive portfolio, bilingual navigation and a guided quote tool wired to contact and WhatsApp.</span></span>
+              </div>
+              <div class="case-detail">
+                <span class="case-detail-label">Status</span>
+                <span class="case-detail-value"><span class="es">Sitio live en gallocreativo.com.</span><span class="en">Live at gallocreativo.com.</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="cine-case" id="case-autopro">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">02</span>
             <div class="cine-case-cover-meta">
               <span class="case-cat">SaaS · Web App</span>
               <span class="case-status" style="background:rgba(217,119,6,.15);color:#f59e0b;border-color:rgba(217,119,6,.5)"><span class="es">En desarrollo</span><span class="en">In development</span></span>
             </div>
             <h2 class="cine-case-title">AutoPro</h2>
             <p class="cine-case-teaser"><span class="es">Sistema SaaS completo para la gestión integral de talleres mecánicos.</span><span class="en">Full SaaS system for end-to-end auto repair shop management.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-autopro-detail" onclick="toggleCase('case-autopro')">
+              <span class="es">Ver caso completo</span><span class="en">View full case</span>
+              <span class="cine-expand-icon" aria-hidden="true">+</span>
+            </button>
           </div>
-          <div class="cine-case-expand-btn" aria-label="Expandir proyecto"><span class="cine-expand-icon">+</span></div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true">
+                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 8 11 12 7 16"/><line x1="13" y1="16" x2="17" y2="16"/></svg>autopro · en desarrollo</span>
+                </div>
+                <video src="./assets/images/proyecto_SaaS_autopro.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="AutoPro — dashboard de gestión de talleres"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
         </div>
-        <div class="cine-case-detail">
+        <div class="cine-case-detail" id="case-autopro-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
               <p class="case-desc">
@@ -3034,24 +3513,34 @@
         </div>
       </article>
       <article class="cine-case" id="case-sales">
-        <div class="cine-case-cover" onclick="toggleCase('case-sales')">
-          <div class="cine-case-cover-bg">
-            <video src="./assets/images/ca%C3%B1apty.mp4" autoplay loop muted playsinline class="cine-case-img" style="object-fit:cover;width:100%;height:100%;"></video>
-          </div>
-          <div class="cine-case-cover-overlay"></div>
-          <div class="cine-case-cover-content">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">03</span>
             <div class="cine-case-cover-meta">
               <span class="case-cat">Data · Business Intelligence</span>
               <span class="case-status live">Live</span>
             </div>
             <h2 class="cine-case-title">Sales Intelligence Dashboard</h2>
             <p class="cine-case-teaser"><span class="es">Reporting comercial centralizado: KPIs, segmentación y análisis en una sola vista.</span><span class="en">Centralized commercial reporting: KPIs, segmentation and analysis in one view.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sales-detail" onclick="toggleCase('case-sales')">
+              <span class="es">Ver caso completo</span><span class="en">View full case</span>
+              <span class="cine-expand-icon" aria-hidden="true">+</span>
+            </button>
           </div>
-          <div class="cine-case-expand-btn" aria-label="Expandir proyecto">
-            <span class="cine-expand-icon">+</span>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true">
+                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ron-cana-analytics.streamlit.app</span>
+                </div>
+                <video src="./assets/images/ca%C3%B1apty.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Sales Intelligence Dashboard — reporting comercial en Power BI"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
           </div>
         </div>
-        <div class="cine-case-detail">
+        <div class="cine-case-detail" id="case-sales-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
               <p class="case-desc">
@@ -3094,29 +3583,34 @@
         </div>
       </article>
       <article class="cine-case" id="case-sommelier">
-        <div class="cine-case-cover" onclick="toggleCase('case-sommelier')">
-          <div class="cine-case-cover-bg">
-            <div class="preview-sommelier" style="position:absolute;inset:0;z-index:0;">
-              <span class="preview-sommelier-glass">⚜</span>
-              <span class="preview-sommelier-tagline">Panamá · Sommelier · Bartender</span>
-              <span class="preview-sommelier-title">Sommelier <em>Nómada</em></span>
-            </div>
-            <video src="./assets/images/sommelier%20N%C3%B3mada.mp4" autoplay loop muted playsinline class="cine-case-img" style="object-fit:cover;width:100%;height:100%;"></video>
-          </div>
-          <div class="cine-case-cover-overlay"></div>
-          <div class="cine-case-cover-content">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">04</span>
             <div class="cine-case-cover-meta">
               <span class="case-cat">Web · Branding</span>
               <span class="case-status live">Live</span>
             </div>
             <h2 class="cine-case-title">Sommelier Nómada</h2>
             <p class="cine-case-teaser"><span class="es">Identidad y web premium para un sommelier profesional en Panamá.</span><span class="en">Premium identity and website for a professional sommelier in Panama.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sommelier-detail" onclick="toggleCase('case-sommelier')">
+              <span class="es">Ver caso completo</span><span class="en">View full case</span>
+              <span class="cine-expand-icon" aria-hidden="true">+</span>
+            </button>
           </div>
-          <div class="cine-case-expand-btn" aria-label="Expandir proyecto">
-            <span class="cine-expand-icon">+</span>
+          <div class="cine-cover-device">
+            <div class="device device-laptop">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true">
+                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>neon-biscotti-23fa9c.netlify.app</span>
+                </div>
+                <video src="./assets/images/sommelier%20N%C3%B3mada.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Sommelier Nómada — sitio web premium"></video>
+              </div>
+              <div class="device-base"></div>
+            </div>
           </div>
         </div>
-        <div class="cine-case-detail">
+        <div class="cine-case-detail" id="case-sommelier-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
               <p class="case-desc">
@@ -3162,7 +3656,7 @@
   <div class="container">
     <div class="page-header">
       <span class="mono">02 / Solutions</span>
-      <h1 class="page-title">
+      <h1 class="page-title js-fall">
         <span class="es">Cómo trabajamos.</span>
         <span class="en">How we work.</span>
       </h1>
@@ -3436,10 +3930,22 @@
     <span class="float-tooltip">LinkedIn</span>
   </a>
 
-  <a href="https://github.com/RodCode088" target="_blank" rel="noopener" class="float-btn float-btn-gh" aria-label="GitHub">
+  <a href="https://github.com/RodCode088" target="_blank" rel="noopener noreferrer" class="float-btn float-btn-gh" aria-label="GitHub — repositorios">
     <div class="float-btn-glow float-btn-glow-gh"></div>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
     <span class="float-tooltip">GitHub</span>
+  </a>
+
+  <a href="mailto:rodophybusiness08@gmail.com" class="float-btn float-btn-mail" aria-label="Enviar email">
+    <div class="float-btn-glow float-btn-glow-mail"></div>
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
+    <span class="float-tooltip"><span class="es">Email</span><span class="en">Email</span></span>
+  </a>
+
+  <a data-view="work" href="#work" class="float-btn float-btn-code" aria-label="Ver proyectos — Work">
+    <div class="float-btn-glow float-btn-glow-code"></div>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    <span class="float-tooltip"><span class="es">Ver proyectos</span><span class="en">View work</span></span>
   </a>
 </div>
 
@@ -3450,13 +3956,13 @@
     var isOpen = el.classList.contains('is-open');
     document.querySelectorAll('.cine-case.is-open').forEach(function(c) {
       c.classList.remove('is-open');
-      var icon = c.querySelector('.cine-expand-icon');
-      if (icon) icon.textContent = '+';
+      var btn = c.querySelector('.cine-toggle');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
     });
     if (!isOpen) {
       el.classList.add('is-open');
-      var icon = el.querySelector('.cine-expand-icon');
-      if (icon) icon.textContent = '×';
+      var btn = el.querySelector('.cine-toggle');
+      if (btn) btn.setAttribute('aria-expanded', 'true');
       setTimeout(function() {
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }, 100);
@@ -3526,6 +4032,7 @@
       if (reducedMotion || !current) {
         if (current) current.classList.remove('active', 'is-leaving');
         if (target) target.classList.add('active');
+        if (window.__fallNow && target) window.__fallNow(target);
         window.scrollTo(0, 0);
         if (window.ScrollTrigger) { setTimeout(function(){ window.ScrollTrigger.refresh(); }, 80); }
         return;
@@ -3540,6 +4047,7 @@
         current.classList.remove('active', 'is-leaving');
         window.scrollTo(0, 0);
         if (target) target.classList.add('active');
+        if (window.__fallNow && target) window.__fallNow(target);
         if (window.ScrollTrigger) {
           requestAnimationFrame(function(){ window.ScrollTrigger.refresh(); });
         }
@@ -4103,6 +4611,163 @@
     toggle.addEventListener('click',function(e){
       e.stopPropagation();
       setLang(html.getAttribute('data-lang')==='es'?'en':'es');
+    });
+  })();
+
+  // ----- Initial page transition (first load only) -----
+  // CSS auto-hides #preloader after ~1.5s even if JS fails (no blank-screen trap).
+  // JS removes it as soon as window 'load' fires, keeping it short and honest.
+  (function() {
+    var pl = document.getElementById('preloader');
+    if (!pl) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) { pl.parentNode && pl.parentNode.removeChild(pl); return; }
+    function dismiss() {
+      pl.classList.add('pl-done');
+      setTimeout(function(){ pl.parentNode && pl.parentNode.removeChild(pl); }, 450);
+    }
+    // Minimum visible time so the bar reads as intentional, not a flash.
+    var MIN = 650;
+    var start = performance.now ? performance.now() : Date.now();
+    function onReady() {
+      var now = performance.now ? performance.now() : Date.now();
+      var wait = Math.max(0, MIN - (now - start));
+      setTimeout(dismiss, wait);
+    }
+    if (document.readyState === 'complete') onReady();
+    else window.addEventListener('load', onReady, { once: true });
+    // Hard safety: never leave it up longer than 1.8s regardless.
+    setTimeout(dismiss, 1800);
+  })();
+
+  // ----- Falling text: letters drop from above and settle into place -----
+  // Real DOM text is preserved. Each language span gets role="text" + aria-label
+  // so screen readers read the phrase, not the per-character spans. Runs once.
+  (function() {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;                       // leave headings as authored text
+    if (!('IntersectionObserver' in window)) return;
+
+    var mobile = window.innerWidth < 700;
+
+    function splitFall(el) {
+      if (el.dataset.fallDone) return;
+      el.dataset.fallDone = '1';
+      var groups = el.querySelectorAll(':scope > .es, :scope > .en');
+      if (!groups.length) groups = [el];
+      Array.prototype.forEach.call(groups, function(g) {
+        var label = (g.textContent || '').replace(/\s+/g, ' ').trim();
+        if (label) { g.setAttribute('role', 'text'); g.setAttribute('aria-label', label); }
+        // Collect text nodes first (mutating during walk is unsafe)
+        var textNodes = [];
+        (function collect(n) {
+          for (var c = n.firstChild; c; c = c.nextSibling) {
+            if (c.nodeType === 3) textNodes.push(c);
+            else if (c.nodeType === 1) collect(c);
+          }
+        })(g);
+        var i = 0;
+        textNodes.forEach(function(tn) {
+          var txt = tn.nodeValue;
+          var frag = document.createDocumentFragment();
+          for (var k = 0; k < txt.length; k++) {
+            var ch = txt[k];
+            if (ch === ' ' || ch === '\n' || ch === '\t') {
+              frag.appendChild(document.createTextNode(ch));
+              continue;
+            }
+            var s = document.createElement('span');
+            s.className = 'fall-char';
+            s.setAttribute('aria-hidden', 'true');
+            s.textContent = ch;
+            var fy = (mobile ? -0.5 : -0.9) - Math.random() * (mobile ? 0.4 : 1.1);
+            var fx = (Math.random() - 0.5) * (mobile ? 0.18 : 0.5);
+            var fr = (Math.random() - 0.5) * (mobile ? 8 : 20);
+            var fd = i * (mobile ? 0.016 : 0.026);
+            s.style.cssText = '--fy:' + fy.toFixed(2) + 'em;--fx:' + fx.toFixed(2) +
+                              'em;--fr:' + fr.toFixed(1) + 'deg;--fd:' + fd.toFixed(3) + 's';
+            i++;
+            frag.appendChild(s);
+          }
+          tn.parentNode.replaceChild(frag, tn);
+        });
+      });
+      el.classList.add('fall-init');
+    }
+
+    function playFall(el) {
+      if (!el.classList.contains('fall-init')) return;
+      void el.offsetWidth;                    // force reflow so the transition fires
+      el.classList.add('fall-go');
+      setTimeout(function() { el.classList.remove('fall-init', 'fall-go'); }, 2400);
+    }
+
+    // Rect + scroll trigger (instead of IntersectionObserver): reliable across
+    // environments, and consistent with the rest of the site's scroll handling.
+    var pending = Array.prototype.slice.call(document.querySelectorAll('.js-fall'));
+
+    function inView(el) {
+      if (el.offsetParent === null) return false;     // inside a hidden view
+      var r = el.getBoundingClientRect();
+      var vh = Math.max(window.innerHeight || 0, document.documentElement.clientHeight || 0);
+      if (vh < 200) vh = 10000;                        // guard against a degenerate viewport reading
+      return r.top < vh * 0.92 && r.bottom > 0;
+    }
+    function checkFall() {
+      for (var i = pending.length - 1; i >= 0; i--) {
+        var el = pending[i];
+        if (el.dataset.fallDone) { pending.splice(i, 1); continue; }
+        if (inView(el)) { splitFall(el); playFall(el); pending.splice(i, 1); }
+      }
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function() { checkFall(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener('resize', checkFall, { passive: true });
+
+    checkFall();
+    requestAnimationFrame(checkFall);
+    window.addEventListener('load', checkFall, { once: true });
+
+    // Called by the view router when a hidden view becomes active so its
+    // heading drops in as the view enters.
+    window.__fallNow = function(scope) {
+      (scope || document).querySelectorAll('.js-fall').forEach(function(el) {
+        if (!el.dataset.fallDone && pending.indexOf(el) === -1) pending.push(el);
+      });
+      checkFall();
+    };
+  })();
+
+  // ----- Stack technologies: coherent monochrome marks + accessible labels -----
+  (function() {
+    var grid = document.querySelector('.stack-grid');
+    if (!grid) return;
+    var S = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">';
+    var ICONS = {
+      code:  S + '<polyline points="9 8 5 12 9 16"/><polyline points="15 8 19 12 15 16"/></svg>',
+      db:    S + '<ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6"/><path d="M5 12v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-6"/></svg>',
+      chart: S + '<path d="M5 19V11"/><path d="M10 19V5"/><path d="M15 19V13"/><path d="M20 19V8"/><path d="M3 21h18"/></svg>',
+      grid:  S + '<rect x="3.5" y="3.5" width="17" height="17" rx="1.5"/><path d="M3.5 9.5h17M3.5 15h17M9.5 3.5v17"/></svg>',
+      fx:    S + '<path d="M14 5c-2.2 0-3 1.3-3.4 3.2L8.4 19"/><path d="M6.5 9.5h6"/><path d="M16 10l4 6M20 10l-4 6"/></svg>',
+      panel: S + '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9h17"/><circle cx="6.5" cy="6.7" r=".6" fill="currentColor"/></svg>',
+      spark: S + '<path d="M12 3v6M12 15v6M3 12h6M15 12h6"/><path d="M6.7 6.7l3 3M14.3 14.3l3 3M17.3 6.7l-3 3M9.7 14.3l-3 3"/></svg>'
+    };
+    var MAP = {
+      'Python': 'code', 'SQL': 'db',
+      'Power BI': 'chart', 'DAX': 'fx', 'Excel': 'grid', 'Streamlit': 'panel',
+      'Claude API': 'spark', 'OpenAI API': 'spark',
+      'PostgreSQL': 'db', 'MySQL': 'db', 'SQLite': 'db', 'Pandas': 'chart'
+    };
+    grid.querySelectorAll('.stack-pill').forEach(function(p) {
+      var name = (p.textContent || '').trim();
+      var key = MAP[name] || 'code';
+      p.setAttribute('aria-label', name);
+      p.innerHTML = '<span class="stack-ico" aria-hidden="true">' + ICONS[key] + '</span>' +
+                    '<span>' + name + '</span>';
     });
   })();
 </script>
