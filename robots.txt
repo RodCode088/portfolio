@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rodolfo-alabarca.netlify.app/sitemap.xml
+Sitemap: https://rodolfoalabarca.dev/sitemap.xml
