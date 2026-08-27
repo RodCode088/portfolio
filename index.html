@@ -3019,8 +3019,8 @@
     align-items: center;
     padding: 52px 36px 56px;
   }
-  .cine-case:nth-child(even) .cine-cover-info { order: 2; }
-  .cine-case:nth-child(even) .cine-cover-device { order: 1; }
+  .cine-case:nth-of-type(even) .cine-cover-info { order: 2; }
+  .cine-case:nth-of-type(even) .cine-cover-device { order: 1; }
   .cine-cover-info { display: flex; flex-direction: column; align-items: flex-start; }
   .cine-idx {
     font-family: 'JetBrains Mono', monospace;
@@ -3077,8 +3077,11 @@
   .cine-device-media {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
+    object-fit: contain; object-position: center center;
     display: block;
+    background: #050505;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
   }
   .cine-case:hover .cine-device-media { transform: scale(1.04); }
@@ -3118,16 +3121,85 @@
     width: 13%; height: 5px;
     background: #0a0a0a; border-radius: 0 0 6px 6px;
   }
+  .project-carousel-controls {
+    display: none;
+  }
+  .project-carousel-btn {
+    min-width: 116px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.025);
+    color: var(--text);
+    font: 500 0.82rem/1 'Inter', sans-serif;
+    cursor: pointer;
+  }
+  .project-carousel-btn:disabled { opacity: 0.32; cursor: default; }
+  .project-carousel-count {
+    min-width: 64px;
+    text-align: center;
+    color: var(--accent);
+    font: 500 0.72rem/1 'JetBrains Mono', monospace;
+    letter-spacing: 0.12em;
+  }
   @media (max-width: 860px) {
     .cine-cover { grid-template-columns: 1fr; gap: 30px; padding: 40px 24px 44px; }
-    .cine-case:nth-child(even) .cine-cover-info { order: 0; }
-    .cine-case:nth-child(even) .cine-cover-device { order: 0; }
+    .cine-case:nth-of-type(even) .cine-cover-info { order: 0; }
+    .cine-case:nth-of-type(even) .cine-cover-device { order: 0; }
     .cine-cover-info .cine-case-teaser { max-width: none; }
+    .device-laptop .device-base { margin-inline: -2%; }
   }
   @media (max-width: 480px) {
     .cine-cover { padding: 32px 18px 36px; }
     .device-monitor .device-screen { box-shadow: 0 0 0 6px #131316, 0 0 0 7px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.5); }
     .device-laptop .device-screen { border-width: 6px; }
+  }
+  @media (max-width: 767px) {
+    body[data-active-view="work"] .floating-actions { display: none; }
+    .project-carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 18px 22px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .project-carousel-btn { min-width: 0; flex: 1 1 0; padding-inline: 8px; }
+    .project-carousel-count { min-width: 0; flex: 0 0 56px; }
+    .cine-case-list { touch-action: pan-y; }
+    .cine-case:not(.is-carousel-active) { display: none; }
+    .cine-case.is-carousel-active { animation: projectCardIn 0.38s cubic-bezier(0.22,1,0.36,1) both; }
+    .cine-cover { gap: 24px; }
+    .cine-cover-device { width: calc(100% - 12px); margin: 5px auto 0; }
+    .device-monitor .device-stand,
+    .device-laptop .device-base { display: none; }
+    .device-monitor .device-screen,
+    .device-laptop .device-screen {
+      border: 5px solid #131316;
+      border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 18px 38px rgba(0,0,0,0.48);
+    }
+    .cine-case:hover .cine-device-media { transform: none; }
+    @keyframes projectCardIn {
+      from { opacity: 0; transform: translateX(14px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+  @media (max-width: 360px) {
+    .project-carousel-controls { gap: 5px; padding-inline: 10px; }
+    .project-carousel-btn { min-width: 0; font-size: 0.74rem; padding-inline: 5px; }
+    .project-carousel-count { flex-basis: 48px; font-size: 0.68rem; }
+    .cine-cover { padding-inline: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cine-device-media,
+    .cine-case:hover .cine-device-media,
+    .cine-case.is-carousel-active { transition: none; transform: none; animation: none; }
   }
 
   /* --- Floating dock: distinct GitHub / code / mail buttons --- */
@@ -3430,17 +3502,26 @@
       </p>
     </div>
     <div class="cine-case-list">
-      <article class="cine-case" id="case-gallo" style="border-top:2px solid var(--accent)">
+      <div class="project-carousel-controls" aria-label="Navegación de proyectos">
+        <button type="button" class="project-carousel-btn" data-project-prev>
+          <span aria-hidden="true">←</span><span class="es">Anterior</span><span class="en">Previous</span>
+        </button>
+        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 05</span>
+        <button type="button" class="project-carousel-btn" data-project-next>
+          <span class="es">Siguiente</span><span class="en">Next</span><span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <article class="cine-case is-carousel-active" id="case-heritage" data-project="heritage" style="border-top:2px solid var(--accent)">
         <div class="cine-cover">
           <div class="cine-cover-info">
             <span class="cine-idx">01</span>
             <div class="cine-case-cover-meta">
-              <span class="case-cat">Web · Editorial · UI/UX</span>
+              <span class="case-cat">Real Estate · Web · UI/UX</span>
               <span class="case-status live">Live</span>
             </div>
-            <h2 class="cine-case-title">Gallo Creativo</h2>
-            <p class="cine-case-teaser"><span class="es">Sitio web editorial para un estudio-taller panameño de diseño industrial, mobiliario y espacios a medida.</span><span class="en">Editorial website for a Panamanian design-and-fabrication studio: industrial design, furniture and bespoke spaces.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-gallo-detail" onclick="toggleCase('case-gallo')">
+            <h2 class="cine-case-title">Heritage Real Estate</h2>
+            <p class="cine-case-teaser"><span class="es">Plataforma inmobiliaria premium para descubrir propiedades e inversiones en Panamá con claridad y confianza.</span><span class="en">Premium real-estate platform for discovering properties and investments in Panama with clarity and confidence.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-heritage-detail" onclick="toggleCase('case-heritage')">
               <span class="es">Ver caso completo</span><span class="en">View full case</span>
               <span class="cine-expand-icon" aria-hidden="true">+</span>
             </button>
@@ -3450,207 +3531,49 @@
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true">
                   <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
-                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>heritagerealestatepa.com</span>
                 </div>
-                <video src="./assets/images/gallocreativo_web.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Gallo Creativo — sitio web"></video>
+                <video data-tour-video data-src="./assets/projects/heritage/tour.mp4" poster="./assets/projects/heritage/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Heritage Real Estate — recorrido del sitio actual"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
           </div>
         </div>
-        <div class="cine-case-detail" id="case-gallo-detail">
+        <div class="cine-case-detail" id="case-heritage-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
-              <p class="case-desc">
-                <span class="es">Diseño y desarrollo de un sitio web editorial para Gallo Creativo, estudio-taller panameño especializado en diseño industrial, fabricación de mobiliario y transformación de espacios a medida. La plataforma presenta su identidad, servicios y proyectos mediante una experiencia visual inmersiva, animaciones, portafolio interactivo y navegación bilingüe. También incorpora formularios de contacto, conexión con WhatsApp y un cotizador guiado para facilitar la captación de nuevos clientes.</span>
-                <span class="en">Design and development of an editorial website for Gallo Creativo, a Panamanian design-and-fabrication studio specialized in industrial design, furniture making and bespoke space transformation. The platform presents its identity, services and projects through an immersive visual experience, animations, an interactive portfolio and bilingual navigation. It also includes contact forms, WhatsApp integration and a guided quote tool to help convert new clients.</span>
-              </p>
+              <p class="case-desc"><span class="es">Una plataforma premium que transforma el inventario inmobiliario en una experiencia de descubrimiento y conversación, con catálogo responsive, navegación bilingüe y captura de leads.</span><span class="en">A premium platform that turns real-estate inventory into a discovery and conversation experience, with a responsive catalogue, bilingual navigation and lead capture.</span></p>
               <ul class="case-bullets">
-                <li><span class="es">Experiencia visual inmersiva y animaciones</span><span class="en">Immersive visual experience and animations</span></li>
-                <li><span class="es">Portafolio interactivo de proyectos</span><span class="en">Interactive project portfolio</span></li>
-                <li><span class="es">Navegación bilingüe (ES / EN)</span><span class="en">Bilingual navigation (ES / EN)</span></li>
-                <li><span class="es">Cotizador guiado + contacto y WhatsApp</span><span class="en">Guided quote tool + contact and WhatsApp</span></li>
+                <li><span class="es">Catálogo inmobiliario responsive</span><span class="en">Responsive real-estate catalogue</span></li>
+                <li><span class="es">Experiencia bilingüe y captura de leads</span><span class="en">Bilingual experience and lead capture</span></li>
+                <li><span class="es">Dirección visual enfocada en confianza</span><span class="en">Visual direction focused on trust</span></li>
               </ul>
-              <div class="case-tags">
-                <span class="case-tag">UI/UX</span><span class="case-tag">HTML</span><span class="case-tag">CSS</span><span class="case-tag">JavaScript</span><span class="case-tag">Animation</span><span class="case-tag">Responsive</span>
-              </div>
-              <a href="https://www.gallocreativo.com/" target="_blank" rel="noopener noreferrer" class="case-link">
-                <span class="es">Visitar la web</span><span class="en">Visit the site</span>
-                <span>↗</span>
-              </a>
+              <div class="case-tags"><span class="case-tag">UI/UX</span><span class="case-tag">Responsive</span><span class="case-tag">Bilingual</span><span class="case-tag">Integrations</span></div>
+              <a href="https://heritagerealestatepa.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
             </div>
             <div class="cine-case-detail-side">
-              <div class="case-detail">
-                <span class="case-detail-label">Challenge</span>
-                <span class="case-detail-value"><span class="es">Gallo Creativo necesitaba una presencia web que reflejara la calidad de su diseño y fabricación, mostrara sus proyectos y convirtiera visitantes en clientes.</span><span class="en">Gallo Creativo needed a web presence that reflected the quality of its design and fabrication work, showcased its projects and turned visitors into clients.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Solution</span>
-                <span class="case-detail-value"><span class="es">Sitio editorial a medida con experiencia inmersiva, portafolio interactivo, navegación bilingüe y un cotizador guiado conectado a contacto y WhatsApp.</span><span class="en">Custom editorial site with an immersive experience, interactive portfolio, bilingual navigation and a guided quote tool wired to contact and WhatsApp.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Status</span>
-                <span class="case-detail-value"><span class="es">Sitio live en gallocreativo.com.</span><span class="en">Live at gallocreativo.com.</span></span>
-              </div>
+              <div class="case-detail"><span class="case-detail-label">Challenge</span><span class="case-detail-value"><span class="es">Presentar proyectos para invertir y vivir sin perder claridad entre múltiples propiedades.</span><span class="en">Present investment and residential projects without losing clarity across multiple properties.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Solution</span><span class="case-detail-value"><span class="es">Arquitectura de catálogo, dirección visual premium e integraciones de conversión.</span><span class="en">Catalogue architecture, premium visual direction and conversion integrations.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Status</span><span class="case-detail-value"><span class="es">Sitio live en heritagerealestatepa.com.</span><span class="en">Live at heritagerealestatepa.com.</span></span></div>
             </div>
           </div>
         </div>
       </article>
-      <article class="cine-case" id="case-autopro">
+
+      <article class="cine-case" id="case-sommelier" data-project="sommelier">
         <div class="cine-cover">
           <div class="cine-cover-info">
             <span class="cine-idx">02</span>
-            <div class="cine-case-cover-meta">
-              <span class="case-cat">SaaS · Web App</span>
-              <span class="case-status" style="background:rgba(217,119,6,.15);color:#f59e0b;border-color:rgba(217,119,6,.5)"><span class="es">En desarrollo</span><span class="en">In development</span></span>
-            </div>
-            <h2 class="cine-case-title">AutoPro</h2>
-            <p class="cine-case-teaser"><span class="es">Sistema SaaS completo para la gestión integral de talleres mecánicos.</span><span class="en">Full SaaS system for end-to-end auto repair shop management.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-autopro-detail" onclick="toggleCase('case-autopro')">
-              <span class="es">Ver caso completo</span><span class="en">View full case</span>
-              <span class="cine-expand-icon" aria-hidden="true">+</span>
-            </button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-monitor">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true">
-                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
-                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 8 11 12 7 16"/><line x1="13" y1="16" x2="17" y2="16"/></svg>autopro · en desarrollo</span>
-                </div>
-                <video src="./assets/images/proyecto_SaaS_autopro.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="AutoPro — dashboard de gestión de talleres"></video>
-              </div>
-              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-autopro-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc">
-                <span class="es">Plataforma SaaS para digitalizar la operación completa de talleres mecánicos: órdenes de trabajo, inventario de piezas, gestión de clientes y vehículos, técnicos y facturación — todo en un solo sistema integrado.</span>
-                <span class="en">SaaS platform to digitize the full operation of auto repair shops: work orders, parts inventory, client and vehicle management, technicians and billing — all in one integrated system.</span>
-              </p>
-              <ul class="case-bullets">
-                <li><span class="es">Gestión de órdenes de trabajo</span><span class="en">Work order management</span></li>
-                <li><span class="es">Inventario de piezas en tiempo real</span><span class="en">Real-time parts inventory</span></li>
-                <li><span class="es">CRM de clientes y vehículos</span><span class="en">Client and vehicle CRM</span></li>
-                <li><span class="es">Facturación y reportes operativos</span><span class="en">Billing and operational reports</span></li>
-              </ul>
-              <div class="case-tags">
-                <span class="case-tag">Python</span><span class="case-tag">FastAPI</span><span class="case-tag">PostgreSQL</span><span class="case-tag">React</span><span class="case-tag">SaaS</span>
-              </div>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail">
-                <span class="case-detail-label">Challenge</span>
-                <span class="case-detail-value"><span class="es">Los talleres mecánicos operan con procesos manuales y herramientas desconectadas: hojas de cálculo, WhatsApp y cuadernos para gestionar órdenes, stock e historial de clientes.</span><span class="en">Auto repair shops run on manual processes and disconnected tools: spreadsheets, WhatsApp and notebooks to manage work orders, stock and customer history.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Solution</span>
-                <span class="case-detail-value"><span class="es">Sistema modular con flujos de trabajo integrados: recepción de vehículos, gestión de órdenes, control de inventario y emisión de facturas desde una sola plataforma.</span><span class="en">Modular system with integrated workflows: vehicle intake, order management, inventory control and invoice generation from a single platform.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Status</span>
-                <span class="case-detail-value"><span class="es">MVP en desarrollo activo. En proceso de validación con talleres mecánicos reales.</span><span class="en">MVP in active development. Currently validating with real auto repair shops.</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-      <article class="cine-case" id="case-sales">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">03</span>
-            <div class="cine-case-cover-meta">
-              <span class="case-cat">Data · Business Intelligence</span>
-              <span class="case-status live">Live</span>
-            </div>
-            <h2 class="cine-case-title">Sales Intelligence Dashboard</h2>
-            <p class="cine-case-teaser"><span class="es">Reporting comercial centralizado: KPIs, segmentación y análisis en una sola vista.</span><span class="en">Centralized commercial reporting: KPIs, segmentation and analysis in one view.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sales-detail" onclick="toggleCase('case-sales')">
-              <span class="es">Ver caso completo</span><span class="en">View full case</span>
-              <span class="cine-expand-icon" aria-hidden="true">+</span>
-            </button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-monitor">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true">
-                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
-                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ron-cana-analytics.streamlit.app</span>
-                </div>
-                <video src="./assets/images/ca%C3%B1apty.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Sales Intelligence Dashboard — reporting comercial en Power BI"></video>
-              </div>
-              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-sales-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc">
-                <span class="es">Centralización de reporting comercial: KPI tracking, segmentación de ventas e insights accionables en una sola vista ejecutiva.</span>
-                <span class="en">Centralized commercial reporting: KPI tracking, sales segmentation, and actionable insights in a single executive view.</span>
-              </p>
-              <ul class="case-bullets">
-                <li><span class="es">4 KPIs ejecutivos</span><span class="en">4 executive KPIs</span></li>
-                <li><span class="es">Segmentación B2B / B2C</span><span class="en">B2B / B2C segmentation</span></li>
-                <li><span class="es">Insights accionables</span><span class="en">Actionable insights</span></li>
-                <li><span class="es">Modelo de análisis escalable</span><span class="en">Scalable analytics model</span></li>
-              </ul>
-              <div class="case-tags">
-                <span class="case-tag">Python</span>
-                <span class="case-tag">SQL</span>
-                <span class="case-tag">Power BI</span>
-                <span class="case-tag">DAX</span>
-                <span class="case-tag">Data Modeling</span>
-              </div>
-              <div class="case-links">
-                <a href="https://github.com/RodCode088/ron-cana-analytics" target="_blank" class="case-link"><span class="es">Ver código</span><span class="en">View code</span> ↗</a>
-                <a href="https://ron-cana-analytics-sn4ycdsnuse6vw2o7rryxw.streamlit.app/" target="_blank" class="case-link live"><span class="es">Demo interactiva</span><span class="en">Interactive demo</span></a>
-              </div>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail">
-                <span class="case-detail-label">Challenge</span>
-                <span class="case-detail-value"><span class="es">Datos comerciales dispersos en hojas y reportes manuales. Sin vista única, las decisiones quedaban a merced del archivo más reciente.</span><span class="en">Commercial data scattered across sheets and manual reports. Without a single view, decisions hung on the most recent file.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Solution</span>
-                <span class="case-detail-value"><span class="es">Modelo de datos limpio en Power BI: KPIs ejecutivos arriba, desglose temporal, por canal y geografía debajo.</span><span class="en">Clean Power BI data model: executive KPIs at top, temporal/channel/geography breakdown below.</span></span>
-              </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Impact</span>
-                <span class="case-detail-value"><span class="es">El equipo dejó de armar el reporte semanal a mano. Un dashboard que se actualiza solo, con cruces de estacionalidad, mix premium y ROI de campañas.</span><span class="en">The team stopped building the weekly report by hand. One dashboard that updates itself, with seasonality cross-views, premium mix, and campaign ROI.</span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-      <article class="cine-case" id="case-sommelier">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">04</span>
-            <div class="cine-case-cover-meta">
-              <span class="case-cat">Web · Branding</span>
-              <span class="case-status live">Live</span>
-            </div>
+            <div class="cine-case-cover-meta"><span class="case-cat">Hospitality · Branding · Web</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">Sommelier Nómada</h2>
             <p class="cine-case-teaser"><span class="es">Identidad y web premium para un sommelier profesional en Panamá.</span><span class="en">Premium identity and website for a professional sommelier in Panama.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sommelier-detail" onclick="toggleCase('case-sommelier')">
-              <span class="es">Ver caso completo</span><span class="en">View full case</span>
-              <span class="cine-expand-icon" aria-hidden="true">+</span>
-            </button>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sommelier-detail" onclick="toggleCase('case-sommelier')"><span class="es">Ver caso completo</span><span class="en">View full case</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
           </div>
           <div class="cine-cover-device">
             <div class="device device-laptop">
               <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true">
-                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
-                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>neon-biscotti-23fa9c.netlify.app</span>
-                </div>
-                <video src="./assets/images/sommelier%20N%C3%B3mada.mp4" autoplay loop muted playsinline class="cine-device-media" aria-label="Sommelier Nómada — sitio web premium"></video>
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>sommeliernomada.com</span></div>
+                <video data-tour-video data-src="./assets/projects/sommelier/tour.mp4" poster="./assets/projects/sommelier/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Sommelier Nómada — recorrido del sitio actual"></video>
               </div>
               <div class="device-base"></div>
             </div>
@@ -3659,35 +3582,122 @@
         <div class="cine-case-detail" id="case-sommelier-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
-              <p class="case-desc">
-                <span class="es">Identidad y web premium para Nelvin, sommelier profesional y bartender certificado en Panamá. Lleva experiencias de vino y coctelería de autor a casa de sus clientes, sin barras fijas ni protocolos rígidos.</span>
-                <span class="en">Premium identity and website for Nelvin, a professional sommelier and certified bartender in Panama. He brings wine and signature cocktail experiences to clients’ homes, without fixed bars or rigid protocols.</span>
-              </p>
-              <div class="case-tags">
-                <span class="case-tag">HTML</span>
-                <span class="case-tag">CSS</span>
-                <span class="case-tag">JavaScript</span>
-                <span class="case-tag">Web Design</span>
-                <span class="case-tag">Branding</span>
-              </div>
-              <a href="https://neon-biscotti-23fa9c.netlify.app/" target="_blank" rel="noopener" class="case-link">
-                <span class="es">Visitar la web</span><span class="en">Visit the site</span>
-                <span>↗</span>
-              </a>
+              <p class="case-desc"><span class="es">Identidad y web premium para Nelvin, sommelier profesional y bartender certificado en Panamá. Lleva experiencias de vino y coctelería de autor a casa de sus clientes, sin barras fijas ni protocolos rígidos.</span><span class="en">Premium identity and website for Nelvin, a professional sommelier and certified bartender in Panama. He brings wine and signature cocktail experiences to clients’ homes, without fixed bars or rigid protocols.</span></p>
+              <div class="case-tags"><span class="case-tag">HTML</span><span class="case-tag">CSS</span><span class="case-tag">JavaScript</span><span class="case-tag">Web Design</span><span class="case-tag">Branding</span></div>
+              <a href="https://sommeliernomada.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
             </div>
             <div class="cine-case-detail-side">
-              <div class="case-detail">
-                <span class="case-detail-label">Challenge</span>
-                <span class="case-detail-value"><span class="es">Posicionar a Nelvin como marca premium fuera del modelo tradicional. La web debía comunicar narrativa y ritual, no solo listar servicios.</span><span class="en">Position Nelvin as a premium brand outside the traditional model. The site had to communicate narrative and ritual, not just list services.</span></span>
+              <div class="case-detail"><span class="case-detail-label">Challenge</span><span class="case-detail-value"><span class="es">Posicionar a Nelvin como marca premium fuera del modelo tradicional y comunicar narrativa, no solo servicios.</span><span class="en">Position Nelvin as a premium brand outside the traditional model and communicate a narrative, not only services.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Solution</span><span class="case-detail-value"><span class="es">Paleta vino + dorado, tipografía editorial y una estructura clara para manifiesto, servicios, credenciales y reservas.</span><span class="en">Wine and gold palette, editorial typography and a clear structure for manifesto, services, credentials and bookings.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Status</span><span class="case-detail-value"><span class="es">Sitio live en sommeliernomada.com.</span><span class="en">Live at sommeliernomada.com.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-gallo" data-project="gallo">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">03</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Web · Editorial · UI/UX</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Gallo Creativo</h2>
+            <p class="cine-case-teaser"><span class="es">Sitio web editorial para un estudio-taller panameño de diseño industrial, mobiliario y espacios a medida.</span><span class="en">Editorial website for a Panamanian design-and-fabrication studio: industrial design, furniture and bespoke spaces.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-gallo-detail" onclick="toggleCase('case-gallo')"><span class="es">Ver caso completo</span><span class="en">View full case</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span></div>
+                <video data-tour-video data-src="./assets/projects/gallo/tour.mp4" poster="./assets/projects/gallo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Gallo Creativo — recorrido del sitio actual"></video>
               </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Solution</span>
-                <span class="case-detail-value"><span class="es">Paleta vino + dorado, tipografía editorial italic y copy centrado en el ritual. Estructura clara: manifiesto, servicios, credenciales y reservas.</span><span class="en">Wine + gold palette, editorial italic typography, copy centered on the ritual. Clean structure: manifesto, services, credentials, bookings.</span></span>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-gallo-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Diseño y desarrollo de un sitio web editorial para Gallo Creativo, estudio-taller panameño especializado en diseño industrial, fabricación de mobiliario y transformación de espacios a medida.</span><span class="en">Design and development of an editorial website for Gallo Creativo, a Panamanian studio specialized in industrial design, furniture making and bespoke spaces.</span></p>
+              <ul class="case-bullets"><li><span class="es">Experiencia visual inmersiva y animaciones</span><span class="en">Immersive visual experience and animations</span></li><li><span class="es">Portafolio interactivo de proyectos</span><span class="en">Interactive project portfolio</span></li><li><span class="es">Navegación bilingüe y cotizador guiado</span><span class="en">Bilingual navigation and guided quote tool</span></li></ul>
+              <div class="case-tags"><span class="case-tag">UI/UX</span><span class="case-tag">HTML</span><span class="case-tag">CSS</span><span class="case-tag">JavaScript</span><span class="case-tag">Animation</span><span class="case-tag">Responsive</span></div>
+              <a href="https://gallocreativo.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label">Challenge</span><span class="case-detail-value"><span class="es">Reflejar la calidad del diseño y la fabricación, mostrar proyectos y convertir visitantes en clientes.</span><span class="en">Reflect the quality of its design and fabrication, showcase projects and turn visitors into clients.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Solution</span><span class="case-detail-value"><span class="es">Sitio editorial a medida, portafolio interactivo, navegación bilingüe y cotizador conectado a WhatsApp.</span><span class="en">Custom editorial site, interactive portfolio, bilingual navigation and a quote tool connected to WhatsApp.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Status</span><span class="case-detail-value"><span class="es">Sitio live en gallocreativo.com.</span><span class="en">Live at gallocreativo.com.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-dcars" data-project="dcars">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">04</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Automotive · Services · Web</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Taller D’Cars</h2>
+            <p class="cine-case-teaser"><span class="es">Sitio comercial que organiza un servicio técnico complejo y guía al cliente hacia el diagnóstico correcto.</span><span class="en">Commercial website that organizes a complex technical service and guides customers toward the right diagnosis.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-dcars-detail" onclick="toggleCase('case-dcars')"><span class="es">Ver caso completo</span><span class="en">View full case</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-laptop">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>tallerdcars.com</span></div>
+                <video data-tour-video data-src="./assets/projects/dcars/tour.mp4" poster="./assets/projects/dcars/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Taller D’Cars — recorrido del sitio actual"></video>
               </div>
-              <div class="case-detail">
-                <span class="case-detail-label">Impact</span>
-                <span class="case-detail-value"><span class="es">La web está live desde el primer día. Nelvin ya no tiene que explicar qué hace: la página lo cuenta por él.</span><span class="en">The site has been live since day one. Nelvin no longer has to explain what he does — the page does it for him.</span></span>
+              <div class="device-base"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-dcars-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Una experiencia comercial que presenta servicios, transmisiones y rutas de diagnóstico de forma clara, reduciendo fricción antes del contacto.</span><span class="en">A commercial experience that presents services, transmissions and diagnostic paths clearly, reducing friction before contact.</span></p>
+              <ul class="case-bullets"><li><span class="es">Catálogo de servicios y transmisiones</span><span class="en">Services and transmissions catalogue</span></li><li><span class="es">Orientador de diagnóstico</span><span class="en">Diagnostic guide</span></li><li><span class="es">Formularios y contacto por WhatsApp</span><span class="en">Forms and WhatsApp contact</span></li></ul>
+              <div class="case-tags"><span class="case-tag">Architecture</span><span class="case-tag">UI/UX</span><span class="case-tag">Automation</span><span class="case-tag">Responsive</span></div>
+              <a href="https://tallerdcars.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label">Challenge</span><span class="case-detail-value"><span class="es">Convertir un servicio técnico complejo en una ruta comprensible para clientes no especializados.</span><span class="en">Turn a complex technical service into a clear path for non-specialist customers.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Solution</span><span class="case-detail-value"><span class="es">Arquitectura comercial con catálogo, orientación, formularios y automatización del contacto.</span><span class="en">Commercial architecture with catalogue, guidance, forms and contact automation.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Status</span><span class="case-detail-value"><span class="es">Sitio live en tallerdcars.com.</span><span class="en">Live at tallerdcars.com.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-mono-solo" data-project="mono-solo">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">05</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Travel · Product · Web</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Mono Solo Travel</h2>
+            <p class="cine-case-teaser"><span class="es">Catálogo actualizado de experiencias que acerca descubrir Panamá a reservar el próximo viaje.</span><span class="en">Updated experience catalogue that shortens the distance between discovering Panama and booking the next trip.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-mono-solo-detail" onclick="toggleCase('case-mono-solo')"><span class="es">Ver caso completo</span><span class="en">View full case</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>monosolotravel.com</span></div>
+                <video data-tour-video data-src="./assets/projects/mono-solo/tour.mp4" poster="./assets/projects/mono-solo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Mono Solo Travel — recorrido de su diseño actual"></video>
               </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-mono-solo-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">El diseño actual organiza experiencias turísticas de Panamá y facilita el paso desde la exploración del catálogo hasta la reserva y su confirmación.</span><span class="en">The current design organizes Panama travel experiences and makes it easier to move from catalogue exploration to booking and confirmation.</span></p>
+              <ul class="case-bullets"><li><span class="es">Catálogo de experiencias actualizado</span><span class="en">Updated experiences catalogue</span></li><li><span class="es">Flujo de reserva y confirmación</span><span class="en">Booking and confirmation flow</span></li><li><span class="es">Experiencia responsive orientada a conversión</span><span class="en">Conversion-focused responsive experience</span></li></ul>
+              <div class="case-tags"><span class="case-tag">Product Design</span><span class="case-tag">UI/UX</span><span class="case-tag">Data</span><span class="case-tag">Responsive</span></div>
+              <a href="https://monosolotravel.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label">Challenge</span><span class="case-detail-value"><span class="es">Organizar una oferta diversa de tours sin perder claridad ni impulso de reserva.</span><span class="en">Organize a diverse tour offering without losing clarity or booking momentum.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Solution</span><span class="case-detail-value"><span class="es">Diseño de producto basado en catálogo, reserva, confirmación y una presentación visual actualizada.</span><span class="en">Product design built around catalogue, booking, confirmation and an updated visual presentation.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label">Status</span><span class="case-detail-value"><span class="es">Diseño actual live en monosolotravel.com.</span><span class="en">Current design live at monosolotravel.com.</span></span></div>
             </div>
           </div>
         </div>
@@ -4034,6 +4044,180 @@
     });
   })();
 
+  // Project media: mobile carousel + a single visible video at a time.
+  (function() {
+    var workView = document.querySelector('main .view[data-view="work"]');
+    if (!workView) return;
+
+    var list = workView.querySelector('.cine-case-list');
+    var cards = Array.prototype.slice.call(workView.querySelectorAll('.cine-case'));
+    var videos = Array.prototype.slice.call(workView.querySelectorAll('video[data-tour-video]'));
+    var previousButton = workView.querySelector('[data-project-prev]');
+    var nextButton = workView.querySelector('[data-project-next]');
+    var counter = workView.querySelector('[data-project-count]');
+    var mobileQuery = window.matchMedia('(max-width: 767px)');
+    var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var activeIndex = 0;
+    var currentVideo = null;
+    var syncFrame = 0;
+    var playToken = 0;
+
+    videos.forEach(function(video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'none';
+    });
+
+    function twoDigits(value) {
+      return String(value).padStart(2, '0');
+    }
+
+    function pauseAll(except) {
+      videos.forEach(function(video) {
+        if (video !== except && !video.paused) video.pause();
+      });
+    }
+
+    function visibleRatio(video) {
+      if (video.offsetParent === null || !workView.classList.contains('active')) return 0;
+      if (mobileQuery.matches && !video.closest('.cine-case').classList.contains('is-carousel-active')) return 0;
+      var rect = video.getBoundingClientRect();
+      var visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      var visibleWidth = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+      if (!rect.height || !rect.width) return 0;
+      return (visibleHeight * visibleWidth) / (rect.height * rect.width);
+    }
+
+    function syncPlayback() {
+      syncFrame = 0;
+      playToken += 1;
+      var token = playToken;
+
+      if (reduceQuery.matches || document.hidden) {
+        currentVideo = null;
+        pauseAll();
+        return;
+      }
+
+      var best = null;
+      var bestRatio = 0;
+      videos.forEach(function(video) {
+        var ratio = visibleRatio(video);
+        if (ratio > bestRatio) {
+          best = video;
+          bestRatio = ratio;
+        }
+      });
+
+      if (!best || bestRatio < 0.38) {
+        currentVideo = null;
+        pauseAll();
+        return;
+      }
+
+      currentVideo = best;
+      pauseAll(best);
+      if (!best.getAttribute('src')) {
+        best.preload = 'auto';
+        best.src = best.dataset.src;
+        best.load();
+      }
+      var playPromise = best.play();
+      if (playPromise && typeof playPromise.then === 'function') {
+        playPromise.then(function() {
+          if (token !== playToken || currentVideo !== best) best.pause();
+        }).catch(function() {});
+      }
+    }
+
+    function requestSync() {
+      if (syncFrame) return;
+      syncFrame = requestAnimationFrame(syncPlayback);
+    }
+
+    function updateCarousel() {
+      cards.forEach(function(card, index) {
+        var active = index === activeIndex;
+        card.classList.toggle('is-carousel-active', active);
+        if (mobileQuery.matches) {
+          card.setAttribute('aria-hidden', active ? 'false' : 'true');
+          if ('inert' in card) card.inert = !active;
+        } else {
+          card.removeAttribute('aria-hidden');
+          if ('inert' in card) card.inert = false;
+        }
+      });
+      if (counter) counter.textContent = twoDigits(activeIndex + 1) + ' / ' + twoDigits(cards.length);
+      if (previousButton) previousButton.disabled = activeIndex === 0;
+      if (nextButton) nextButton.disabled = activeIndex === cards.length - 1;
+      requestSync();
+      if (window.__spine) setTimeout(window.__spine, 80);
+      if (window.ScrollTrigger) setTimeout(function() { window.ScrollTrigger.refresh(); }, 80);
+    }
+
+    function goToProject(index) {
+      var nextIndex = Math.max(0, Math.min(cards.length - 1, index));
+      if (nextIndex === activeIndex) return;
+      playToken += 1;
+      currentVideo = null;
+      pauseAll();
+      var openCard = cards[activeIndex];
+      if (openCard && openCard.classList.contains('is-open')) {
+        openCard.classList.remove('is-open');
+        var toggle = openCard.querySelector('.cine-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      }
+      activeIndex = nextIndex;
+      updateCarousel();
+    }
+
+    if (previousButton) previousButton.addEventListener('click', function() { goToProject(activeIndex - 1); });
+    if (nextButton) nextButton.addEventListener('click', function() { goToProject(activeIndex + 1); });
+
+    var swipeStartX = 0;
+    var swipeStartY = 0;
+    var swipePointer = null;
+    if (list) {
+      list.addEventListener('pointerdown', function(event) {
+        if (!mobileQuery.matches || !event.isPrimary) return;
+        swipePointer = event.pointerId;
+        swipeStartX = event.clientX;
+        swipeStartY = event.clientY;
+      });
+      list.addEventListener('pointerup', function(event) {
+        if (!mobileQuery.matches || event.pointerId !== swipePointer) return;
+        var deltaX = event.clientX - swipeStartX;
+        var deltaY = event.clientY - swipeStartY;
+        swipePointer = null;
+        if (Math.abs(deltaX) < 52 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+        goToProject(activeIndex + (deltaX < 0 ? 1 : -1));
+      });
+      list.addEventListener('pointercancel', function() { swipePointer = null; });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var mediaObserver = new IntersectionObserver(requestSync, {
+        threshold: [0, 0.2, 0.38, 0.55, 0.75, 1]
+      });
+      videos.forEach(function(video) { mediaObserver.observe(video); });
+    } else {
+      window.addEventListener('scroll', requestSync, { passive: true });
+    }
+
+    var classObserver = new MutationObserver(requestSync);
+    classObserver.observe(workView, { attributes: true, attributeFilter: ['class'], subtree: true });
+    window.addEventListener('resize', requestSync, { passive: true });
+    document.addEventListener('visibilitychange', requestSync);
+    if (mobileQuery.addEventListener) mobileQuery.addEventListener('change', updateCarousel);
+    else mobileQuery.addListener(updateCarousel);
+    if (reduceQuery.addEventListener) reduceQuery.addEventListener('change', requestSync);
+    else reduceQuery.addListener(requestSync);
+
+    updateCarousel();
+  })();
+
   (function() {
     const views = ['home', 'work', 'contact'];
 
@@ -4049,6 +4233,7 @@
     function showView(viewId, push) {
       if (push === undefined) push = true;
       if (!views.includes(viewId)) viewId = 'home';
+      document.body.setAttribute('data-active-view', viewId);
 
       const current = document.querySelector('main .view.active');
       const target = document.querySelector('main .view[data-view="' + viewId + '"]');
@@ -4303,9 +4488,11 @@
     }
 
     // ----- Animation: Cine cases -----
-    gsap.utils.toArray('.cine-case').forEach(function(card, i) {
-      gsap.from(card, { opacity: 0, y: 40, duration: 0.85, ease: 'power2.out', delay: i * 0.06, scrollTrigger: { trigger: card, start: 'top 82%', once: true } });
-    });
+    if (!window.matchMedia('(max-width: 767px)').matches) {
+      gsap.utils.toArray('.cine-case').forEach(function(card, i) {
+        gsap.from(card, { opacity: 0, y: 40, duration: 0.85, ease: 'power2.out', delay: i * 0.06, scrollTrigger: { trigger: card, start: 'top 82%', once: true } });
+      });
+    }
 
     // ----- Animation: Process timeline -----
     gsap.from('.process-tl-step', { opacity: 0, y: 22, duration: 0.6, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: '.process-timeline-steps', start: 'top 80%', once: true } });
@@ -4788,7 +4975,7 @@
     // Anchor points per view, top to bottom — the "things" the line connects.
     var ANCHORS = {
       home: ['.hero h1', '.hero-ctas', '.about-title', '.stack-strip-head', '.home-cases-link'],
-      work: ['.page-title', '#case-gallo .cine-cover-info', '#case-autopro .cine-cover-info', '#case-sales .cine-cover-info', '#case-sommelier .cine-cover-info'],
+      work: ['.page-title', '#case-heritage .cine-cover-info', '#case-sommelier .cine-cover-info', '#case-gallo .cine-cover-info', '#case-dcars .cine-cover-info', '#case-mono-solo .cine-cover-info'],
       'services-archive': ['.page-title', '.services-grid', '.process-timeline-head'],
       contact: ['.contact-form-head', '.contact-contexts', '.contact-links']
     };
