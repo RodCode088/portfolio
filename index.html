@@ -409,6 +409,7 @@
     border-radius: 0;
     color: var(--text-muted);
   }
+  body[data-active-view="work"] .cursor-spotlight { display: none; }
   .hero-tag .mono {
     color: var(--text-muted) !important;
     text-transform: none;
@@ -2932,39 +2933,6 @@
     margin: 8px 0 0;
   }
 
-  /* --- Page spine: one neon connector that runs down the whole page and
-     links each view's key points. Drawn/animated from JS (see __spine). Sits
-     behind content, never intercepts clicks. --- */
-  #page-spine {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: visible;
-  }
-  #page-spine path {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  #page-spine .spine-line {
-    stroke: rgba(200,131,74,0.34);
-    stroke-width: 1.6;
-    filter: drop-shadow(0 0 3px rgba(200,131,74,0.28));
-  }
-  #page-spine .spine-comet {
-    stroke: var(--accent);
-    stroke-width: 2.6;
-    filter:
-      drop-shadow(0 0 4px rgba(200,131,74,0.88))
-      drop-shadow(0 0 10px rgba(200,131,74,0.48));
-  }
-  @media (prefers-reduced-motion: reduce) {
-    #page-spine .spine-comet { display: none; }
-  }
-
   /* --- Stack: real monochrome marks per technology --- */
   .stack-pill {
     display: inline-flex;
@@ -3039,28 +3007,22 @@
   /* --- Project showcase: real media inside CSS device frames --- */
   .cine-case-list { gap: 0; }
   .cine-case {
-    background: transparent;
+    position: relative;
+    isolation: isolate;
+    background: radial-gradient(ellipse 72% 115% at 0% 50%, rgba(217,119,6,0.075), transparent 68%);
     border: 0;
     border-radius: 0;
     box-shadow: none;
     border-top: 1px solid var(--border);
     overflow: visible;
   }
+  .cine-case:nth-of-type(even) {
+    background: radial-gradient(ellipse 72% 115% at 100% 50%, rgba(217,119,6,0.075), transparent 68%);
+  }
   .cine-case:first-child { border-top: 0; }
   .cine-case:hover { border-color: var(--border); box-shadow: none; }
   .cine-case.is-featured {
-    position: relative;
     border-top: 2px solid var(--accent);
-    background: linear-gradient(135deg, rgba(217,119,6,0.065), transparent 48%);
-  }
-  .cine-case.is-featured::before {
-    content: '';
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 1px;
-    background: linear-gradient(180deg, var(--accent), transparent 70%);
-    opacity: 0.65;
-    pointer-events: none;
   }
   .cine-case.is-featured .cine-cover {
     grid-template-columns: 0.78fr 1.32fr;
@@ -3251,6 +3213,12 @@
       to { opacity: 1; transform: none; }
     }
   }
+  @media (min-width: 768px) {
+    .cine-case {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 720px;
+    }
+  }
   @media (max-width: 360px) {
     .project-carousel-controls { gap: 5px; padding-inline: 10px; }
     .project-carousel-btn { min-width: 0; font-size: 0.74rem; padding-inline: 5px; }
@@ -3338,8 +3306,6 @@
   <span class="pl-label"><span class="es">Cargando</span><span class="en">Loading</span></span>
   <span class="pl-bar"><i></i></span>
 </div>
-
-<svg id="page-spine" aria-hidden="true"><path class="spine-line"></path><path class="spine-comet"></path></svg>
 
 <nav>
   <div class="nav-inner">
@@ -3570,7 +3536,7 @@
         <button type="button" class="project-carousel-btn" data-project-prev>
           <span aria-hidden="true">←</span><span class="es">Anterior</span><span class="en">Previous</span>
         </button>
-        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 03</span>
+        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 07</span>
         <button type="button" class="project-carousel-btn" data-project-next>
           <span class="es">Siguiente</span><span class="en">Next</span><span aria-hidden="true">→</span>
         </button>
@@ -3725,6 +3691,201 @@
         </div>
       </article>
 
+
+      <article class="cine-case" id="case-sommelier" data-project="sommelier">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">04</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Lead capture · Cloudflare</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Sommelier Nómada</h2>
+            <p class="cine-case-teaser"><span class="es">Sitio de servicios y reservas para convertir una marca personal de hospitalidad en solicitudes calificadas.</span><span class="en">Services and booking website that turns a hospitality personal brand into qualified enquiries.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sommelier-detail" onclick="toggleCase('case-sommelier')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-laptop">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>sommeliernomada.com</span></div>
+                <video data-tour-video data-src="./assets/projects/sommelier/tour.mp4?v=30fps" poster="./assets/projects/sommelier/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Sommelier Nómada — recorrido del sitio actual"></video>
+              </div>
+              <div class="device-base"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-sommelier-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Sommelier Nómada es el sitio de servicios y reservas de Nelvin, sommelier profesional y bartender certificado. La experiencia organiza catas, eventos, coctelería y asesorías en una ruta clara desde el descubrimiento hasta la solicitud.</span><span class="en">Sommelier Nómada is the services and booking website for Nelvin, a professional sommelier and certified bartender. It organizes tastings, events, cocktails and consulting into a clear path from discovery to enquiry.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Servicios renderizados desde un módulo de contenido reutilizable</span><span class="en">Services rendered from a reusable content module</span></li>
+                <li><span class="es">Asistente guiado para recomendar experiencias y preparar la solicitud</span><span class="en">Guided assistant that recommends experiences and prepares the enquiry</span></li>
+                <li><span class="es">Formularios asíncronos, validación y continuidad por WhatsApp</span><span class="en">Async forms, validation and WhatsApp continuation</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">services-data.js · Component-like renderers · IntersectionObserver</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">FormSubmit AJAX · WhatsApp · sessionStorage</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Infraestructura</span><span class="en">Infrastructure</span></span><span class="case-tech-value">Cloudflare · Cloudflare Web Analytics</span></div>
+                </div>
+              </div>
+              <a href="https://sommeliernomada.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Sitio de servicios, posicionamiento y captación para una marca personal de hospitalidad.</span><span class="en">Services, positioning and lead-generation website for a hospitality personal brand.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Estrategia de contenido, identidad digital, UX/UI y desarrollo frontend.</span><span class="en">Content strategy, digital identity, UX/UI and frontend development.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Sistema de servicios data-driven, asistente de recomendación y flujo de reserva con fallback a WhatsApp.</span><span class="en">Data-driven services system, recommendation assistant and a booking flow with WhatsApp fallback.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-ron-cana" data-project="ron-cana">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">05</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Python · Power BI · Streamlit</span><span class="case-status beta"><span class="es">Caso de datos</span><span class="en">Data case</span></span></div>
+            <h2 class="cine-case-title">Ron Caña Analytics</h2>
+            <p class="cine-case-teaser"><span class="es">Caso end-to-end de business intelligence con generación de datos, modelo dimensional, análisis y dashboard ejecutivo.</span><span class="en">End-to-end business-intelligence case with data generation, dimensional modelling, analysis and an executive dashboard.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-ron-cana-detail" onclick="toggleCase('case-ron-cana')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ron-cana-analytics.streamlit.app</span></div>
+                <video data-tour-video data-src="./assets/projects/ron-cana/tour.mp4?v=30fps" poster="./assets/projects/ron-cana/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Ron Caña Analytics — recorrido del dashboard"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-ron-cana-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Ron Caña Analytics es un proyecto completo de datos para una destilería premium: genera 4.234 transacciones reproducibles y transforma productos, clientes, campañas y ventas en indicadores accionables para dirección.</span><span class="en">Ron Caña Analytics is a complete data project for a premium distillery: it generates 4,234 reproducible transactions and turns products, customers, campaigns and sales into actionable management indicators.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Generación reproducible de dimensiones, eventos comerciales y transacciones</span><span class="en">Reproducible generation of dimensions, commercial events and transactions</span></li>
+                <li><span class="es">Análisis de estacionalidad, rentabilidad, mix premium, segmentos y campañas</span><span class="en">Seasonality, profitability, premium-mix, segmentation and campaign analysis</span></li>
+                <li><span class="es">Dashboard Power BI y aplicación Streamlit con filtros interactivos</span><span class="en">Power BI dashboard and Streamlit application with interactive filters</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Data</span><span class="case-tech-value">Python 3.10+ · pandas · NumPy · CSV pipelines</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Business Intelligence</span><span class="case-tech-value">Power BI · DAX · Star schema · KPI modelling</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Analytics</span><span class="case-tech-value">Plotly · Matplotlib · Seaborn · Exploratory analysis</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Aplicación</span><span class="en">Application</span></span><span class="case-tech-value">Streamlit · Cached data loading · Interactive filters · GitHub</span></div>
+                </div>
+              </div>
+              <div class="case-links">
+                <a href="https://github.com/RodCode088/ron-cana-analytics" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Ver código</span><span class="en">View code</span><span>↗</span></a>
+                <a href="https://ron-cana-analytics-sn4ycdsnuse6vw2o7rryxw.streamlit.app/" target="_blank" rel="noopener noreferrer" class="case-link live"><span class="es">Demo Streamlit</span><span class="en">Streamlit demo</span><span>↗</span></a>
+              </div>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Sistema de business intelligence para analizar ventas, margen, clientes, productos y campañas.</span><span class="en">Business-intelligence system for analysing sales, margin, customers, products and campaigns.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Diseño del caso, generación de datos, análisis, modelado dimensional, visualización y aplicación web.</span><span class="en">Case design, data generation, analysis, dimensional modelling, visualisation and web application.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Pipeline reproducible, tablas de hechos y dimensiones, métricas ejecutivas, dashboard Power BI y demo Streamlit.</span><span class="en">Reproducible pipeline, fact and dimension tables, executive metrics, Power BI dashboard and Streamlit demo.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-gallo" data-project="gallo">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">06</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">GSAP · Vanilla JS · Modular UI</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Gallo Creativo</h2>
+            <p class="cine-case-teaser"><span class="es">Portafolio editorial interactivo con casos, motion y un cotizador guiado para proyectos a medida.</span><span class="en">Interactive editorial portfolio with case studies, motion and a guided quote flow for bespoke projects.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-gallo-detail" onclick="toggleCase('case-gallo')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span></div>
+                <video data-tour-video data-src="./assets/projects/gallo/tour.mp4?v=30fps" poster="./assets/projects/gallo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Gallo Creativo — recorrido del sitio actual"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-gallo-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Gallo Creativo es un portafolio editorial para un estudio de diseño industrial, fabricación y transformación de espacios. La interfaz combina casos inmersivos con un cotizador guiado que convierte una idea abierta en un brief accionable.</span><span class="en">Gallo Creativo is an editorial portfolio for an industrial-design, fabrication and space-transformation studio. It combines immersive case studies with a guided quote flow that turns an open idea into an actionable brief.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Sistema de motion con secuencias y animaciones ligadas al scroll</span><span class="en">Motion system with sequences and scroll-linked animation</span></li>
+                <li><span class="es">Panel modular para explorar casos sin abandonar la página</span><span class="en">Modular panel for exploring case studies without leaving the page</span></li>
+                <li><span class="es">Cotizador conversacional con envío web, email y WhatsApp</span><span class="en">Conversational quote flow with web, email and WhatsApp delivery</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Motion</span><span class="case-tech-value">GSAP 3 · ScrollTrigger · Lenis</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">main.js · qbot.js · case-panel.js · localStorage</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">Web3Forms API · WhatsApp · Email · Cloudflare</span></div>
+                </div>
+              </div>
+              <a href="https://gallocreativo.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Portafolio editorial y herramienta de precalificación comercial para proyectos a medida.</span><span class="en">Editorial portfolio and sales pre-qualification tool for bespoke projects.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Dirección visual, arquitectura, UX/UI, motion y desarrollo frontend.</span><span class="en">Visual direction, architecture, UX/UI, motion and frontend development.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Narrativa animada, portafolio modular, panel de casos y cotizador multi-step conectado a canales comerciales.</span><span class="en">Animated narrative, modular portfolio, case-study panel and multi-step quote flow connected to sales channels.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-dcars" data-project="dcars">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">07</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Catalog · Cart state</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Taller D’Cars</h2>
+            <p class="cine-case-teaser"><span class="es">Catálogo técnico-comercial con diagnóstico guiado, selección de sucursal y cotización por WhatsApp.</span><span class="en">Technical sales catalogue with guided diagnostics, branch selection and WhatsApp quotations.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-dcars-detail" onclick="toggleCase('case-dcars')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-laptop">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>tallerdcars.com</span></div>
+                <video data-tour-video data-src="./assets/projects/dcars/tour.mp4?v=30fps" poster="./assets/projects/dcars/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Taller D’Cars — recorrido del sitio actual"></video>
+              </div>
+              <div class="device-base"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-dcars-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Taller D’Cars es un catálogo técnico-comercial para diagnóstico y soluciones de transmisiones automáticas. El producto traduce inventario, síntomas y servicios especializados a una experiencia comprensible para clientes no técnicos.</span><span class="en">Taller D’Cars is a technical sales catalogue for automatic-transmission diagnostics and solutions. It translates inventory, symptoms and specialist services into an experience non-technical customers can understand.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Catálogo generado desde datos de productos, servicios y sucursales</span><span class="en">Catalogue generated from product, service and branch data</span></li>
+                <li><span class="es">Carrito de cotización persistente y resumen por sucursal</span><span class="en">Persistent quote cart and branch-specific summary</span></li>
+                <li><span class="es">Diagnóstico guiado con salida directa a WhatsApp y Maps</span><span class="en">Guided diagnostics with direct WhatsApp and Maps handoff</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">site-data.js · cart.js · app.js · Data-driven rendering</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Estado</span><span class="en">State</span></span><span class="case-tech-value">localStorage · sessionStorage · URLSearchParams</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">WhatsApp API links · Google Maps · Email · Cloudflare</span></div>
+                </div>
+              </div>
+              <a href="https://tallerdcars.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Catálogo de servicios y repuestos con diagnóstico, cotización y enrutamiento por sucursal.</span><span class="en">Services and parts catalogue with diagnostics, quoting and branch routing.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Arquitectura de producto, UX/UI, modelado del catálogo y desarrollo frontend.</span><span class="en">Product architecture, UX/UI, catalogue modelling and frontend development.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Modelo de datos comercial, buscador y filtros, carrito persistente, fichas de producto y handoff a WhatsApp.</span><span class="en">Commercial data model, search and filters, persistent cart, product pages and WhatsApp handoff.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
 
     </div>
   </div>
@@ -4045,7 +4206,6 @@
       }, 100);
     }
     // Page height changed → redraw the connector once the expand settles.
-    if (window.__spine) setTimeout(window.__spine, 640);
   }
   window.toggleCase = toggleCase;
 
@@ -4111,7 +4271,7 @@
     if (!workView) return;
 
     var list = workView.querySelector('.cine-case-list');
-    var projectPriority = ['mono-solo', 'alabark-os', 'heritage'];
+    var projectPriority = ['mono-solo', 'alabark-os', 'heritage', 'sommelier', 'ron-cana', 'gallo', 'dcars'];
     projectPriority.forEach(function(project) {
       var card = workView.querySelector('.cine-case[data-project="' + project + '"]');
       if (card && list) list.appendChild(card);
@@ -4140,9 +4300,18 @@
       return String(value).padStart(2, '0');
     }
 
+    function releaseSource(video) {
+      if (!video || !video.getAttribute('src')) return;
+      video.removeAttribute('src');
+      video.preload = 'none';
+      video.load();
+    }
+
     function pauseAll(except) {
       videos.forEach(function(video) {
-        if (video !== except && !video.paused) video.pause();
+        if (video === except) return;
+        if (!video.paused) video.pause();
+        releaseSource(video);
       });
     }
 
@@ -4203,6 +4372,8 @@
         return;
       }
 
+      if (currentVideo === best && !best.paused) return;
+
       currentVideo = best;
       pauseAll(best);
       ensureSource(best);
@@ -4235,8 +4406,6 @@
       if (previousButton) previousButton.disabled = activeIndex === 0;
       if (nextButton) nextButton.disabled = activeIndex === cards.length - 1;
       requestSync();
-      if (window.__spine) setTimeout(window.__spine, 80);
-      if (window.ScrollTrigger) setTimeout(function() { window.ScrollTrigger.refresh(); }, 80);
     }
 
     function goToProject(index) {
@@ -4348,7 +4517,6 @@
         if (target) target.classList.add('active');
         if (window.__fallNow && target) window.__fallNow(target);
         window.scrollTo(0, 0);
-        if (window.__spine) setTimeout(window.__spine, 90);
         if (window.ScrollTrigger) { setTimeout(function(){ window.ScrollTrigger.refresh(); }, 80); }
         return;
       }
@@ -4363,7 +4531,6 @@
         window.scrollTo(0, 0);
         if (target) target.classList.add('active');
         if (window.__fallNow && target) window.__fallNow(target);
-        if (window.__spine) setTimeout(window.__spine, 90);
         if (window.ScrollTrigger) {
           requestAnimationFrame(function(){ window.ScrollTrigger.refresh(); });
         }
@@ -4658,6 +4825,7 @@
     var lastY = window.innerHeight * 0.3;
 
     window.addEventListener('mousemove', function(e) {
+      if (document.body.dataset.activeView === 'work') return;
       lastX = e.clientX;
       lastY = e.clientY;
       if (ticking) return;
@@ -5041,90 +5209,6 @@
       });
       checkFall();
     };
-  })();
-
-  // ----- Page spine: one neon connector that runs down the whole page,
-  // linking each view's key anchors (title -> CTA -> sections). Draws in on
-  // load/navigation; a comet keeps travelling. Rebuilds on resize, view change
-  // and case expand. Behind content, no pointer events. -----
-  (function() {
-    var svg = document.getElementById('page-spine');
-    if (!svg) return;
-    var line = svg.querySelector('.spine-line');
-    var comet = svg.querySelector('.spine-comet');
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Anchor points per view, top to bottom — the "things" the line connects.
-    var ANCHORS = {
-      home: ['.hero h1', '.hero-ctas', '.about-title', '.stack-strip-head', '.home-cases-link'],
-      work: ['.page-title', '#case-mono-solo .cine-cover-info', '#case-alabark-os .cine-cover-info', '#case-heritage .cine-cover-info'],
-      'services-archive': ['.page-title', '.services-grid', '.process-timeline-head'],
-      contact: ['.contact-form-head', '.contact-contexts', '.contact-links']
-    };
-
-    function cancel(el) {
-      if (el.getAnimations) el.getAnimations().forEach(function(a) { a.cancel(); });
-    }
-
-    function build() {
-      var view = document.querySelector('main .view.active');
-      if (!view) return;
-      var sels = ANCHORS[view.getAttribute('data-view')] || ['h1'];
-
-      svg.style.height = '0px';                         // avoid self-feedback on scrollHeight
-      var W = document.documentElement.clientWidth;
-      var H = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
-      svg.style.height = H + 'px';
-
-      var sx = window.scrollX || 0, sy = window.scrollY || 0;
-      var pts = [];
-      sels.forEach(function(s) {
-        var el = document.querySelector(s);
-        if (!el || el.offsetParent === null) return;
-        var r = el.getBoundingClientRect();
-        if (!r.width && !r.height) return;
-        var x = Math.max(20, Math.min(r.left + sx + 12, W * 0.6));
-        pts.push([x, r.top + sy + r.height / 2]);
-      });
-      if (pts.length < 2) { line.removeAttribute('d'); comet.removeAttribute('d'); return; }
-      pts.sort(function(a, b) { return a[1] - b[1]; });
-
-      var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
-      for (var i = 1; i < pts.length; i++) {
-        var a = pts[i - 1], b = pts[i], my = ((a[1] + b[1]) / 2).toFixed(1);
-        d += ' C ' + a[0].toFixed(1) + ' ' + my + ', ' + b[0].toFixed(1) + ' ' + my +
-             ', ' + b[0].toFixed(1) + ' ' + b[1].toFixed(1);
-      }
-      line.setAttribute('d', d);
-      comet.setAttribute('d', d);
-
-      var len = line.getTotalLength ? line.getTotalLength() : 1000;
-      cancel(line); cancel(comet);
-      if (reduce) {
-        line.style.strokeDasharray = 'none';
-        line.style.strokeDashoffset = '0';
-        comet.style.display = 'none';
-        return;
-      }
-      line.style.strokeDasharray = len;
-      line.style.strokeDashoffset = len;
-      line.animate(
-        [{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
-        { duration: 2200, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' }
-      );
-      comet.style.strokeDasharray = '24 ' + len;
-      comet.animate(
-        [{ strokeDashoffset: len + 24 }, { strokeDashoffset: 0 }],
-        { duration: Math.max(2800, len * 1.05), iterations: Infinity, easing: 'linear' }
-      );
-    }
-
-    window.__spine = build;
-    build();
-    window.addEventListener('load', function() { setTimeout(build, 120); });
-    var rt;
-    window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(build, 160); }, { passive: true });
   })();
 
   // ----- Stack technologies: coherent monochrome marks + accessible labels -----
