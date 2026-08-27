@@ -3048,6 +3048,30 @@
   }
   .cine-case:first-child { border-top: 0; }
   .cine-case:hover { border-color: var(--border); box-shadow: none; }
+  .cine-case.is-featured {
+    position: relative;
+    border-top: 2px solid var(--accent);
+    background: linear-gradient(135deg, rgba(217,119,6,0.065), transparent 48%);
+  }
+  .cine-case.is-featured::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent), transparent 70%);
+    opacity: 0.65;
+    pointer-events: none;
+  }
+  .cine-case.is-featured .cine-cover {
+    grid-template-columns: 0.78fr 1.32fr;
+    padding-top: 68px;
+    padding-bottom: 70px;
+  }
+  .case-status.featured {
+    background: rgba(217,119,6,0.14);
+    color: var(--accent);
+    border: 1px solid rgba(217,119,6,0.34);
+  }
   .cine-cover {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
@@ -3106,9 +3130,11 @@
   .device { width: 100%; position: relative; }
   .device-screen {
     position: relative;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     background: #000;
     overflow: hidden;
+    contain: layout paint;
+    isolation: isolate;
   }
   .cine-device-media {
     position: absolute; inset: 0;
@@ -3118,9 +3144,7 @@
     background: #050505;
     transform: translateZ(0);
     backface-visibility: hidden;
-    transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
   }
-  .cine-case:hover .cine-device-media { transform: scale(1.04); }
   .device-screen .cine-chrome {
     background: linear-gradient(180deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.35) 70%, transparent 100%);
   }
@@ -3184,6 +3208,7 @@
   }
   @media (max-width: 860px) {
     .cine-cover { grid-template-columns: 1fr; gap: 30px; padding: 40px 24px 44px; }
+    .cine-case.is-featured .cine-cover { grid-template-columns: 1fr; padding: 40px 24px 44px; }
     .cine-case:nth-of-type(even) .cine-cover-info { order: 0; }
     .cine-case:nth-of-type(even) .cine-cover-device { order: 0; }
     .cine-cover-info .cine-case-teaser { max-width: none; }
@@ -3545,217 +3570,16 @@
         <button type="button" class="project-carousel-btn" data-project-prev>
           <span aria-hidden="true">←</span><span class="es">Anterior</span><span class="en">Previous</span>
         </button>
-        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 05</span>
+        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 03</span>
         <button type="button" class="project-carousel-btn" data-project-next>
           <span class="es">Siguiente</span><span class="en">Next</span><span aria-hidden="true">→</span>
         </button>
       </div>
-      <article class="cine-case is-carousel-active" id="case-heritage" data-project="heritage" style="border-top:2px solid var(--accent)">
+      <article class="cine-case is-featured is-carousel-active" id="case-mono-solo" data-project="mono-solo">
         <div class="cine-cover">
           <div class="cine-cover-info">
             <span class="cine-idx">01</span>
-            <div class="cine-case-cover-meta">
-              <span class="case-cat">Vanilla JS · Data-driven · Cloudflare</span>
-              <span class="case-status live">Live</span>
-            </div>
-            <h2 class="cine-case-title">Heritage Real Estate</h2>
-            <p class="cine-case-teaser"><span class="es">Plataforma de discovery inmobiliario con catálogo gestionado desde datos y flujos de captación integrados.</span><span class="en">Real-estate discovery platform with a data-managed catalogue and integrated lead-capture flows.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-heritage-detail" onclick="toggleCase('case-heritage')">
-              <span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span>
-              <span class="cine-expand-icon" aria-hidden="true">+</span>
-            </button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-monitor">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true">
-                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
-                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>heritagerealestatepa.com</span>
-                </div>
-                <video data-tour-video data-src="./assets/projects/heritage/tour.mp4" poster="./assets/projects/heritage/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Heritage Real Estate — recorrido del sitio actual"></video>
-              </div>
-              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-heritage-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc"><span class="es">Heritage es una plataforma de discovery inmobiliario para presentar proyectos residenciales y de inversión en Ciudad de Panamá. La interfaz convierte un inventario amplio en un catálogo navegable y conecta cada interés con un flujo de captación medible.</span><span class="en">Heritage is a real-estate discovery platform for residential and investment projects in Panama City. The interface turns a broad inventory into a navigable catalogue and connects each enquiry to a measurable lead flow.</span></p>
-              <ul class="case-bullets">
-                <li><span class="es">Catálogo generado desde un módulo central de datos de proyectos</span><span class="en">Catalogue generated from a central project-data module</span></li>
-                <li><span class="es">Fichas, filtros, imágenes responsive y navegación orientada a inversión</span><span class="en">Project pages, filters, responsive media and investment-focused navigation</span></li>
-                <li><span class="es">Asistente de calificación y captura multicanal de leads</span><span class="en">Qualification assistant and multi-channel lead capture</span></li>
-              </ul>
-              <div class="case-tech">
-                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
-                <div class="case-tech-grid">
-                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · JavaScript ES6+</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label">Data &amp; UI</span><span class="case-tech-value">Data-driven catalog · Responsive images · IntersectionObserver</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">Google Apps Script · FormSubmit AJAX · WhatsApp deep links</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Infraestructura</span><span class="en">Infrastructure</span></span><span class="case-tech-value">Cloudflare · Cloudflare Web Analytics</span></div>
-                </div>
-              </div>
-              <a href="https://heritagerealestatepa.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Sitio de catálogo y captación para una firma de luxury real estate.</span><span class="en">Catalogue and lead-generation website for a luxury real-estate firm.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Arquitectura de información, UX/UI, desarrollo frontend e integraciones.</span><span class="en">Information architecture, UX/UI, frontend development and integrations.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Catálogo data-driven, fichas de proyecto, navegación bilingüe y pipeline de leads con fallback entre servicios.</span><span class="en">Data-driven catalogue, project pages, bilingual navigation and a lead pipeline with service fallbacks.</span></span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="cine-case" id="case-sommelier" data-project="sommelier">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">02</span>
-            <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Lead capture · Cloudflare</span><span class="case-status live">Live</span></div>
-            <h2 class="cine-case-title">Sommelier Nómada</h2>
-            <p class="cine-case-teaser"><span class="es">Sitio de servicios y reservas para convertir una marca personal de hospitalidad en solicitudes calificadas.</span><span class="en">Services and booking website that turns a hospitality personal brand into qualified enquiries.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-sommelier-detail" onclick="toggleCase('case-sommelier')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-laptop">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>sommeliernomada.com</span></div>
-                <video data-tour-video data-src="./assets/projects/sommelier/tour.mp4" poster="./assets/projects/sommelier/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Sommelier Nómada — recorrido del sitio actual"></video>
-              </div>
-              <div class="device-base"></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-sommelier-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc"><span class="es">Sommelier Nómada es el sitio de servicios y reservas de Nelvin, sommelier profesional y bartender certificado. La experiencia organiza catas, eventos, coctelería y asesorías en una ruta clara desde el descubrimiento hasta la solicitud.</span><span class="en">Sommelier Nómada is the services and booking website for Nelvin, a professional sommelier and certified bartender. It organizes tastings, events, cocktails and consulting into a clear path from discovery to enquiry.</span></p>
-              <ul class="case-bullets">
-                <li><span class="es">Servicios renderizados desde un módulo de contenido reutilizable</span><span class="en">Services rendered from a reusable content module</span></li>
-                <li><span class="es">Asistente guiado para recomendar experiencias y preparar la solicitud</span><span class="en">Guided assistant that recommends experiences and prepares the enquiry</span></li>
-                <li><span class="es">Formularios asíncronos, validación y continuidad por WhatsApp</span><span class="en">Async forms, validation and WhatsApp continuation</span></li>
-              </ul>
-              <div class="case-tech">
-                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
-                <div class="case-tech-grid">
-                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">services-data.js · Component-like renderers · IntersectionObserver</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">FormSubmit AJAX · WhatsApp · sessionStorage</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Infraestructura</span><span class="en">Infrastructure</span></span><span class="case-tech-value">Cloudflare · Cloudflare Web Analytics</span></div>
-                </div>
-              </div>
-              <a href="https://sommeliernomada.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Sitio de servicios, posicionamiento y captación para una marca personal de hospitalidad.</span><span class="en">Services, positioning and lead-generation website for a hospitality personal brand.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Estrategia de contenido, identidad digital, UX/UI y desarrollo frontend.</span><span class="en">Content strategy, digital identity, UX/UI and frontend development.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Sistema de servicios data-driven, asistente de recomendación y flujo de reserva con fallback a WhatsApp.</span><span class="en">Data-driven services system, recommendation assistant and a booking flow with WhatsApp fallback.</span></span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="cine-case" id="case-gallo" data-project="gallo">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">03</span>
-            <div class="cine-case-cover-meta"><span class="case-cat">GSAP · Vanilla JS · Modular UI</span><span class="case-status live">Live</span></div>
-            <h2 class="cine-case-title">Gallo Creativo</h2>
-            <p class="cine-case-teaser"><span class="es">Portafolio editorial interactivo con casos, motion y un cotizador guiado para proyectos a medida.</span><span class="en">Interactive editorial portfolio with case studies, motion and a guided quote flow for bespoke projects.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-gallo-detail" onclick="toggleCase('case-gallo')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-monitor">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span></div>
-                <video data-tour-video data-src="./assets/projects/gallo/tour.mp4" poster="./assets/projects/gallo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Gallo Creativo — recorrido del sitio actual"></video>
-              </div>
-              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-gallo-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc"><span class="es">Gallo Creativo es un portafolio editorial para un estudio de diseño industrial, fabricación y transformación de espacios. La interfaz combina casos inmersivos con un cotizador guiado que convierte una idea abierta en un brief accionable.</span><span class="en">Gallo Creativo is an editorial portfolio for an industrial-design, fabrication and space-transformation studio. It combines immersive case studies with a guided quote flow that turns an open idea into an actionable brief.</span></p>
-              <ul class="case-bullets">
-                <li><span class="es">Sistema de motion con secuencias y animaciones ligadas al scroll</span><span class="en">Motion system with sequences and scroll-linked animation</span></li>
-                <li><span class="es">Panel modular para explorar casos sin abandonar la página</span><span class="en">Modular panel for exploring case studies without leaving the page</span></li>
-                <li><span class="es">Cotizador conversacional con envío web, email y WhatsApp</span><span class="en">Conversational quote flow with web, email and WhatsApp delivery</span></li>
-              </ul>
-              <div class="case-tech">
-                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
-                <div class="case-tech-grid">
-                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label">Motion</span><span class="case-tech-value">GSAP 3 · ScrollTrigger · Lenis</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">main.js · qbot.js · case-panel.js · localStorage</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">Web3Forms API · WhatsApp · Email · Cloudflare</span></div>
-                </div>
-              </div>
-              <a href="https://gallocreativo.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Portafolio editorial y herramienta de precalificación comercial para proyectos a medida.</span><span class="en">Editorial portfolio and sales pre-qualification tool for bespoke projects.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Dirección visual, arquitectura, UX/UI, motion y desarrollo frontend.</span><span class="en">Visual direction, architecture, UX/UI, motion and frontend development.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Narrativa animada, portafolio modular, panel de casos y cotizador multi-step conectado a canales comerciales.</span><span class="en">Animated narrative, modular portfolio, case-study panel and multi-step quote flow connected to sales channels.</span></span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="cine-case" id="case-dcars" data-project="dcars">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">04</span>
-            <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Catalog · Cart state</span><span class="case-status live">Live</span></div>
-            <h2 class="cine-case-title">Taller D’Cars</h2>
-            <p class="cine-case-teaser"><span class="es">Catálogo técnico-comercial con diagnóstico guiado, selección de sucursal y cotización por WhatsApp.</span><span class="en">Technical sales catalogue with guided diagnostics, branch selection and WhatsApp quotations.</span></p>
-            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-dcars-detail" onclick="toggleCase('case-dcars')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
-          </div>
-          <div class="cine-cover-device">
-            <div class="device device-laptop">
-              <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>tallerdcars.com</span></div>
-                <video data-tour-video data-src="./assets/projects/dcars/tour.mp4" poster="./assets/projects/dcars/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Taller D’Cars — recorrido del sitio actual"></video>
-              </div>
-              <div class="device-base"></div>
-            </div>
-          </div>
-        </div>
-        <div class="cine-case-detail" id="case-dcars-detail">
-          <div class="cine-case-detail-inner">
-            <div class="cine-case-detail-main">
-              <p class="case-desc"><span class="es">Taller D’Cars es un catálogo técnico-comercial para diagnóstico y soluciones de transmisiones automáticas. El producto traduce inventario, síntomas y servicios especializados a una experiencia comprensible para clientes no técnicos.</span><span class="en">Taller D’Cars is a technical sales catalogue for automatic-transmission diagnostics and solutions. It translates inventory, symptoms and specialist services into an experience non-technical customers can understand.</span></p>
-              <ul class="case-bullets">
-                <li><span class="es">Catálogo generado desde datos de productos, servicios y sucursales</span><span class="en">Catalogue generated from product, service and branch data</span></li>
-                <li><span class="es">Carrito de cotización persistente y resumen por sucursal</span><span class="en">Persistent quote cart and branch-specific summary</span></li>
-                <li><span class="es">Diagnóstico guiado con salida directa a WhatsApp y Maps</span><span class="en">Guided diagnostics with direct WhatsApp and Maps handoff</span></li>
-              </ul>
-              <div class="case-tech">
-                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
-                <div class="case-tech-grid">
-                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · Vanilla JavaScript</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">site-data.js · cart.js · app.js · Data-driven rendering</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Estado</span><span class="en">State</span></span><span class="case-tech-value">localStorage · sessionStorage · URLSearchParams</span></div>
-                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">WhatsApp API links · Google Maps · Email · Cloudflare</span></div>
-                </div>
-              </div>
-              <a href="https://tallerdcars.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
-            </div>
-            <div class="cine-case-detail-side">
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Catálogo de servicios y repuestos con diagnóstico, cotización y enrutamiento por sucursal.</span><span class="en">Services and parts catalogue with diagnostics, quoting and branch routing.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Arquitectura de producto, UX/UI, modelado del catálogo y desarrollo frontend.</span><span class="en">Product architecture, UX/UI, catalogue modelling and frontend development.</span></span></div>
-              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Modelo de datos comercial, buscador y filtros, carrito persistente, fichas de producto y handoff a WhatsApp.</span><span class="en">Commercial data model, search and filters, persistent cart, product pages and WhatsApp handoff.</span></span></div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <article class="cine-case" id="case-mono-solo" data-project="mono-solo">
-        <div class="cine-cover">
-          <div class="cine-cover-info">
-            <span class="cine-idx">05</span>
-            <div class="cine-case-cover-meta"><span class="case-cat">React · Supabase · Product</span><span class="case-status live">Live</span></div>
+            <div class="cine-case-cover-meta"><span class="case-cat">React · Supabase · Full-stack product</span><span class="case-status featured"><span class="es">Producto principal</span><span class="en">Flagship product</span></span></div>
             <h2 class="cine-case-title">Mono Solo Travel</h2>
             <p class="cine-case-teaser"><span class="es">Plataforma full-stack de experiencias turísticas con cuentas, reservas, panel de cliente y operación administrativa.</span><span class="en">Full-stack travel-experience platform with accounts, bookings, customer area and admin operations.</span></p>
             <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-mono-solo-detail" onclick="toggleCase('case-mono-solo')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
@@ -3763,8 +3587,11 @@
           <div class="cine-cover-device">
             <div class="device device-monitor">
               <div class="device-screen">
-                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>monosolotravel.com</span></div>
-                <video data-tour-video data-src="./assets/projects/mono-solo/tour.mp4" poster="./assets/projects/mono-solo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Mono Solo Travel — recorrido de su diseño actual"></video>
+                <div class="cine-chrome" aria-hidden="true">
+                  <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
+                  <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>monosolotravel.com</span>
+                </div>
+                <video data-tour-video data-src="./assets/projects/mono-solo/tour.mp4?v=30fps" poster="./assets/projects/mono-solo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Mono Solo Travel — recorrido de su diseño actual"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3794,6 +3621,105 @@
               <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Marketplace y sistema operativo de reservas para experiencias turísticas.</span><span class="en">Marketplace and booking operations system for travel experiences.</span></span></div>
               <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Diseño de producto, arquitectura frontend, modelo de datos, autenticación, flujos de reserva y paneles.</span><span class="en">Product design, frontend architecture, data model, authentication, booking flows and dashboards.</span></span></div>
               <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Aplicación React conectada a Supabase con separación por features, capa de servicios, RLS, almacenamiento y QA automatizado.</span><span class="en">React application connected to Supabase with feature separation, service layer, RLS, storage and automated QA.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-alabark-os" data-project="alabark-os">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">02</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">React · Supabase · Multi-branch SaaS</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">AlabarK OS</h2>
+            <p class="cine-case-teaser"><span class="es">Sistema operativo multi-sucursal que centraliza clientes, vehículos, órdenes, inventario, facturación y finanzas de un taller.</span><span class="en">Multi-branch operating system centralising a workshop's customers, vehicles, work orders, inventory, billing and finances.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-alabark-os-detail" onclick="toggleCase('case-alabark-os')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>alabark-os.pages.dev</span></div>
+                <img src="./assets/projects/alabark-os/homepage.png" class="cine-device-media" alt="Dashboard multi-sucursal de AlabarK OS" loading="lazy" decoding="async">
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-alabark-os-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">AlabarK OS reemplaza documentos y hojas de cálculo aisladas por una operación centralizada para talleres mecánicos. El contexto de sucursal y los permisos por rol atraviesan todos los módulos, mientras una capa de servicios separa la interfaz React del almacenamiento local de demostración y de Supabase.</span><span class="en">AlabarK OS replaces disconnected documents and spreadsheets with a centralised workshop operation. Branch context and role permissions span every module, while a service layer separates the React UI from demo local storage and Supabase.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Flujos conectados para ingreso de vehículos, órdenes, cotizaciones, facturación e inventario</span><span class="en">Connected flows for vehicle intake, work orders, quotes, billing and inventory</span></li>
+                <li><span class="es">Contexto multi-sucursal y permisos para administrador, secretaria y mecánico</span><span class="en">Multi-branch context and permissions for administrators, receptionists and mechanics</span></li>
+                <li><span class="es">Paneles operativos, métricas, exportación PDF y asistente de IA integrado</span><span class="en">Operational dashboards, metrics, PDF exports and an integrated AI assistant</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">React 18 · Vite 5 · React Router · CSS design tokens</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Backend &amp; Data</span><span class="case-tech-value">Supabase · PostgreSQL · Auth · Storage · RLS</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">Service layer · Branch/Auth contexts · Relational schema · localStorage demo</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-tech-value">Recharts · jsPDF · Supabase Edge Function · Cloudflare Pages</span></div>
+                </div>
+              </div>
+              <div class="case-links">
+                <a href="https://alabark-os.pages.dev/" target="_blank" rel="noopener noreferrer" class="case-link live"><span class="es">Abrir aplicación</span><span class="en">Open application</span><span>↗</span></a>
+                <a href="https://github.com/RodCode088/alabark-os" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Ver código</span><span class="en">View code</span><span>↗</span></a>
+              </div>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">SaaS operativo para administrar talleres mecánicos con varias sucursales.</span><span class="en">Operations SaaS for managing multi-branch automotive workshops.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Diseño de producto, UX/UI, arquitectura frontend, modelo relacional e integración con Supabase.</span><span class="en">Product design, UX/UI, frontend architecture, relational modelling and Supabase integration.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Diez módulos conectados, roles y permisos, operación multi-sucursal, dashboards y una capa de datos intercambiable.</span><span class="en">Ten connected modules, roles and permissions, multi-branch operations, dashboards and an interchangeable data layer.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-heritage" data-project="heritage">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <span class="cine-idx">03</span>
+            <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Google Sheets · Cloudflare</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Heritage Real Estate</h2>
+            <p class="cine-case-teaser"><span class="es">Plataforma inmobiliaria con catálogo data-driven y un formulario que registra cada lead como una fila estructurada en Google Sheets.</span><span class="en">Real-estate platform with a data-driven catalogue and a form that records every lead as a structured row in Google Sheets.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-heritage-detail" onclick="toggleCase('case-heritage')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-monitor">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>heritagerealestatepa.com</span></div>
+                <video data-tour-video data-src="./assets/projects/heritage/tour.mp4?v=30fps" poster="./assets/projects/heritage/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Heritage Real Estate — recorrido del sitio actual"></video>
+              </div>
+              <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-heritage-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Heritage presenta proyectos residenciales y de inversión en Ciudad de Panamá y convierte cada consulta en un registro operativo. El formulario valida los datos en el navegador, los normaliza a un esquema común y los envía como JSON a un endpoint de Google Apps Script, que guarda el lead como una fila fechada en una tabla de Google Sheets y dispara el aviso por correo.</span><span class="en">Heritage presents residential and investment projects in Panama City and turns each enquiry into an operational record. The form validates data in the browser, normalises it to a shared schema and sends it as JSON to a Google Apps Script endpoint, which stores the lead as a timestamped row in a Google Sheets table and triggers an email alert.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">FormData transforma nombre, contacto, país, proyecto, unidad, canal, mensaje y origen en columnas consistentes</span><span class="en">FormData maps name, contact, country, project, unit, channel, message and source into consistent columns</span></li>
+                <li><span class="es">El formulario y el asistente conversacional reutilizan el mismo pipeline para escribir en la misma tabla de leads</span><span class="en">The form and conversational assistant reuse the same pipeline to write to the same lead table</span></li>
+                <li><span class="es">Si Google Apps Script falla, FormSubmit AJAX actúa como respaldo por correo; WhatsApp conserva el registro antes de continuar</span><span class="en">If Google Apps Script fails, FormSubmit AJAX provides an email fallback; WhatsApp preserves the record before continuing</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">HTML5 · CSS3 · JavaScript ES6+ · FormData API</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Lead pipeline</span><span class="case-tech-value">Fetch API · JSON POST · Shared field schema · Client-side validation</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">Data &amp; Alerts</span><span class="case-tech-value">Google Apps Script · Google Sheets rows · Email notification</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Respaldo e infraestructura</span><span class="en">Fallback &amp; infrastructure</span></span><span class="case-tech-value">FormSubmit AJAX · WhatsApp deep links · Cloudflare</span></div>
+                </div>
+              </div>
+              <a href="https://heritagerealestatepa.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Catálogo inmobiliario y sistema de captación para una firma de luxury real estate.</span><span class="en">Real-estate catalogue and lead-generation system for a luxury property firm.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Arquitectura de información, UX/UI, desarrollo frontend y diseño del pipeline de leads.</span><span class="en">Information architecture, UX/UI, frontend development and lead-pipeline design.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Catálogo data-driven, navegación bilingüe y captura unificada desde formulario o asistente hacia Google Sheets, con alerta por correo y fallback.</span><span class="en">Data-driven catalogue, bilingual navigation and unified capture from form or assistant into Google Sheets, with email alerts and fallback.</span></span></div>
             </div>
           </div>
         </div>
@@ -4185,8 +4111,13 @@
     if (!workView) return;
 
     var list = workView.querySelector('.cine-case-list');
-    var cards = Array.prototype.slice.call(workView.querySelectorAll('.cine-case'));
-    var videos = Array.prototype.slice.call(workView.querySelectorAll('video[data-tour-video]'));
+    var projectPriority = ['mono-solo', 'alabark-os', 'heritage'];
+    projectPriority.forEach(function(project) {
+      var card = workView.querySelector('.cine-case[data-project="' + project + '"]');
+      if (card && list) list.appendChild(card);
+    });
+    var cards = Array.prototype.slice.call(workView.querySelectorAll('.cine-case:not([hidden])'));
+    var videos = Array.prototype.slice.call(workView.querySelectorAll('.cine-case:not([hidden]) video[data-tour-video]'));
     var previousButton = workView.querySelector('[data-project-prev]');
     var nextButton = workView.querySelector('[data-project-next]');
     var counter = workView.querySelector('[data-project-count]');
@@ -4243,21 +4174,28 @@
         return;
       }
 
-      // On phones the selected card is the active project, so buffer it as
-      // soon as it is selected. Playback still waits until its screen is visible.
+      // On phones there is only one selected project. Start it early so the
+      // first moving frame is ready before its device enters the viewport.
+      var mobileActiveVideo = null;
       if (mobileQuery.matches && workView.classList.contains('active')) {
-        ensureSource(cards[activeIndex] && cards[activeIndex].querySelector('video[data-tour-video]'));
+        mobileActiveVideo = cards[activeIndex] && cards[activeIndex].querySelector('video[data-tour-video]');
+        ensureSource(mobileActiveVideo);
       }
 
       var best = null;
       var bestRatio = 0;
-      videos.forEach(function(video) {
-        var ratio = visibleRatio(video);
-        if (ratio > bestRatio) {
-          best = video;
-          bestRatio = ratio;
-        }
-      });
+      if (mobileActiveVideo) {
+        best = mobileActiveVideo;
+        bestRatio = 1;
+      } else {
+        videos.forEach(function(video) {
+          var ratio = visibleRatio(video);
+          if (ratio > bestRatio) {
+            best = video;
+            bestRatio = ratio;
+          }
+        });
+      }
 
       if (!best || bestRatio < 0.18) {
         currentVideo = null;
@@ -5119,7 +5057,7 @@
     // Anchor points per view, top to bottom — the "things" the line connects.
     var ANCHORS = {
       home: ['.hero h1', '.hero-ctas', '.about-title', '.stack-strip-head', '.home-cases-link'],
-      work: ['.page-title', '#case-heritage .cine-cover-info', '#case-sommelier .cine-cover-info', '#case-gallo .cine-cover-info', '#case-dcars .cine-cover-info', '#case-mono-solo .cine-cover-info'],
+      work: ['.page-title', '#case-mono-solo .cine-cover-info', '#case-alabark-os .cine-cover-info', '#case-heritage .cine-cover-info'],
       'services-archive': ['.page-title', '.services-grid', '.process-timeline-head'],
       contact: ['.contact-form-head', '.contact-contexts', '.contact-links']
     };
