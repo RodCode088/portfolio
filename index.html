@@ -114,22 +114,21 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-    background-size: 112px 112px;
+    background:
+      linear-gradient(180deg, rgba(7, 7, 8, 0.70) 0%, rgba(7, 7, 8, 0.58) 42%, rgba(7, 7, 8, 0.84) 100%),
+      linear-gradient(90deg, rgba(7, 7, 8, 0.76) 0%, rgba(7, 7, 8, 0.34) 54%, rgba(7, 7, 8, 0.68) 100%),
+      url('./working.png') center center / cover no-repeat;
     pointer-events: none;
     z-index: 0;
-    mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
   }
   body::after {
     content: '';
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse 70% 45% at 50% -10%, rgba(200, 131, 74, 0.028), transparent),
-      radial-gradient(ellipse 50% 35% at 100% 0%, rgba(200, 131, 74, 0.014), transparent);
+      linear-gradient(180deg, rgba(10, 10, 10, 0.02), rgba(10, 10, 10, 0.18)),
+      radial-gradient(ellipse 70% 45% at 50% -10%, rgba(200, 131, 74, 0.06), transparent 72%),
+      radial-gradient(ellipse 50% 35% at 100% 0%, rgba(200, 131, 74, 0.025), transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -1699,15 +1698,6 @@
     transition: height 0.4s ease;
   }
   .service-card:hover::before { height: 100%; }
-  .service-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: block;
-  }
   .service-card h3 {
     font-size: 1.22rem;
     font-weight: 600;
@@ -2338,6 +2328,28 @@
     gap: 50px;
     padding: 36px 40px 40px;
   }
+  .case-product-preview {
+    margin: 0 0 26px;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: #f7f7f9;
+    box-shadow: 0 20px 46px rgba(0,0,0,0.28);
+  }
+  .case-product-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .case-product-preview figcaption {
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font: 500 0.68rem/1.5 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
   .cine-case-detail-side {
     display: flex;
     flex-direction: column;
@@ -2545,15 +2557,6 @@
     background: var(--border);
     margin-left: 4px;
   }
-  .process-tl-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    display: block;
-    margin-bottom: 6px;
-  }
   .process-tl-content h4 {
     font-size: 1.02rem;
     font-weight: 600;
@@ -2587,16 +2590,6 @@
   }
   .contact-ctx-item:last-child { border-bottom: none; }
   .contact-ctx-item:hover { background: var(--surface-2); }
-  .contact-ctx-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
-    color: var(--accent);
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 3px;
-    opacity: 0.8;
-  }
   .contact-ctx-body h4 {
     font-size: 0.98rem;
     font-weight: 600;
@@ -2949,14 +2942,6 @@
   .stack-ico svg { width: 14px; height: 14px; display: block; }
   .stack-pill:hover .stack-ico { opacity: 1; transform: translateY(-1px); }
 
-  /* --- Process: larger editorial step numbers --- */
-  .process-tl-num {
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    opacity: 0.9;
-  }
-
   /* --- Projects framed as device/browser windows (real screenshots) --- */
   .cine-chrome {
     position: absolute;
@@ -3044,13 +3029,6 @@
   .cine-case:nth-of-type(even) .cine-cover-info { order: 2; }
   .cine-case:nth-of-type(even) .cine-cover-device { order: 1; }
   .cine-cover-info { display: flex; flex-direction: column; align-items: flex-start; }
-  .cine-idx {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
   .cine-cover-info .cine-case-cover-meta { position: static; margin-bottom: 16px; padding: 0; }
   .cine-cover-info .cine-case-title {
     position: static;
@@ -3161,13 +3139,6 @@
     cursor: pointer;
   }
   .project-carousel-btn:disabled { opacity: 0.32; cursor: default; }
-  .project-carousel-count {
-    min-width: 64px;
-    text-align: center;
-    color: var(--accent);
-    font: 500 0.72rem/1 'JetBrains Mono', monospace;
-    letter-spacing: 0.12em;
-  }
   @media (max-width: 860px) {
     .cine-cover { grid-template-columns: 1fr; gap: 30px; padding: 40px 24px 44px; }
     .cine-case.is-featured .cine-cover { grid-template-columns: 1fr; padding: 40px 24px 44px; }
@@ -3193,7 +3164,6 @@
       max-width: 100%;
     }
     .project-carousel-btn { min-width: 0; flex: 1 1 0; padding-inline: 8px; }
-    .project-carousel-count { min-width: 0; flex: 0 0 56px; }
     .cine-case-list { touch-action: pan-y; }
     .cine-case:not(.is-carousel-active) { display: none; }
     .cine-case.is-carousel-active { animation: projectCardIn 0.38s cubic-bezier(0.22,1,0.36,1) both; }
@@ -3222,7 +3192,6 @@
   @media (max-width: 360px) {
     .project-carousel-controls { gap: 5px; padding-inline: 10px; }
     .project-carousel-btn { min-width: 0; font-size: 0.74rem; padding-inline: 5px; }
-    .project-carousel-count { flex-basis: 48px; font-size: 0.68rem; }
     .cine-cover { padding-inline: 14px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -3521,7 +3490,7 @@
 <section class="view" data-view="work">
   <div class="container">
     <div class="page-header">
-      <span class="mono">01 / Work</span>
+      <span class="mono">Work</span>
       <h1 class="page-title js-fall">
         <span class="es">Proyectos que he construido.</span>
         <span class="en">Projects I've built.</span>
@@ -3536,7 +3505,6 @@
         <button type="button" class="project-carousel-btn" data-project-prev>
           <span aria-hidden="true">←</span><span class="es">Anterior</span><span class="en">Previous</span>
         </button>
-        <span class="project-carousel-count" data-project-count aria-live="polite">01 / 07</span>
         <button type="button" class="project-carousel-btn" data-project-next>
           <span class="es">Siguiente</span><span class="en">Next</span><span aria-hidden="true">→</span>
         </button>
@@ -3544,7 +3512,6 @@
       <article class="cine-case is-featured is-carousel-active" id="case-mono-solo" data-project="mono-solo">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">01</span>
             <div class="cine-case-cover-meta"><span class="case-cat">React · Supabase · Full-stack product</span><span class="case-status featured"><span class="es">Producto principal</span><span class="en">Flagship product</span></span></div>
             <h2 class="cine-case-title">Mono Solo Travel</h2>
             <p class="cine-case-teaser"><span class="es">Plataforma full-stack de experiencias turísticas con cuentas, reservas, panel de cliente y operación administrativa.</span><span class="en">Full-stack travel-experience platform with accounts, bookings, customer area and admin operations.</span></p>
@@ -3557,7 +3524,7 @@
                   <span class="cine-chrome-dots"><i></i><i></i><i></i></span>
                   <span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>monosolotravel.com</span>
                 </div>
-                <video data-tour-video data-src="./assets/projects/mono-solo/tour.mp4?v=30fps" poster="./assets/projects/mono-solo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Mono Solo Travel — recorrido de su diseño actual"></video>
+                <video data-tour-video src="./assets/projects/mono-solo/tour.mp4" data-src="./assets/projects/mono-solo/tour.mp4" poster="./assets/projects/mono-solo/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Mono Solo Travel — recorrido de su diseño actual"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3595,7 +3562,6 @@
       <article class="cine-case" id="case-alabark-os" data-project="alabark-os">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">02</span>
             <div class="cine-case-cover-meta"><span class="case-cat">React · Supabase · Multi-branch SaaS</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">AlabarK OS</h2>
             <p class="cine-case-teaser"><span class="es">Sistema operativo multi-sucursal que centraliza clientes, vehículos, órdenes, inventario, facturación y finanzas de un taller.</span><span class="en">Multi-branch operating system centralising a workshop's customers, vehicles, work orders, inventory, billing and finances.</span></p>
@@ -3605,7 +3571,7 @@
             <div class="device device-monitor">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>alabark-os.pages.dev</span></div>
-                <img src="./assets/projects/alabark-os/homepage.png" class="cine-device-media" alt="Dashboard multi-sucursal de AlabarK OS" loading="lazy" decoding="async">
+                <img src="./assets/projects/alabark-os/homepage.png" class="cine-device-media" alt="Landing page de AlabarK OS" decoding="async">
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3614,6 +3580,10 @@
         <div class="cine-case-detail" id="case-alabark-os-detail">
           <div class="cine-case-detail-inner">
             <div class="cine-case-detail-main">
+              <figure class="case-product-preview">
+                <img src="./assets/projects/alabark-os/dashboard.png" alt="Vista interna del dashboard multi-sucursal de AlabarK OS" loading="lazy" decoding="async">
+                <figcaption><span class="es">Vista interna · Dashboard operativo</span><span class="en">Inside the product · Operations dashboard</span></figcaption>
+              </figure>
               <p class="case-desc"><span class="es">AlabarK OS reemplaza documentos y hojas de cálculo aisladas por una operación centralizada para talleres mecánicos. El contexto de sucursal y los permisos por rol atraviesan todos los módulos, mientras una capa de servicios separa la interfaz React del almacenamiento local de demostración y de Supabase.</span><span class="en">AlabarK OS replaces disconnected documents and spreadsheets with a centralised workshop operation. Branch context and role permissions span every module, while a service layer separates the React UI from demo local storage and Supabase.</span></p>
               <ul class="case-bullets">
                 <li><span class="es">Flujos conectados para ingreso de vehículos, órdenes, cotizaciones, facturación e inventario</span><span class="en">Connected flows for vehicle intake, work orders, quotes, billing and inventory</span></li>
@@ -3646,7 +3616,6 @@
       <article class="cine-case" id="case-heritage" data-project="heritage">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">03</span>
             <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Google Sheets · Cloudflare</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">Heritage Real Estate</h2>
             <p class="cine-case-teaser"><span class="es">Plataforma inmobiliaria con catálogo data-driven y un formulario que registra cada lead como una fila estructurada en Google Sheets.</span><span class="en">Real-estate platform with a data-driven catalogue and a form that records every lead as a structured row in Google Sheets.</span></p>
@@ -3656,7 +3625,7 @@
             <div class="device device-monitor">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>heritagerealestatepa.com</span></div>
-                <video data-tour-video data-src="./assets/projects/heritage/tour.mp4?v=30fps" poster="./assets/projects/heritage/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Heritage Real Estate — recorrido del sitio actual"></video>
+                <video data-tour-video src="./assets/projects/heritage/tour.mp4" data-src="./assets/projects/heritage/tour.mp4" poster="./assets/projects/heritage/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Heritage Real Estate — recorrido interactivo del sitio actual"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3695,7 +3664,6 @@
       <article class="cine-case" id="case-sommelier" data-project="sommelier">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">04</span>
             <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Lead capture · Cloudflare</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">Sommelier Nómada</h2>
             <p class="cine-case-teaser"><span class="es">Sitio de servicios y reservas para convertir una marca personal de hospitalidad en solicitudes calificadas.</span><span class="en">Services and booking website that turns a hospitality personal brand into qualified enquiries.</span></p>
@@ -3705,7 +3673,7 @@
             <div class="device device-laptop">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>sommeliernomada.com</span></div>
-                <video data-tour-video data-src="./assets/projects/sommelier/tour.mp4?v=30fps" poster="./assets/projects/sommelier/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Sommelier Nómada — recorrido del sitio actual"></video>
+                <video data-tour-video src="./assets/projects/sommelier/tour.mp4" data-src="./assets/projects/sommelier/tour.mp4" poster="./assets/projects/sommelier/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Sommelier Nómada — recorrido interactivo del sitio actual"></video>
               </div>
               <div class="device-base"></div>
             </div>
@@ -3743,7 +3711,6 @@
       <article class="cine-case" id="case-ron-cana" data-project="ron-cana">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">05</span>
             <div class="cine-case-cover-meta"><span class="case-cat">Python · Power BI · Streamlit</span><span class="case-status beta"><span class="es">Caso de datos</span><span class="en">Data case</span></span></div>
             <h2 class="cine-case-title">Ron Caña Analytics</h2>
             <p class="cine-case-teaser"><span class="es">Caso end-to-end de business intelligence con generación de datos, modelo dimensional, análisis y dashboard ejecutivo.</span><span class="en">End-to-end business-intelligence case with data generation, dimensional modelling, analysis and an executive dashboard.</span></p>
@@ -3753,7 +3720,7 @@
             <div class="device device-monitor">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ron-cana-analytics.streamlit.app</span></div>
-                <video data-tour-video data-src="./assets/projects/ron-cana/tour.mp4?v=30fps" poster="./assets/projects/ron-cana/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Ron Caña Analytics — recorrido del dashboard"></video>
+                <video data-tour-video src="./assets/projects/ron-cana/tour.mp4" data-src="./assets/projects/ron-cana/tour.mp4" poster="./assets/projects/ron-cana/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Ron Caña Analytics — recorrido del dashboard"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3794,7 +3761,6 @@
       <article class="cine-case" id="case-gallo" data-project="gallo">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">06</span>
             <div class="cine-case-cover-meta"><span class="case-cat">GSAP · Vanilla JS · Modular UI</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">Gallo Creativo</h2>
             <p class="cine-case-teaser"><span class="es">Portafolio editorial interactivo con casos, motion y un cotizador guiado para proyectos a medida.</span><span class="en">Interactive editorial portfolio with case studies, motion and a guided quote flow for bespoke projects.</span></p>
@@ -3804,7 +3770,7 @@
             <div class="device device-monitor">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>gallocreativo.com</span></div>
-                <video data-tour-video data-src="./assets/projects/gallo/tour.mp4?v=30fps" poster="./assets/projects/gallo/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Gallo Creativo — recorrido del sitio actual"></video>
+                <video data-tour-video src="./assets/projects/gallo/tour.mp4" data-src="./assets/projects/gallo/tour.mp4" poster="./assets/projects/gallo/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Gallo Creativo — recorrido interactivo del sitio actual"></video>
               </div>
               <div class="device-stand"><span class="device-neck"></span><span class="device-foot"></span></div>
             </div>
@@ -3842,7 +3808,6 @@
       <article class="cine-case" id="case-dcars" data-project="dcars">
         <div class="cine-cover">
           <div class="cine-cover-info">
-            <span class="cine-idx">07</span>
             <div class="cine-case-cover-meta"><span class="case-cat">Vanilla JS · Catalog · Cart state</span><span class="case-status live">Live</span></div>
             <h2 class="cine-case-title">Taller D’Cars</h2>
             <p class="cine-case-teaser"><span class="es">Catálogo técnico-comercial con diagnóstico guiado, selección de sucursal y cotización por WhatsApp.</span><span class="en">Technical sales catalogue with guided diagnostics, branch selection and WhatsApp quotations.</span></p>
@@ -3852,7 +3817,7 @@
             <div class="device device-laptop">
               <div class="device-screen">
                 <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>tallerdcars.com</span></div>
-                <video data-tour-video data-src="./assets/projects/dcars/tour.mp4?v=30fps" poster="./assets/projects/dcars/homepage.png" preload="none" muted loop playsinline class="cine-device-media" aria-label="Taller D’Cars — recorrido del sitio actual"></video>
+                <video data-tour-video src="./assets/projects/dcars/tour.mp4" data-src="./assets/projects/dcars/tour.mp4" poster="./assets/projects/dcars/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Taller D’Cars — recorrido interactivo del sitio actual"></video>
               </div>
               <div class="device-base"></div>
             </div>
@@ -3912,7 +3877,6 @@
         <div class="service-card-line"></div>
 
         <div class="sv sv1"><span class="sn">INPUT</span><span class="sl"></span><span class="sn">PROCESS</span><span class="sl"></span><span class="sn">OUTPUT</span><span class="sv-pt"></span></div>
-        <span class="service-num">[ 01 ]</span>
         <h3><span class="es">Automatización de operaciones</span><span class="en">Operations Automation</span></h3>
         <p class="service-desc"><span class="es">Diseño workflows y sistemas que conectan herramientas, ejecutan procesos y reducen fricción operativa.</span><span class="en">I design workflows and systems that connect tools, execute processes and reduce operational friction.</span></p>
         <ul class="service-features">
@@ -3929,7 +3893,6 @@
         <div class="service-card-line"></div>
 
         <div class="sv sv2"><span style="--h:46px"></span><span style="--h:80px;--d:.15s"></span><span style="--h:58px;--d:.3s"></span><span style="--h:100px;--d:.45s"></span><span style="--h:70px;--d:.6s"></span><span style="--h:54px;--d:.75s"></span></div>
-        <span class="service-num">[ 02 ]</span>
         <h3><span class="es">Sistemas de reporting</span><span class="en">Reporting Systems</span></h3>
         <p class="service-desc"><span class="es">Dashboards y flujos de datos diseñados para centralizar información operativa y facilitar decisiones.</span><span class="en">Dashboards and data flows designed to centralize operational information and enable decisions.</span></p>
         <ul class="service-features">
@@ -3946,7 +3909,6 @@
         <div class="service-card-line"></div>
 
         <div class="sv sv3"><span style="left:13%;top:32%"></span><span style="left:30%;top:68%;--d:.4s"></span><span style="left:48%;top:18%;--d:.8s"></span><span style="left:64%;top:72%;--d:.2s"></span><span style="left:80%;top:30%;--d:.6s"></span><span style="left:50%;top:50%;--d:1s;width:14px;height:14px"></span></div>
-        <span class="service-num">[ 03 ]</span>
         <h3><span class="es">Sistemas impulsados por IA</span><span class="en">AI-Powered Systems</span></h3>
         <p class="service-desc"><span class="es">Agentes, automatización y workflows inteligentes diseñados para procesar información y ejecutar tareas complejas.</span><span class="en">Agents, automation and intelligent workflows designed to process information and execute complex tasks.</span></p>
         <ul class="service-features">
@@ -3963,7 +3925,6 @@
         <div class="service-card-line"></div>
 
         <div class="sv sv4"><span style="--w:28%"></span><span style="--w:82%;--d:.25s"></span><span style="--w:58%;--d:.5s"></span><span style="--w:90%;--d:.1s"></span><span style="--w:44%;--d:.75s"></span><span style="--w:70%;--d:.35s"></span></div>
-        <span class="service-num">[ 04 ]</span>
         <h3><span class="es">Herramientas internas</span><span class="en">Internal Tools</span></h3>
         <p class="service-desc"><span class="es">Software interno diseñado alrededor de operaciones, flujos de trabajo y necesidades específicas de cada equipo.</span><span class="en">Internal software designed around operations, workflows and each team's specific needs.</span></p>
         <ul class="service-features">
@@ -3989,7 +3950,6 @@
             <div class="process-tl-line"></div>
           </div>
           <div class="process-tl-content">
-            <span class="process-tl-num">[ 01 ]</span>
             <h4><span class="es">Descubrimiento</span><span class="en">Discovery</span></h4>
             <p><span class="es">Conversamos sobre el problema, contexto operativo y alcance del sistema.</span><span class="en">We talk through the problem, operational context, and system scope.</span></p>
           </div>
@@ -4000,7 +3960,6 @@
             <div class="process-tl-line"></div>
           </div>
           <div class="process-tl-content">
-            <span class="process-tl-num">[ 02 ]</span>
             <h4><span class="es">Propuesta</span><span class="en">Proposal</span></h4>
             <p><span class="es">Definición de arquitectura, tiempos, entregables y dirección técnica.</span><span class="en">Architecture definition, timelines, deliverables and technical direction.</span></p>
           </div>
@@ -4011,7 +3970,6 @@
             <div class="process-tl-line"></div>
           </div>
           <div class="process-tl-content">
-            <span class="process-tl-num">[ 03 ]</span>
             <h4><span class="es">Desarrollo</span><span class="en">Development</span></h4>
             <p><span class="es">Implementación iterativa con revisiones, testing y seguimiento continuo.</span><span class="en">Iterative implementation with reviews, testing, and continuous follow-up.</span></p>
           </div>
@@ -4021,7 +3979,6 @@
             <div class="process-tl-dot"></div>
           </div>
           <div class="process-tl-content">
-            <span class="process-tl-num">[ 04 ]</span>
             <h4><span class="es">Entrega</span><span class="en">Delivery</span></h4>
             <p><span class="es">Sistema desplegado, documentación técnica y soporte posterior a implementación.</span><span class="en">System deployed, technical documentation, and post-implementation support.</span></p>
           </div>
@@ -4034,7 +3991,7 @@
 <section class="view" data-view="contact">
   <div class="container">
     <div class="contact-view">
-      <span class="mono">02 / Contact</span>
+      <span class="mono">Contact</span>
       <div class="contact-form-wrap">
         <div class="contact-form-head">
           <h3><span class="es">Cuéntame tu caso</span><span class="en">Tell me your case</span></h3>
@@ -4089,35 +4046,30 @@
 
       <div class="contact-contexts">
         <div class="contact-ctx-item">
-          <div class="contact-ctx-num">01</div>
           <div class="contact-ctx-body">
             <h4><span class="es">Una web más clara</span><span class="en">A clearer website</span></h4>
             <p><span class="es">Un sitio web para presentar mejor tu servicio, producto o marca personal.</span><span class="en">A website to present your service, product or personal brand more clearly.</span></p>
           </div>
         </div>
         <div class="contact-ctx-item">
-          <div class="contact-ctx-num">02</div>
           <div class="contact-ctx-body">
             <h4><span class="es">Un dashboard o reporte útil</span><span class="en">A useful dashboard or report</span></h4>
             <p><span class="es">Datos que hoy viven en hojas, PDFs o sistemas separados y necesitan una vista clara.</span><span class="en">Data currently living in sheets, PDFs or separate systems that needs a clear view.</span></p>
           </div>
         </div>
         <div class="contact-ctx-item">
-          <div class="contact-ctx-num">03</div>
           <div class="contact-ctx-body">
             <h4><span class="es">Automatizar trabajo repetitivo</span><span class="en">Automate repetitive work</span></h4>
             <p><span class="es">Procesos manuales que se pueden simplificar con scripts, APIs o flujos conectados.</span><span class="en">Manual processes that can be simplified with scripts, APIs or connected flows.</span></p>
           </div>
         </div>
         <div class="contact-ctx-item">
-          <div class="contact-ctx-num">04</div>
           <div class="contact-ctx-body">
             <h4><span class="es">Una herramienta interna pequeña</span><span class="en">A small internal tool</span></h4>
             <p><span class="es">Algo simple para capturar información, ordenar tareas o apoyar una operación diaria.</span><span class="en">Something simple to capture information, organize tasks or support daily operations.</span></p>
           </div>
         </div>
         <div class="contact-ctx-item">
-          <div class="contact-ctx-num">05</div>
           <div class="contact-ctx-body">
             <h4><span class="es">Revisar una idea técnica</span><span class="en">Review a technical idea</span></h4>
             <p><span class="es">Si no sabes todavía qué conviene construir, puedo ayudarte a aterrizar una primera versión.</span><span class="en">If you're not sure what should be built yet, I can help shape a first version.</span></p>
@@ -4280,7 +4232,6 @@
     var videos = Array.prototype.slice.call(workView.querySelectorAll('.cine-case:not([hidden]) video[data-tour-video]'));
     var previousButton = workView.querySelector('[data-project-prev]');
     var nextButton = workView.querySelector('[data-project-next]');
-    var counter = workView.querySelector('[data-project-count]');
     var mobileQuery = window.matchMedia('(max-width: 767px)');
     var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     var activeIndex = 0;
@@ -4293,31 +4244,19 @@
       video.defaultMuted = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = 'none';
+      video.preload = 'metadata';
     });
-
-    function twoDigits(value) {
-      return String(value).padStart(2, '0');
-    }
-
-    function releaseSource(video) {
-      if (!video || !video.getAttribute('src')) return;
-      video.removeAttribute('src');
-      video.preload = 'none';
-      video.load();
-    }
 
     function pauseAll(except) {
       videos.forEach(function(video) {
         if (video === except) return;
         if (!video.paused) video.pause();
-        releaseSource(video);
       });
     }
 
     function ensureSource(video) {
       if (!video || video.getAttribute('src')) return;
-      video.preload = 'auto';
+      video.preload = 'metadata';
       video.src = video.dataset.src;
       video.load();
     }
@@ -4334,10 +4273,8 @@
 
     function syncPlayback() {
       syncFrame = 0;
-      playToken += 1;
-      var token = playToken;
-
       if (reduceQuery.matches || document.hidden) {
+        if (currentVideo) playToken += 1;
         currentVideo = null;
         pauseAll();
         return;
@@ -4367,14 +4304,22 @@
       }
 
       if (!best || bestRatio < 0.18) {
+        if (currentVideo) playToken += 1;
         currentVideo = null;
         pauseAll();
         return;
       }
 
-      if (currentVideo === best && !best.paused) return;
+      if (currentVideo === best) {
+        if (!best.paused) return;
+        var resumePromise = best.play();
+        if (resumePromise && resumePromise.catch) resumePromise.catch(function() {});
+        return;
+      }
 
       currentVideo = best;
+      playToken += 1;
+      var token = playToken;
       pauseAll(best);
       ensureSource(best);
       var playPromise = best.play();
@@ -4402,7 +4347,6 @@
           if ('inert' in card) card.inert = false;
         }
       });
-      if (counter) counter.textContent = twoDigits(activeIndex + 1) + ' / ' + twoDigits(cards.length);
       if (previousButton) previousButton.disabled = activeIndex === 0;
       if (nextButton) nextButton.disabled = activeIndex === cards.length - 1;
       requestSync();
@@ -4454,11 +4398,12 @@
       });
       videos.forEach(function(video) { mediaObserver.observe(video); });
     } else {
-      window.addEventListener('scroll', requestSync, { passive: true });
+      requestSync();
     }
 
     var classObserver = new MutationObserver(requestSync);
     classObserver.observe(workView, { attributes: true, attributeFilter: ['class'], subtree: true });
+    window.addEventListener('scroll', requestSync, { passive: true });
     window.addEventListener('resize', requestSync, { passive: true });
     document.addEventListener('visibilitychange', requestSync);
     if (mobileQuery.addEventListener) mobileQuery.addEventListener('change', updateCarousel);
