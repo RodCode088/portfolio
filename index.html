@@ -3112,6 +3112,21 @@
   .device-screen .cine-chrome {
     background: linear-gradient(180deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.35) 70%, transparent 100%);
   }
+  /* Keep Tecnicars branding clear beneath its browser toolbar. */
+  #case-tecnicars .device-screen {
+    aspect-ratio: auto;
+  }
+  #case-tecnicars .cine-chrome {
+    position: relative;
+    background: #151519;
+    padding: 8px 12px;
+  }
+  #case-tecnicars .cine-device-media {
+    position: relative;
+    inset: auto;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
   /* Monitor */
   .device-monitor .device-screen {
     border-radius: 10px;
@@ -3632,6 +3647,53 @@
               <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">SaaS operativo para administrar talleres mecánicos con varias sucursales.</span><span class="en">Operations SaaS for managing multi-branch automotive workshops.</span></span></div>
               <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Diseño de producto, UX/UI, arquitectura frontend, modelo relacional e integración con Supabase.</span><span class="en">Product design, UX/UI, frontend architecture, relational modelling and Supabase integration.</span></span></div>
               <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Diez módulos conectados, roles y permisos, operación multi-sucursal, dashboards y una capa de datos intercambiable.</span><span class="en">Ten connected modules, roles and permissions, multi-branch operations, dashboards and an interchangeable data layer.</span></span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cine-case" id="case-tecnicars" data-project="tecnicars">
+        <div class="cine-cover">
+          <div class="cine-cover-info">
+            <div class="cine-case-cover-meta"><span class="case-cat">Next.js · React · Automotive web</span><span class="case-status live">Live</span></div>
+            <h2 class="cine-case-title">Tecnicars P&amp;G</h2>
+            <p class="cine-case-teaser"><span class="es">Web de un taller especializado en transmisiones, con servicios, consultas y contacto directo por WhatsApp.</span><span class="en">Website for a transmission specialist, with service pages, enquiries and direct WhatsApp contact.</span></p>
+            <button type="button" class="cine-toggle" aria-expanded="false" aria-controls="case-tecnicars-detail" onclick="toggleCase('case-tecnicars')"><span class="es">Ver arquitectura y stack</span><span class="en">View architecture &amp; stack</span><span class="cine-expand-icon" aria-hidden="true">+</span></button>
+          </div>
+          <div class="cine-cover-device">
+            <div class="device device-laptop">
+              <div class="device-screen">
+                <div class="cine-chrome" aria-hidden="true"><span class="cine-chrome-dots"><i></i><i></i><i></i></span><span class="cine-chrome-url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>tecnicarspg.com</span></div>
+                <video data-tour-video src="./assets/projects/tecnicars/tour.mp4" data-src="./assets/projects/tecnicars/tour.mp4" poster="./assets/projects/tecnicars/homepage.png" preload="metadata" muted loop playsinline class="cine-device-media" aria-label="Tecnicars P&amp;G — recorrido del sitio de servicios automotrices"></video>
+              </div>
+              <div class="device-base"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cine-case-detail" id="case-tecnicars-detail">
+          <div class="cine-case-detail-inner">
+            <div class="cine-case-detail-main">
+              <p class="case-desc"><span class="es">Tecnicars P&amp;G presenta un taller en Panamá especializado en transmisiones automáticas y manuales, diagnóstico computarizado y mecánica general. La experiencia combina una identidad visual automotriz, páginas dedicadas a cada servicio y rutas claras para consultar al equipo o llegar al taller.</span><span class="en">Tecnicars P&amp;G presents a Panama-based workshop specializing in automatic and manual transmissions, computerized diagnostics and general mechanics. The experience combines an automotive visual identity, dedicated service pages and clear paths to contact the team or find the workshop.</span></p>
+              <ul class="case-bullets">
+                <li><span class="es">Páginas de servicios que explican síntomas, revisión y diagnóstico</span><span class="en">Service pages explaining symptoms, inspection and diagnostics</span></li>
+                <li><span class="es">Formularios de consulta y accesos a WhatsApp, teléfono y Google Maps</span><span class="en">Enquiry forms and direct access to WhatsApp, phone and Google Maps</span></li>
+                <li><span class="es">Diseño responsive, medios optimizados y datos estructurados del negocio</span><span class="en">Responsive design, optimized media and structured business data</span></li>
+              </ul>
+              <div class="case-tech">
+                <span class="case-tech-title"><span class="es">Stack técnico</span><span class="en">Technical stack</span></span>
+                <div class="case-tech-grid">
+                  <div class="case-tech-item"><span class="case-tech-label">Frontend</span><span class="case-tech-value">Next.js · React · CSS</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Arquitectura</span><span class="en">Architecture</span></span><span class="case-tech-value">App Router · Service pages · Shared components</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label">UX &amp; SEO</span><span class="case-tech-value">Responsive layout · WebP · JSON-LD · AutoRepair / LocalBusiness</span></div>
+                  <div class="case-tech-item"><span class="case-tech-label"><span class="es">Integraciones</span><span class="en">Integrations</span></span><span class="case-tech-value">WhatsApp · Google Maps · Instagram · Cloudflare</span></div>
+                </div>
+              </div>
+              <a href="https://tecnicarspg.com/" target="_blank" rel="noopener noreferrer" class="case-link"><span class="es">Visitar la web</span><span class="en">Visit the site</span><span>↗</span></a>
+            </div>
+            <div class="cine-case-detail-side">
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Producto</span><span class="en">Product</span></span><span class="case-detail-value"><span class="es">Sitio de servicios automotrices y captación de consultas para un taller especializado.</span><span class="en">Automotive services website and enquiry capture for a specialist workshop.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Mi rol</span><span class="en">My role</span></span><span class="case-detail-value"><span class="es">Diseño UX/UI y desarrollo web.</span><span class="en">UX/UI design and web development.</span></span></div>
+              <div class="case-detail"><span class="case-detail-label"><span class="es">Qué construí</span><span class="en">What I built</span></span><span class="case-detail-value"><span class="es">Experiencia responsive, páginas de servicios, formularios de consulta y navegación de contacto.</span><span class="en">Responsive experience, service pages, enquiry forms and contact navigation.</span></span></div>
             </div>
           </div>
         </div>
@@ -4247,7 +4309,7 @@
     if (!workView) return;
 
     var list = workView.querySelector('.cine-case-list');
-    var projectPriority = ['mono-solo', 'alabark-os', 'heritage', 'sommelier', 'ron-cana', 'gallo', 'dcars'];
+    var projectPriority = ['mono-solo', 'alabark-os', 'tecnicars', 'heritage', 'sommelier', 'ron-cana', 'gallo', 'dcars'];
     projectPriority.forEach(function(project) {
       var card = workView.querySelector('.cine-case[data-project="' + project + '"]');
       if (card && list) list.appendChild(card);
