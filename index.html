@@ -165,14 +165,6 @@
     z-index: 1;
   }
 
-  .mono {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.76rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-  }
   ::selection { background: var(--accent); color: #000; }
 
   nav {
@@ -201,15 +193,8 @@
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0;
     flex-shrink: 0;
-  }
-  .logo-dot {
-    width: 7px; height: 7px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 14px var(--accent), 0 0 28px rgba(217, 119, 6, 0.4);
-    animation: pulse 2.5s ease-in-out infinite;
   }
   .nav-tabs {
     display: flex;
@@ -421,31 +406,7 @@
     align-items: start;
   }
   .hero-text { padding-top: 12px; }
-  .hero-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    color: var(--text-muted);
-  }
   body[data-active-view="work"] .cursor-spotlight { display: none; }
-  .hero-tag .mono {
-    color: var(--text-muted) !important;
-    text-transform: none;
-    letter-spacing: 0.035em;
-  }
-  .hero-tag-dot {
-    width: 5px; height: 5px;
-    background: var(--text-muted);
-    border-radius: 50%;
-    animation: none;
-    box-shadow: none;
-    opacity: 0.8;
-  }
   .hero h1 {
     font-size: clamp(2.4rem, 5.8vw, 4.6rem);
     font-weight: 600;
@@ -532,34 +493,6 @@
   .btn-primary:hover > span:last-child {
     transform: translateX(2px);
     transition: transform 0.25s ease;
-  }
-
-  .credentials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px 26px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    max-width: 540px;
-  }
-  .cred {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    min-width: 0;
-  }
-  .cred-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  .cred-value {
-    font-size: 0.88rem;
-    color: var(--text);
-    font-weight: 500;
   }
 
   .portrait-card {
@@ -1000,6 +933,17 @@
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
   }
+  .hero-stack {
+    margin-top: 0;
+    padding: 26px 0 28px;
+  }
+  .hero-stack .stack-strip-head {
+    margin-bottom: 10px;
+  }
+  .hero-stack .stack-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 24px;
+  }
   .stack-strip-head {
     display: flex;
     align-items: baseline;
@@ -1068,6 +1012,7 @@
   @media (max-width: 480px) {
     .stack-grid { grid-template-columns: 1fr; }
     .stack-strip { padding: 28px 0; }
+    .hero-stack .stack-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 720px) {
@@ -1077,10 +1022,6 @@
       gap: 28px;
     }
     .hero-text { padding-top: 0; }
-    .hero-tag {
-      margin-bottom: 16px;
-      padding: 5px 11px;
-    }
     .hero h1 {
       font-size: clamp(1.65rem, 7vw, 2.3rem);
       margin-bottom: 18px;
@@ -1096,12 +1037,6 @@
       margin-bottom: 24px;
       gap: 8px;
     }
-    .credentials {
-      gap: 12px 22px;
-      padding-top: 18px;
-    }
-    .cred-label { font-size: 0.56rem; letter-spacing: 0.1em; }
-    .cred-value { font-size: 0.82rem; }
     .portrait-card {
       max-width: 220px;
       margin: 0 auto;
@@ -1115,7 +1050,6 @@
     .hero h1 { font-size: clamp(1.5rem, 8vw, 2rem); }
     .hero-sub { font-size: 0.88rem; }
     .hero-video-card { max-width: 200px; }
-    .credentials { grid-template-columns: 1fr 1fr; display: grid; gap: 10px 16px; }
     .process-timeline-steps { grid-template-columns: 1fr; }
     .cine-case-detail-inner { padding: 24px 20px 28px; }
     .about-section { margin-top: 60px; padding: 50px 0; }
@@ -1203,7 +1137,7 @@
     font-weight: 600;
     letter-spacing: -0.025em;
     line-height: 1.08;
-    margin: 8px 0 12px;
+    margin: 0 0 12px;
   }
   .home-cases-link p {
     color: var(--text-muted);
@@ -1215,6 +1149,72 @@
     display: flex;
     justify-content: flex-end;
   }
+  .home-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 30px;
+  }
+  .home-project-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  }
+  .home-project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
+  .home-project-media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #111;
+    border-bottom: 1px solid var(--border);
+  }
+  .home-project-media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .home-project-card:hover .home-project-media img { transform: scale(1.025); }
+  .home-project-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+  }
+  .home-project-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 9px;
+  }
+  .home-project-body p {
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    line-height: 1.58;
+    margin-bottom: 18px;
+  }
+  .home-project-link {
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: auto;
+  }
+  @media (max-width: 900px) {
+    .home-projects-grid { grid-template-columns: 1fr 1fr; }
+  }
   @media (max-width: 720px) {
     .home-cases-link {
       grid-template-columns: 1fr;
@@ -1222,6 +1222,7 @@
       margin-top: 58px;
     }
     .home-cases-actions { justify-content: flex-start; }
+    .home-projects-grid { grid-template-columns: 1fr; gap: 14px; }
   }
 
   .page-header {
@@ -1229,7 +1230,6 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 50px;
   }
-  .page-header .mono { display: block; margin-bottom: 12px; }
   .page-title {
     font-size: clamp(1.85rem, 3.4vw, 2.5rem);
     font-weight: 700;
@@ -1837,7 +1837,6 @@
     flex-wrap: wrap;
   }
   .now-head h3 { font-size: 1.1rem; font-weight: 600; letter-spacing: -0.01em; }
-  .now-head .mono { font-size: 0.7rem; }
   .now-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -2052,28 +2051,6 @@
     box-shadow: 0 0 6px var(--green);
     animation: pulse 2s infinite;
   }
-  .hero-tech-strip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.64rem;
-    letter-spacing: 0.14em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    font-weight: 500;
-    max-width: 300px;
-    padding: 0 2px;
-  }
-  .hero-tech-strip span:not(.hero-tech-sep) {
-    color: var(--text-muted);
-    transition: color 0.2s;
-  }
-  .hero-tech-strip span:not(.hero-tech-sep):hover { color: var(--accent); }
-  .hero-tech-sep { color: var(--accent); opacity: 0.5; }
-
   .about-section {
     margin-top: 100px;
     padding: 80px 0;
@@ -2204,7 +2181,7 @@
     font-weight: 600;
     letter-spacing: -0.035em;
     line-height: 1.05;
-    margin: 14px 0 24px;
+    margin: 0 0 24px;
   }
   .about-p {
     font-size: 1rem;
@@ -2213,26 +2190,18 @@
     margin-bottom: 16px;
     max-width: 560px;
   }
-  .about-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 24px;
-  }
-  .about-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 5px 12px;
-    background: rgba(217,119,6,0.06);
-    border: 1px solid rgba(217,119,6,0.2);
-    border-radius: 100px;
+  .about-p a {
     color: var(--accent);
-    letter-spacing: 0.06em;
-    transition: background 0.2s, border-color 0.2s;
+    text-decoration: underline;
+    text-decoration-color: rgba(217, 119, 6, 0.45);
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color 0.2s, text-decoration-color 0.2s;
   }
-  .about-pill:hover { background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.4); }
-
+  .about-p a:hover {
+    color: var(--accent-hover);
+    text-decoration-color: currentColor;
+  }
   .cine-case-list {
     display: flex;
     flex-direction: column;
@@ -2521,7 +2490,6 @@
   .process-timeline-head {
     margin-bottom: 52px;
   }
-  .process-timeline-head .mono { display: block; margin-bottom: 10px; }
   .process-timeline-head h3 {
     font-size: clamp(1.5rem, 2.8vw, 2.2rem);
     font-weight: 600;
@@ -2725,7 +2693,6 @@
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
     .hero-video-card { max-width: 260px; margin-left: 0; }
     .hero-video-aside { align-items: flex-start; }
-    .hero-tech-strip { justify-content: flex-start; max-width: none; }
     .about-grid { grid-template-columns: 1fr; gap: 48px; }
     .about-visual { justify-content: flex-start; }
     .case-body { grid-template-columns: 1fr; gap: 30px; padding: 32px 30px; }
@@ -2753,7 +2720,6 @@
     .sv { margin: -26px -22px 16px; }
     .contact-help { padding: 24px 22px; }
     .digital-teaser { padding: 22px; }
-    .credentials { gap: 14px 22px; }
     .contact-form-wrap { padding: 24px 22px; }
     .form-row { grid-template-columns: 1fr; }
     .cine-case-cover { aspect-ratio: 16/7; }
@@ -2863,14 +2829,19 @@
   }
 
   /* --- Falling text: letters drop in and settle, once, no layout shift --- */
-  .fall-char { display: inline-block; transition: color 0.25s ease; }
+  .fall-char {
+    display: inline-block;
+    transition: color 0.25s ease;
+    animation: titleLetterWave 4.5s ease-in-out infinite;
+    animation-delay: calc(var(--ci, 0) * 0.085s);
+  }
   /* Words stay whole: chars are inline-block, so without this a word could
      break mid-word. The word wrapper keeps each word together; lines still
      wrap at spaces. */
   .fall-word { display: inline-block; white-space: nowrap; }
-  /* Per-letter hover: single colour by default, accent on hover. */
-  @media (hover: hover) and (pointer: fine) {
-    .js-fall .fall-char:hover { color: var(--accent); }
+  @keyframes titleLetterWave {
+    0%, 12%, 100% { color: inherit; }
+    5%, 7% { color: var(--accent); }
   }
   .hero h1 { font-size: clamp(1.85rem, 3.65vw, 3rem); line-height: 1.08; }
   /* On narrow screens let the hero title wrap naturally instead of forcing
@@ -2893,7 +2864,7 @@
     transition-delay: var(--fd, 0s);
   }
   @media (prefers-reduced-motion: reduce) {
-    .js-fall .fall-char { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .js-fall .fall-char { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
   }
 
   /* --- Hero video: dissolve the box, blend into the composition --- */
@@ -2939,8 +2910,6 @@
       linear-gradient(180deg, transparent 60%, rgba(10,10,10,0.55) 100%);
   }
   .hero-video-badge { display: none; }
-  .hero-tech-strip { padding-top: 4px; }
-
   /* --- Legacy heading style kept for archived sections --- */
   .explore-heading {
     font-size: clamp(1.8rem, 3vw, 2.6rem);
@@ -3318,7 +3287,6 @@
 <nav>
   <div class="nav-inner">
     <a href="#home" class="logo" data-view="home" aria-label="Rodolfo Alabarca — Home">
-      <span class="logo-dot"></span>
       rodolfo<span style="color: var(--text-muted)">.alabarca</span>
     </a>
     <div class="nav-tabs">
@@ -3350,18 +3318,62 @@
     <div class="hero">
       <div class="hero-grid">
         <div class="hero-text">
-          <div class="hero-tag">
-            <span class="hero-tag-dot"></span>
-            <span class="mono"><span class="es">Full stack developer · data · AI engineering</span><span class="en">Full stack developer · data · AI engineering</span></span>
-          </div>
           <h1 class="js-fall">
-            <span class="es">Soy Rodo. Desarrollo proyectos full stack.</span>
-            <span class="en">I'm Rodo. I build full-stack projects.</span>
+            <span class="es">Bienvenidos a mi portafolio</span>
+            <span class="en">Welcome to my portfolio</span>
           </h1>
           <p class="hero-sub">
-            <span class="es">Desarrollo proyectos que van desde análisis y arquitectura de datos hasta interfaces web, software as a service, websites, integración de APIs de AI en chatbots y automatizaciones.</span>
-            <span class="en">I develop projects ranging from data analysis and architecture to web interfaces, software as a service, websites, AI API integrations for chatbots and automations.</span>
+            <span class="es">Mi nombre es Rodolfo. Desarrollo proyectos que abarcan desde el análisis y la arquitectura de datos hasta interfaces web, integración de APIs, sitios web y más. En este landing encontrarás información sobre mí; en la sección Work podrás conocer algunos de mis proyectos en producción y también encontrarás enlaces a mi WhatsApp, GitHub, LinkedIn y correo. Espero que podamos ponernos en contacto pronto.</span>
+            <span class="en">My name is Rodolfo. I develop projects that range from data analysis and architecture to web interfaces, API integrations, websites and more. Here you can learn more about me, explore some of my live projects in the Work section, and find links to my WhatsApp, GitHub, LinkedIn and email. I hope we can connect soon.</span>
           </p>
+
+          <div class="stack-strip hero-stack">
+            <div class="stack-strip-head">
+              <h3>Full Stack Developer · Data and AI</h3>
+            </div>
+            <p class="stack-strip-sub">
+              <span class="es">Habilidades y stack</span>
+              <span class="en">Skills and stack</span>
+            </p>
+            <div class="stack-grid">
+              <div class="stack-cat">
+                <span class="stack-cat-label"><span class="es">Lenguajes</span><span class="en">Languages</span></span>
+                <div class="stack-pills">
+                  <span class="stack-pill">Python</span>
+                  <span class="stack-pill">SQL</span>
+                  <span class="stack-pill">JavaScript</span>
+                </div>
+              </div>
+              <div class="stack-cat">
+                <span class="stack-cat-label">Data &amp; BI</span>
+                <div class="stack-pills">
+                  <span class="stack-pill">Power BI</span>
+                  <span class="stack-pill">DAX</span>
+                  <span class="stack-pill">Excel</span>
+                  <span class="stack-pill">Streamlit</span>
+                </div>
+              </div>
+              <div class="stack-cat">
+                <span class="stack-cat-label">AI &amp; Automation</span>
+                <div class="stack-pills">
+                  <span class="stack-pill">Claude API</span>
+                  <span class="stack-pill">OpenAI API</span>
+                  <span class="stack-pill">Generative AI</span>
+                  <span class="stack-pill">Chatbots</span>
+                </div>
+              </div>
+              <div class="stack-cat">
+                <span class="stack-cat-label"><span class="es">Bases de datos</span><span class="en">Databases</span></span>
+                <div class="stack-pills">
+                  <span class="stack-pill">PostgreSQL</span>
+                  <span class="stack-pill">MySQL</span>
+                  <span class="stack-pill">SQLite</span>
+                  <span class="stack-pill">Pandas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="hero-ctas">
             <a data-view="work" class="btn btn-primary">
               <span class="es">Ver proyectos</span><span class="en">View projects</span>
@@ -3372,16 +3384,6 @@
             </a>
           </div>
 
-          <div class="credentials">
-            <div class="cred">
-              <span class="cred-label">Focus</span>
-              <span class="cred-value">Full Stack · Data · AI</span>
-            </div>
-            <div class="cred">
-              <span class="cred-label">Stack</span>
-              <span class="cred-value">Python · SQL · JS · APIs</span>
-            </div>
-          </div>
         </div>
 
         <aside class="hero-video-aside">
@@ -3404,17 +3406,6 @@
                 <span>Full stack work</span>
               </div>
             </div>
-          </div>
-          <div class="hero-tech-strip">
-            <span>FULL STACK</span>
-            <span class="hero-tech-sep">—</span>
-            <span>DATA</span>
-            <span class="hero-tech-sep">—</span>
-            <span>AI</span>
-            <span class="hero-tech-sep">—</span>
-            <span>APIs</span>
-            <span class="hero-tech-sep">—</span>
-            <span>SAAS</span>
           </div>
         </aside>
       </div>
@@ -3441,95 +3432,65 @@
           </div>
         </div>
         <div class="about-text">
-          <span class="mono"><span class="es">// sobre mí</span><span class="en">// about me</span></span>
           <h2 class="about-title js-fall"><span class="es">Sobre mí</span><span class="en">About me</span></h2>
-          <p class="about-p"><span class="es">Soy Rodo (Rodolfo Alabarca), desarrollador full stack y AI engineering. Me gusta trabajar en proyectos concretos donde datos, software e interfaces se conectan para resolver algo real.</span><span class="en">I'm Rodo (Rodolfo Alabarca), a full-stack developer focused on AI engineering. I like working on practical projects where data, software and interfaces connect to solve something real.</span></p>
-          <p class="about-p"><span class="es">Construyo con Python, SQL, JavaScript, APIs y herramientas de IA generativa. Puedo moverme entre arquitectura de datos, dashboards, productos SaaS, websites, chatbots y automatizaciones.</span><span class="en">I build with Python, SQL, JavaScript, APIs and generative AI tools. I can move between data architecture, dashboards, SaaS products, websites, chatbots and automations.</span></p>
-          <p class="about-p"><span class="es">Mi forma de trabajar es directa: entender el problema, diseñar una primera versión útil y mejorarla con feedback real.</span><span class="en">My way of working is direct: understand the problem, design a useful first version and improve it with real feedback.</span></p>
-          <div class="about-pills">
-            <span class="about-pill"><span class="es">Webs</span><span class="en">Websites</span></span>
-            <span class="about-pill">Dashboards</span>
-            <span class="about-pill"><span class="es">Automatización</span><span class="en">Automation</span></span>
-            <span class="about-pill"><span class="es">Datos</span><span class="en">Data</span></span>
-            <span class="about-pill"><span class="es">IA Generativa</span><span class="en">Generative AI</span></span>
-            <span class="about-pill">APIs</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="stack-strip">
-      <div class="stack-strip-head">
-        <span class="mono">// stack</span>
-        <h3>
-          <span class="es">Con qué construyo</span>
-          <span class="en">What I build with</span>
-        </h3>
-      </div>
-      <p class="stack-strip-sub">
-        <span class="es">SQL y Python como base. El resto depende del proyecto.</span>
-        <span class="en">SQL and Python as the base. The rest depends on the project.</span>
-      </p>
-      <div class="stack-grid">
-        <div class="stack-cat">
-          <span class="stack-cat-label"><span class="es">Lenguajes</span><span class="en">Languages</span></span>
-          <div class="stack-pills">
-            <span class="stack-pill">Python</span>
-            <span class="stack-pill">SQL</span>
-            <span class="stack-pill">JavaScript</span>
-          </div>
-        </div>
-        <div class="stack-cat">
-          <span class="stack-cat-label">Data &amp; BI</span>
-          <div class="stack-pills">
-            <span class="stack-pill">Power BI</span>
-            <span class="stack-pill">DAX</span>
-            <span class="stack-pill">Excel</span>
-            <span class="stack-pill">Streamlit</span>
-          </div>
-        </div>
-        <div class="stack-cat">
-          <span class="stack-cat-label">AI &amp; Automation</span>
-          <div class="stack-pills">
-            <span class="stack-pill">Claude API</span>
-            <span class="stack-pill">OpenAI API</span>
-            <span class="stack-pill">Generative AI</span>
-            <span class="stack-pill">Chatbots</span>
-          </div>
-        </div>
-        <div class="stack-cat">
-          <span class="stack-cat-label"><span class="es">Bases de datos</span><span class="en">Databases</span></span>
-          <div class="stack-pills">
-            <span class="stack-pill">PostgreSQL</span>
-            <span class="stack-pill">MySQL</span>
-            <span class="stack-pill">SQLite</span>
-            <span class="stack-pill">Pandas</span>
-          </div>
+          <p class="about-p"><span class="es">Trabajé durante dos años en el sector de consumo masivo como analista de trade marketing para una destilería en Panamá. Desde entonces, he fortalecido mi carrera mediante formación continua y el desarrollo de proyectos reales que hoy están en producción; puedes conocerlos en la sección <a data-view="work">Work</a>.</span><span class="en">I worked for two years in the consumer goods sector as a trade marketing analyst for a distillery in Panama. Since then, I have continued building my career through ongoing training and real projects that are now in production; you can explore them in the <a data-view="work">Work</a> section.</span></p>
+          <p class="about-p"><span class="es">Actualmente estudio Ciberseguridad en la Universidad del Istmo y me especializo en crear sitios web orientados a la captación de leads, desarrollar soluciones de análisis de datos y construir sistemas que optimizan la gestión y la toma de decisiones en los negocios.</span><span class="en">I am currently studying Cybersecurity at Universidad del Istmo and specialize in lead-generation websites, data analysis solutions, and systems that improve business management and decision-making.</span></p>
         </div>
       </div>
     </div>
 
     <div class="home-cases-link">
       <div>
-        <span class="mono">Real cases</span>
-        <h2 class="js-fall"><span class="es">Trabajos recientes</span><span class="en">Recent work</span></h2>
+        <h2 class="js-fall"><span class="es">Últimos proyectos</span><span class="en">Latest projects</span></h2>
         <p>
-          <span class="es">Una selección breve de proyectos reales: webs publicadas, productos en desarrollo y dashboards funcionales. Cada caso muestra qué se construyó y por qué.</span>
-          <span class="en">A short selection of real projects: published websites, products in development and functional dashboards. Each case shows what was built and why.</span>
+          <span class="es">Puedes ver todos los proyectos y sus detalles técnicos en la sección Work.</span>
+          <span class="en">You can see every project and its technical details in the Work section.</span>
         </p>
       </div>
       <div class="home-cases-actions">
         <a data-view="work" class="btn btn-secondary">
-          <span class="es">Ver casos reales</span><span class="en">View real cases</span>
+          <span>Work</span>
           <span>→</span>
         </a>
       </div>
+    </div>
+    <div class="home-projects-grid">
+      <a data-view="work" class="home-project-card" aria-label="Ver AlabarK OS en Work">
+        <div class="home-project-media">
+          <img src="./assets/projects/alabark-os/homepage.png" alt="Vista previa de AlabarK OS" loading="lazy" decoding="async">
+        </div>
+        <div class="home-project-body">
+          <h3 class="home-project-title">AlabarK OS</h3>
+          <p><span class="es">Sistema operativo multi-sucursal que centraliza clientes, vehículos, órdenes, inventario, facturación y finanzas de un taller.</span><span class="en">Multi-branch operating system centralising a workshop's customers, vehicles, work orders, inventory, billing and finances.</span></p>
+          <span class="home-project-link"><span class="es">Ver en Work</span><span class="en">View in Work</span> →</span>
+        </div>
+      </a>
+      <a data-view="work" class="home-project-card" aria-label="Ver Heritage Real Estate en Work">
+        <div class="home-project-media">
+          <img src="./assets/projects/heritage/homepage.png" alt="Vista previa de Heritage Real Estate" loading="lazy" decoding="async">
+        </div>
+        <div class="home-project-body">
+          <h3 class="home-project-title">Heritage Real Estate</h3>
+          <p><span class="es">Plataforma inmobiliaria con catálogo dinámico y un sistema de captación que organiza cada lead en Google Sheets.</span><span class="en">Real-estate platform with a dynamic catalogue and a lead-capture system that organises every enquiry in Google Sheets.</span></p>
+          <span class="home-project-link"><span class="es">Ver en Work</span><span class="en">View in Work</span> →</span>
+        </div>
+      </a>
+      <a data-view="work" class="home-project-card" aria-label="Ver Tecnicars P&amp;G en Work">
+        <div class="home-project-media">
+          <img src="./assets/projects/tecnicars/homepage.png" alt="Vista previa de Tecnicars P&amp;G" loading="lazy" decoding="async">
+        </div>
+        <div class="home-project-body">
+          <h3 class="home-project-title">Tecnicars P&amp;G</h3>
+          <p><span class="es">Sitio web para un taller especializado en transmisiones, con servicios, consultas y contacto directo por WhatsApp.</span><span class="en">Website for a transmission specialist, with service pages, enquiries and direct WhatsApp contact.</span></p>
+          <span class="home-project-link"><span class="es">Ver en Work</span><span class="en">View in Work</span> →</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
 <section class="view" data-view="work">
   <div class="container">
     <div class="page-header">
-      <span class="mono">Work</span>
       <h1 class="page-title js-fall">
         <span class="es">Proyectos que he construido.</span>
         <span class="en">Projects I've built.</span>
@@ -3945,7 +3906,6 @@
 <section class="view archived-services" data-view="services-archive" hidden aria-hidden="true">
   <div class="container">
     <div class="page-header">
-      <span class="mono">Archived</span>
       <h1 class="page-title js-fall">
         <span class="es">Cómo trabajamos.</span>
         <span class="en">How we work.</span>
@@ -4026,7 +3986,6 @@
 
     <div class="process-timeline">
       <div class="process-timeline-head">
-        <span class="mono"><span class="es">// proceso</span><span class="en">// process</span></span>
         <h3><span class="es">Cómo trabajamos</span><span class="en">How we work</span></h3>
       </div>
       <div class="process-timeline-steps">
@@ -4077,7 +4036,6 @@
 <section class="view" data-view="contact">
   <div class="container">
     <div class="contact-view">
-      <span class="mono">Contact</span>
       <div class="contact-form-wrap">
         <div class="contact-form-head">
           <h3><span class="es">Cuéntame tu caso</span><span class="en">Tell me your case</span></h3>
@@ -4125,10 +4083,6 @@
         <span class="es">Me puedes escribir si necesitas</span>
         <span class="en">You can reach out if you need</span>
       </h2>
-      <p>
-        <span class="es">No hace falta tener un brief perfecto. Con una idea clara del problema podemos empezar a conversar.</span>
-        <span class="en">You don't need a perfect brief. A clear idea of the problem is enough to start the conversation.</span>
-      </p>
 
       <div class="contact-contexts">
         <div class="contact-ctx-item">
@@ -4182,7 +4136,7 @@
   <div class="container">
     <div class="footer-left">
       <span class="footer-logo">rodolfo<span style="color:var(--text-dim)">.alabarca</span></span>
-      <span class="footer-copy">© 2026 · Full Stack Developer · Data / AI / Automation</span>
+      <span class="footer-copy">Full Stack Developer · Data and AI</span>
     </div>
     <div class="footer-links">
       <a data-view="home"><span class="es">Inicio</span><span class="en">Home</span></a>
@@ -5140,6 +5094,9 @@
   // Real DOM text is preserved. Each language span gets role="text" + aria-label
   // so screen readers read the phrase, not the per-character spans. Runs once.
   (function() {
+    document.querySelectorAll('h1, h2, h3, h4').forEach(function(heading) {
+      heading.classList.add('js-fall');
+    });
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;                       // leave headings as authored text
     if (!('IntersectionObserver' in window)) return;
@@ -5193,7 +5150,7 @@
             var fd = Math.random() * (mobile ? 0.18 : 0.32) + i * (mobile ? 0.008 : 0.012);
             s.style.cssText = '--fy:' + fy.toFixed(2) + 'em;--fx:' + fx.toFixed(2) +
                               'em;--fr:' + fr.toFixed(1) + 'deg;--fs:' + fs.toFixed(2) +
-                              ';--fd:' + fd.toFixed(3) + 's';
+                              ';--fd:' + fd.toFixed(3) + 's;--ci:' + i;
             i++;
             word.appendChild(s);
           }
