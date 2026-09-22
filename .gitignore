@@ -35,7 +35,7 @@ yarn-error.log*
 *.log
 
 # ───── Variables de entorno (CRÍTICO) ─────
-# Cuando manejes claves de API (Anthropic, OpenAI, Netlify Forms, etc.)
+# Cuando manejes claves de API (Anthropic, OpenAI, Web3Forms, etc.)
 # las pones en .env. NUNCA se sube .env a Git.
 .env
 .env.local
@@ -49,9 +49,10 @@ out/
 .cache/
 .parcel-cache/
 
-# ───── Netlify ─────
-# Caché y artefactos de Netlify CLI local.
-.netlify/
+# ───── Cloudflare / Wrangler ─────
+# Caché local y variables privadas usadas por Wrangler.
+.wrangler/
+.dev.vars
 
 # ───── Backups y temporales ─────
 *.bak

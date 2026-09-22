@@ -3,7 +3,7 @@
 > **Systems Builder — Automation · Data · AI Workflows.**
 > Construyo sistemas de automatización, dashboards y agentes de IA con foco en utilidad real para operaciones de negocio. Python · Power BI · SQL.
 
-[![Live](https://img.shields.io/badge/status-live-d97706?style=flat-square)](https://rodolfo-alabarca.netlify.app)
+[![Live](https://img.shields.io/badge/status-live-d97706?style=flat-square)](https://rodolfoalabarca.dev/)
 [![Stack](https://img.shields.io/badge/stack-HTML%20·%20CSS%20·%20JS-0a0a0a?style=flat-square)]()
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
@@ -11,7 +11,7 @@
 
 ## 🌐 Sitio
 
-**Producción:** [rodolfo-alabarca.netlify.app](https://rodolfo-alabarca.netlify.app)
+**Producción:** [rodolfoalabarca.dev](https://rodolfoalabarca.dev/)
 
 ## ⚙️ Stack
 
@@ -21,8 +21,8 @@
 | Estilos | CSS3 con custom properties (sistema de tokens) |
 | Comportamiento | JavaScript vanilla (sin framework) |
 | Tipografía | Inter · JetBrains Mono (Google Fonts) |
-| Formulario | Netlify Forms + fallback a `mailto:` |
-| Hosting | Netlify · build sin step (static deploy) |
+| Formulario | Web3Forms API + fallback a `mailto:` |
+| Hosting | Cloudflare Pages · despliegue estático desde GitHub |
 
 **Decisión de arquitectura:** zero-build. El portafolio es estático y rápido; no necesita React, Vite, ni npm install. La regla "lo que no agrega valor, no se incluye" aplica también al stack.
 
@@ -35,10 +35,10 @@
 ├── index.html              # SPA con view-routing por hash
 ├── og-image.html           # Plantilla para generar la imagen social (1200×630)
 ├── og-image.png            # Imagen social generada (Open Graph / Twitter)
-├── _redirects              # Netlify: SPA fallback a index.html
+├── _redirects              # Cloudflare Pages: SPA fallback a index.html
+├── _headers                # Cloudflare Pages: caché + security headers
 ├── robots.txt              # Permisos para crawlers
 ├── sitemap.xml             # Map de URLs públicas
-├── netlify.toml            # Cache + security headers
 ├── assets/
 │   └── images/
 │       ├── rodolfo.png
@@ -70,14 +70,14 @@ Sirve también con `npx serve` o cualquier server estático.
 
 ## 🌍 Deploy
 
-Conectado a Netlify desde `main`. Cada push despliega automáticamente:
+Conectado a Cloudflare Pages desde `main`. Cada push despliega automáticamente:
 
-1. Push a `main` → Netlify detecta cambio.
-2. Sin build command, sin publish directory custom → Netlify sirve el repo entero.
+1. Push a `main` → Cloudflare Pages detecta el cambio.
+2. Sin build command y con `.` como directorio de salida → Pages sirve el repo entero.
 3. `_redirects` maneja rutas de SPA (`/work`, `/contact`, etc.).
-4. `netlify.toml` aplica cache headers (HTML no-cache, assets long-cache).
+4. `_headers` aplica caché (HTML revalidado, assets con caché larga) y cabeceras de seguridad.
 
-**Para redeploy manual:** [app.netlify.com](https://app.netlify.com) → Site → "Trigger deploy" → "Clear cache and deploy site".
+**Para reintentar un deploy:** Cloudflare Dashboard → Workers & Pages → proyecto → Deployments → Retry deployment.
 
 ---
 

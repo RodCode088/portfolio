@@ -38,11 +38,11 @@ Desde la carpeta de outputs de esta sesión, copia **todos estos archivos** a tu
 | `og-image.html` | Plantilla para generar la imagen de Open Graph |
 | `README.md` | Para GitHub |
 | `.gitignore` | Reglas profesionales de Git (empieza con punto — ¡no lo pierdas!) |
-| `_redirects` | Para Netlify SPA (sin extensión) |
+| `_redirects` | Fallback de rutas para Cloudflare Pages (sin extensión) |
 | `robots.txt` | SEO para crawlers |
 | `sitemap.xml` | Mapa de URLs |
-| `netlify.toml` | Cache + security headers |
-| `GUIA_DEPLOY.md` | Tu guía paso a paso para Git/Netlify (no es pública, opcional) |
+| `_headers` | Caché + cabeceras de seguridad para Cloudflare Pages |
+| `GUIA_DEPLOY.md` | Tu guía paso a paso para Git/Cloudflare Pages (no es pública, opcional) |
 | `MERGE_GUIDE.md` | Este archivo (opcional) |
 
 > ⚠️ **`.gitignore` no se ve en Windows Explorer por defecto** (los archivos que empiezan con punto). En el Explorador: pestaña **Vista** → marca **Elementos ocultos**. Luego sí lo ves para copiar/pegar.
@@ -60,7 +60,7 @@ portfolio\
 ├── _redirects                  ← NUEVO
 ├── robots.txt                  ← NUEVO
 ├── sitemap.xml                 ← NUEVO
-├── netlify.toml                ← NUEVO
+├── _headers                    ← NUEVO
 ├── GUIA_DEPLOY.md              ← NUEVO (opcional)
 ├── MERGE_GUIDE.md              ← NUEVO (opcional)
 └── index_files\                ← SE QUEDA tal cual
@@ -145,7 +145,7 @@ Sigue la guía `GUIA_DEPLOY.md` que te entregué:
 
 1. Setup de Git.
 2. Crear repo en GitHub.
-3. Conectar Netlify.
+3. Conectar Cloudflare Pages.
 4. Sale online.
 
 ### Camino B — Probar más antes de lanzar
